@@ -5,7 +5,6 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.variables.*;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.event.world.BlockEvent;
 
 import java.util.*;
 
@@ -20,13 +19,30 @@ public class VariableRegistry {
     protected HashMap<String, Variable> mVariableLookup;
     protected boolean mFrozen;
 
+    protected VariableRegistry() {
+        mUpdates = new HashMap<TickRate, List<Variable>>();
+        mVariableLookup = new HashMap<String, Variable>();
+    }
+
     public static VariableRegistry instance() {
         return INSTANCE;
     }
 
-    protected VariableRegistry() {
-        mUpdates = new HashMap<TickRate, List<Variable>>();
-        mVariableLookup = new HashMap<String, Variable>();
+    protected static void initBuiltIns(EntityPlayer player) {
+        int tpt = 1;
+        INSTANCE.register(new CanRainOn("CanRainOn", player), tpt);
+        INSTANCE.register(new CanSeeSky("CanSeeSky", player), tpt);
+        INSTANCE.register(new IsRaining("IsRaining", player), tpt);
+        INSTANCE.register(new LightLevel("NaturalLight", player, LightLevel.LightTypes.SUN), tpt);
+        INSTANCE.register(new LightLevel("TorchLight", player, LightLevel.LightTypes.LAMP), tpt);
+        INSTANCE.register(new LightLevel("TotalLight", player, LightLevel.LightTypes.TOTAL), tpt);
+        INSTANCE.register(new MoonPhase("MoonPhase", player), tpt);
+        INSTANCE.register(new PlayerCoordinate("PlayerX", player, PlayerCoordinate.Coordinates.X), tpt);
+        INSTANCE.register(new PlayerCoordinate("PlayerY", player, PlayerCoordinate.Coordinates.Y), tpt);
+        INSTANCE.register(new PlayerCoordinate("PlayerZ", player, PlayerCoordinate.Coordinates.Z), tpt);
+        INSTANCE.register(new PlayerCoordinate("PlayerDim", player, PlayerCoordinate.Coordinates.DIM), tpt);
+        INSTANCE.register(new RainStrength("RainStrength", player, 1000), tpt);
+        INSTANCE.register(new ThunderStrength("ThunderStrength", player, 1000), tpt);
     }
 
     public List<String> names() {
@@ -90,23 +106,6 @@ public class VariableRegistry {
     public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         initBuiltIns(event.player);
         INSTANCE.freeze();
-    }
-
-    protected static void initBuiltIns(EntityPlayer player) {
-        int tpt = 1;
-        INSTANCE.register(new CanRainOn("CanRainOn", player), tpt);
-        INSTANCE.register(new CanSeeSky("CanSeeSky", player), tpt);
-        INSTANCE.register(new IsRaining("IsRaining", player), tpt);
-        INSTANCE.register(new LightLevel("NaturalLight", player, LightLevel.LightTypes.SUN), tpt);
-        INSTANCE.register(new LightLevel("TorchLight", player, LightLevel.LightTypes.LAMP), tpt);
-        INSTANCE.register(new LightLevel("TotalLight", player, LightLevel.LightTypes.TOTAL), tpt);
-        INSTANCE.register(new MoonPhase("MoonPhase", player), tpt);
-        INSTANCE.register(new PlayerCoordinate("PlayerX", player, PlayerCoordinate.Coordinates.X), tpt);
-        INSTANCE.register(new PlayerCoordinate("PlayerY", player, PlayerCoordinate.Coordinates.Y), tpt);
-        INSTANCE.register(new PlayerCoordinate("PlayerZ", player, PlayerCoordinate.Coordinates.Z), tpt);
-        INSTANCE.register(new PlayerCoordinate("PlayerDim", player, PlayerCoordinate.Coordinates.DIM), tpt);
-        INSTANCE.register(new RainStrength("RainStrength", player, 1000), tpt);
-        INSTANCE.register(new ThunderStrength("ThunderStrength", player, 1000), tpt);
     }
 
     /**

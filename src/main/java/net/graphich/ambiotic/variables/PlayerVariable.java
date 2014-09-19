@@ -1,7 +1,5 @@
 package net.graphich.ambiotic.variables;
 
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 

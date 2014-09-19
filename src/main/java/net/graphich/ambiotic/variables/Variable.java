@@ -1,7 +1,6 @@
 package net.graphich.ambiotic.variables;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
-import ibxm.Player;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.world.World;
 
@@ -17,11 +16,11 @@ public abstract class Variable {
     protected String mName;
     protected int mValue;
 
-    public abstract void update(TickEvent event);
-
     public Variable(String name) {
         mName = name;
     }
+
+    public abstract void update(TickEvent event);
 
     public int value() {
         return mValue;

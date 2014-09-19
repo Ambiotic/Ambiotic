@@ -1,35 +1,26 @@
 package net.graphich.ambiotic.main;
 
-import java.security.SecureRandom;
-
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.registry.GameData;
-import net.graphich.ambiotic.registries.VariableRegistry;
-import net.graphich.ambiotic.scanners.BlockScanner;
-import net.graphich.ambiotic.scanners.CuboidPointIterator;
-import net.graphich.ambiotic.scanners.PointIterator;
-import net.graphich.ambiotic.scanners.Point;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import net.graphich.ambiotic.registries.VariableRegistry;
+import net.graphich.ambiotic.scanners.BlockScanner;
 import net.minecraftforge.common.MinecraftForge;
 import org.python.util.PythonInterpreter;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 @Mod(modid = Ambiotic.MODID, version = Ambiotic.VERSION)
 public class Ambiotic {
     public static final String MODID = "Ambiotic";
     public static final String VERSION = "0.0.1";
+    public VariableRegistry mVariableRegistry;
     private PythonInterpreter mPyInterp = new PythonInterpreter();
     private long mTicksSinceUpdate = -1;
     private boolean mPlayerLoggedIn = false;
     private BlockScanner mScanner;
-    public VariableRegistry mVariableRegistry;
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
@@ -49,9 +40,9 @@ public class Ambiotic {
     @SubscribeEvent
     public void onTick(TickEvent event) {
 
-        if(event.phase != TickEvent.Phase.END)
+        if (event.phase != TickEvent.Phase.END)
             return;
-        if(!mPlayerLoggedIn)
+        if (!mPlayerLoggedIn)
             return;
 /*
         mTicksSinceUpdate += 1;

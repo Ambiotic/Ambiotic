@@ -1,7 +1,6 @@
 package net.graphich.ambiotic.variables;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.EnumSkyBlock;
 
@@ -10,11 +9,9 @@ import net.minecraft.world.EnumSkyBlock;
  */
 public class LightLevel extends PlayerVariable {
 
-    public enum LightTypes {SUN, LAMP, TOTAL}
-
-    ;
     LightTypes mType;
 
+    ;
     public LightLevel(String name, EntityPlayer player, LightTypes type) {
         super(name, player);
         mType = type;
@@ -37,4 +34,6 @@ public class LightLevel extends PlayerVariable {
                 mValue = mWorld.getBlockLightValue(x, y, z);
         }
     }
+
+    public enum LightTypes {SUN, LAMP, TOTAL}
 }

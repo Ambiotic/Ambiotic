@@ -1,7 +1,6 @@
 package net.graphich.ambiotic.variables;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
 
 /**
@@ -9,11 +8,9 @@ import net.minecraft.entity.player.EntityPlayer;
  */
 public class PlayerCoordinate extends PlayerVariable {
 
-    public enum Coordinates {X, Y, Z, DIM}
+    protected Coordinates mCoordinate;
 
     ;
-
-    protected Coordinates mCoordinate;
 
     public PlayerCoordinate(String name, EntityPlayer player, Coordinates coordinate) {
         super(name, player);
@@ -37,5 +34,7 @@ public class PlayerCoordinate extends PlayerVariable {
                 break;
         }
     }
+
+    public enum Coordinates {X, Y, Z, DIM}
 
 }

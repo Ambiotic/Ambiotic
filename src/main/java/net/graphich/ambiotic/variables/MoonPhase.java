@@ -1,7 +1,6 @@
 package net.graphich.ambiotic.variables;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
 
 /**

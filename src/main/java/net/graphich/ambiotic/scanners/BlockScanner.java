@@ -2,23 +2,15 @@ package net.graphich.ambiotic.scanners;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.MouseEvent;
-import net.minecraftforge.event.entity.EntityEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.oredict.OreDictionary;
-import scala.Int;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +50,7 @@ public class BlockScanner {
             int blockId = GameData.getBlockRegistry().getId(key);
             registerBlock(blockId);
         } else {
-            throw new IllegalArgumentException("Bad block key '"+key+"'");
+            throw new IllegalArgumentException("Bad block key '" + key + "'");
         }
     }
 
@@ -79,30 +71,28 @@ public class BlockScanner {
     protected void continueScan() {
         Point point = mPoints.next();
         int checked = 0;
-        while(point != null && checked < mBlocksPerTick) {
+        while (point != null && checked < mBlocksPerTick) {
             checked++;
             int blockId = Block.getIdFromBlock(mPlayer.worldObj.getBlock(point.x, point.y, point.z));
-            if(mCounts.containsKey(blockId)) {
-                mCounts.put(blockId,mCounts.get(blockId)+1);
+            if (mCounts.containsKey(blockId)) {
+                mCounts.put(blockId, mCounts.get(blockId) + 1);
             }
             point = mPoints.next();
         }
-        if(point == null) {
+        if (point == null) {
             mScanFinished = true;
         }
     }
 
-    public Set<Integer> keySet()
-    {
-        if(mCounts != null) {
+    public Set<Integer> keySet() {
+        if (mCounts != null) {
             return mCounts.keySet();
         }
         return new HashSet<Integer>();
     }
 
-    public int getCount(int blockId)
-    {
-        if(mCounts != null && mCounts.containsKey(blockId)) {
+    public int getCount(int blockId) {
+        if (mCounts != null && mCounts.containsKey(blockId)) {
             return mCounts.get(blockId);
         }
         return -1;
@@ -110,16 +100,16 @@ public class BlockScanner {
 
     protected void resetScan() {
         Point oldCenter = mPoints.center();
-        int x  = (int)mPlayer.posX;
+        int x = (int) mPlayer.posX;
         int dx = x - oldCenter.x;
-        int y  = (int)mPlayer.posY;
+        int y = (int) mPlayer.posY;
         int dy = y - oldCenter.y;
-        int z  = (int)mPlayer.posZ;
+        int z = (int) mPlayer.posZ;
         int dz = z - oldCenter.z;
-        if(dx == 0 && dy == 0 && dz == 0 && mScanDimension == mPlayer.dimension)
+        if (dx == 0 && dy == 0 && dz == 0 && mScanDimension == mPlayer.dimension)
             return;
         mScanFinished = false;
-        mPoints = new CuboidPointIterator(x,y,z,32,16,32);
+        mPoints = new CuboidPointIterator(x, y, z, 32, 16, 32);
         mScanDimension = mPlayer.dimension;
         resetBlockCounts();
     }
@@ -136,10 +126,10 @@ public class BlockScanner {
 
     @SubscribeEvent
     public void onTick(TickEvent event) {
-        if(mPlayer == null || mPoints == null || event.phase != TickEvent.Phase.START) {
+        if (mPlayer == null || mPoints == null || event.phase != TickEvent.Phase.START) {
             return;
         }
-        if(!mScanFinished && mScanDimension == mPlayer.dimension) {
+        if (!mScanFinished && mScanDimension == mPlayer.dimension) {
             continueScan();
         } else {
             resetScan();
@@ -148,17 +138,17 @@ public class BlockScanner {
 
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
-        if(event.isCanceled())
+        if (event.isCanceled())
             return;
         //Need to check if block is within this scanners
         // volume before firing the below code in case
         // of multiplayer?
-        int blockId  = Block.getIdFromBlock(event.block);
-        if(mCounts.containsKey(blockId)) {
+        int blockId = Block.getIdFromBlock(event.block);
+        if (mCounts.containsKey(blockId)) {
             int c = mCounts.get(blockId);
             c -= 1;
-            if(c > 0) mCounts.put(blockId,c);
-            else mCounts.put(blockId,0);
+            if (c > 0) mCounts.put(blockId, c);
+            else mCounts.put(blockId, 0);
         }
         mLastPlaced = null;
     }
@@ -167,24 +157,24 @@ public class BlockScanner {
     // which I think is slated for the 1.8 version of Forge
     @SubscribeEvent
     public void onBlockPlace(PlayerInteractEvent event) {
-        Point where = new Point(event.x,event.y,event.z);
-        if(event.isCanceled() || event.useBlock == Event.Result.DENY) {
+        Point where = new Point(event.x, event.y, event.z);
+        if (event.isCanceled() || event.useBlock == Event.Result.DENY) {
             return;
         }
 
-        if(mLastPlaced != null && mLastPlaced.equals(where)) {
+        if (mLastPlaced != null && mLastPlaced.equals(where)) {
             mLastPlaced = null;
             return;
         }
 
-        if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
-            Block what = event.world.getBlock(event.x,event.y,event.z);
+        if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+            Block what = event.world.getBlock(event.x, event.y, event.z);
             int placedBlockId = Block.getIdFromBlock(Block.getBlockFromItem(event.entityPlayer.getHeldItem().getItem()));
-            int worldBlockId =  Block.getIdFromBlock(event.world.getBlock(event.x,event.y,event.z));
-            if(placedBlockId == worldBlockId && mCounts.containsKey(worldBlockId)) {
+            int worldBlockId = Block.getIdFromBlock(event.world.getBlock(event.x, event.y, event.z));
+            if (placedBlockId == worldBlockId && mCounts.containsKey(worldBlockId)) {
                 int c = mCounts.get(worldBlockId);
                 c += 1;
-                mCounts.put(worldBlockId,c);
+                mCounts.put(worldBlockId, c);
                 mLastPlaced = where;
             }
         }
