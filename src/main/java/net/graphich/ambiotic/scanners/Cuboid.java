@@ -8,9 +8,9 @@ import java.util.ArrayList;
  */
 public class Cuboid {
     protected ArrayList<Point> mVertices;
-    protected long mHeight;
-    protected long mWidth;
-    protected long mLength;
+    protected int mHeight;
+    protected int mWidth;
+    protected int mLength;
     protected Point mMin;
     protected Point mMax;
 
@@ -52,6 +52,13 @@ public class Cuboid {
         for (Point p : mVertices) {
             p.translate(dx, dy, dz);
         }
+    }
+
+    public Cuboid translated(int dx, int dy, int dz) {
+        return new Cuboid(
+          new Point(mMin.x + dx, mMin.y + dy, mMin.z + dz),
+          new Point(mMax.x + dx, mMax.y + dy, mMax.z + dz)
+        );
     }
 
     public Point maximum() {

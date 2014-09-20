@@ -7,8 +7,12 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import net.graphich.ambiotic.registries.ScannerRegistry;
 import net.graphich.ambiotic.registries.VariableRegistry;
 import net.graphich.ambiotic.scanners.BlockScanner;
+import net.graphich.ambiotic.scanners.ComplementsPointIterator;
+import net.graphich.ambiotic.scanners.Cuboid;
+import net.graphich.ambiotic.scanners.Point;
 import net.minecraftforge.common.MinecraftForge;
 import org.python.util.PythonInterpreter;
 
@@ -16,25 +20,38 @@ import org.python.util.PythonInterpreter;
 public class Ambiotic {
     public static final String MODID = "Ambiotic";
     public static final String VERSION = "0.0.1";
-    public VariableRegistry mVariableRegistry;
+
     private PythonInterpreter mPyInterp = new PythonInterpreter();
     private long mTicksSinceUpdate = -1;
     private boolean mPlayerLoggedIn = false;
-    private BlockScanner mScanner;
+
+    //public VariableRegistry mVariableRegistry;
+    //private BlockScanner mScanner;
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        mScanner = new BlockScanner(4096);
+/*        mScanner = new BlockScanner(4096);
         mScanner.registerBlocks("minecraft:stone");
         FMLCommonHandler.instance().bus().register(mScanner);
-        MinecraftForge.EVENT_BUS.register(mScanner);
+        MinecraftForge.EVENT_BUS.register(mScanner);*/
+
         FMLCommonHandler.instance().bus().register(VariableRegistry.instance());
+        MinecraftForge.EVENT_BUS.register(VariableRegistry.instance());
+
+        FMLCommonHandler.instance().bus().register(ScannerRegistry.instance());
+        MinecraftForge.EVENT_BUS.register(ScannerRegistry.instance());
+
         DebugGui gui = new DebugGui();
-        MinecraftForge.EVENT_BUS.register(gui);
         FMLCommonHandler.instance().bus().register(gui);
+        MinecraftForge.EVENT_BUS.register(gui);
+
         FMLCommonHandler.instance().bus().register(this);
         MinecraftForge.EVENT_BUS.register(this);
-        gui.addScanner(mScanner);
+
+        Cuboid test1 = new Cuboid(new Point(0,0,0), new Point(10,10,10));
+        Cuboid test2 = test1.translated(1, 2, 3);
+        Cuboid test3 = test1.intersection(test2);
+        ComplementsPointIterator c = new ComplementsPointIterator(test1,test3);
     }
 
     @SubscribeEvent

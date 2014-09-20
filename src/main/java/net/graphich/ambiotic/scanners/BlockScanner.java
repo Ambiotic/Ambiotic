@@ -24,17 +24,24 @@ public class BlockScanner {
 
     protected HashMap<Integer, Integer> mCounts;
     protected EntityPlayer mPlayer;
-    protected CuboidPointIterator mPoints;
+    protected CuboidPointIterator mFullIterator;
+    protected ComplementsPointIterator mDeltaMinusIterator;
+    protected ComplementsPointIterator mDeltaPlusIterator;
     protected int mBlocksPerTick;
     protected boolean mScanFinished;
     protected int mScanDimension; //Dimension the scan was started in
 
-    protected Point mLastPlaced; //This is a hack because forge is retarded
+    protected int mXSize = 0;
+    protected int mYSize = 0;
+    protected int mZSize = 0;
 
-    public BlockScanner(int blocksPerTick) {
+    public BlockScanner(int blocksPerTick, int xsize, int ysize, int zsize) {
         mBlocksPerTick = blocksPerTick;
         mCounts = new HashMap<Integer, Integer>();
         mScanFinished = false;
+        mXSize = xsize;
+        mYSize = ysize;
+        mZSize = zsize;
         //Important variables set onLogin event
     }
 
@@ -69,19 +76,21 @@ public class BlockScanner {
     }
 
     protected void continueScan() {
-        Point point = mPoints.next();
+        Point point = mFullIterator.next();
         int checked = 0;
+
         while (point != null && checked < mBlocksPerTick) {
             checked++;
             int blockId = Block.getIdFromBlock(mPlayer.worldObj.getBlock(point.x, point.y, point.z));
             if (mCounts.containsKey(blockId)) {
                 mCounts.put(blockId, mCounts.get(blockId) + 1);
             }
-            point = mPoints.next();
+            point = mFullIterator.next();
         }
         if (point == null) {
             mScanFinished = true;
         }
+
     }
 
     public Set<Integer> keySet() {
@@ -99,7 +108,7 @@ public class BlockScanner {
     }
 
     protected void resetScan() {
-        Point oldCenter = mPoints.center();
+        Point oldCenter = mFullIterator.center();
         int x = (int) mPlayer.posX;
         int dx = x - oldCenter.x;
         int y = (int) mPlayer.posY;
@@ -109,7 +118,7 @@ public class BlockScanner {
         if (dx == 0 && dy == 0 && dz == 0 && mScanDimension == mPlayer.dimension)
             return;
         mScanFinished = false;
-        mPoints = new CuboidPointIterator(x, y, z, 32, 16, 32);
+        mFullIterator = new CuboidPointIterator(x, y, z, mXSize, mYSize, mZSize);
         mScanDimension = mPlayer.dimension;
         resetBlockCounts();
     }
@@ -120,13 +129,13 @@ public class BlockScanner {
         int x = (int) mPlayer.posX;
         int y = (int) mPlayer.posY;
         int z = (int) mPlayer.posZ;
-        mPoints = new CuboidPointIterator(x, y, z, 32, 16, 32);
+        mFullIterator = new CuboidPointIterator(x, y, z, mXSize, mYSize, mZSize);
         resetScan();
     }
 
     @SubscribeEvent
     public void onTick(TickEvent event) {
-        if (mPlayer == null || mPoints == null || event.phase != TickEvent.Phase.START) {
+        if (mPlayer == null || mFullIterator == null || event.phase != TickEvent.Phase.START) {
             return;
         }
         if (!mScanFinished && mScanDimension == mPlayer.dimension) {
@@ -150,13 +159,17 @@ public class BlockScanner {
             if (c > 0) mCounts.put(blockId, c);
             else mCounts.put(blockId, 0);
         }
-        mLastPlaced = null;
+        mLastPlaced = null; //Hack
     }
 
     //This is a hack until we get a proper PlaceEvent
     // which I think is slated for the 1.8 version of Forge
+    protected Point mLastPlaced;
     @SubscribeEvent
     public void onBlockPlace(PlayerInteractEvent event) {
+        if (event.isCanceled())
+            return;
+
         Point where = new Point(event.x, event.y, event.z);
         if (event.isCanceled() || event.useBlock == Event.Result.DENY) {
             return;

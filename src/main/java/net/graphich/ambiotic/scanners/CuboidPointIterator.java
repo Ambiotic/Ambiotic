@@ -8,6 +8,12 @@ public class CuboidPointIterator extends Cuboid implements PointIterator {
     protected Point mCurrent;
     protected Point mCenter;
 
+    public CuboidPointIterator(Point p1, Point p2) {
+        super(p1,p2);
+        mCenter = new Point(mMin.x+(mLength/2),mMin.y+(mHeight/2),mMin.z+(mWidth/2));
+        reset();
+    }
+
     public CuboidPointIterator(int centerX, int centerY, int centerZ, int sizeX, int sizeY, int sizeZ) {
         super(
                 new Point(centerX - sizeX / 2, centerY - sizeY / 2, centerZ - sizeZ / 2),
@@ -19,17 +25,17 @@ public class CuboidPointIterator extends Cuboid implements PointIterator {
 
     @Override
     public Point next() {
-        if (mCurrent.x > mMax.x)
+        if (mCurrent.x >= mMax.x)
             return null;
 
         Point location = new Point(mCurrent);
 
         mCurrent.z += 1;
-        if (mCurrent.z > mMax.z) {
+        if (mCurrent.z >= mMax.z) {
             mCurrent.z = mMin.z;
             mCurrent.y += 1;
         }
-        if (mCurrent.y > mMax.y) {
+        if (mCurrent.y >= mMax.y) {
             mCurrent.y = mMin.y;
             mCurrent.x += 1;
         }

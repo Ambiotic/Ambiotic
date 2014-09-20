@@ -5,6 +5,7 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent;
 import cpw.mods.fml.common.registry.GameData;
+import net.graphich.ambiotic.registries.ScannerRegistry;
 import net.graphich.ambiotic.registries.VariableRegistry;
 import net.graphich.ambiotic.scanners.BlockScanner;
 import net.minecraft.client.Minecraft;
@@ -28,14 +29,13 @@ public class DebugGui extends GuiScreen {
 
     // Key variables
     private static final int DEBUG_KEY = 0;
-    private static final int SHEETS_KEY = 1;
+    private static final int SCAN_KEY = 1;
     private static final int OFF_KEY = 2;
     protected int mState = OFF_KEY;
     private static final String[] DESCRIPTIONS = {"Variable Debug", "Sheet Debug", "Turn Off Debug"};
     private static final int[] KEY_VALUES = {Keyboard.KEY_COMMA, Keyboard.KEY_PERIOD, Keyboard.KEY_M};
     private final KeyBinding[] KEYS;
     protected FontRenderer mFontRenderer;
-    protected BlockScanner mBlockScanner;
 
     public DebugGui() {
         KEYS = new KeyBinding[DESCRIPTIONS.length];
@@ -52,7 +52,7 @@ public class DebugGui extends GuiScreen {
             mState = OFF_KEY;
         } else {
             if (KEYS[DEBUG_KEY].isPressed()) mState = DEBUG_KEY;
-            if (KEYS[SHEETS_KEY].isPressed()) mState = SHEETS_KEY;
+            if (KEYS[SCAN_KEY].isPressed()) mState = SCAN_KEY;
             if (KEYS[OFF_KEY].isPressed()) mState = OFF_KEY;
         }
     }
@@ -63,28 +63,25 @@ public class DebugGui extends GuiScreen {
             case DEBUG_KEY:
                 drawVariables();
                 break;
-            case SHEETS_KEY:
+            case SCAN_KEY:
                 drawScanner();
             default:
                 break;
         }
     }
 
-    public void addScanner(BlockScanner scanner) {
-        mBlockScanner = scanner;
-    }
-
     public void drawScanner() {
         int y = Y_OFFSET;
         int x = X_OFFSET;
-        mFontRenderer.drawString("Scanner", x, y, TEXT_COLOR, true);
+        BlockScanner blockScanner = ScannerRegistry.instance().scanner("Large");
+        mFontRenderer.drawString("Large", x, y, TEXT_COLOR, true);
         y += Y_INC;
-        if (mBlockScanner == null || !mBlockScanner.scanFinished()) {
+        if (blockScanner == null || !blockScanner.scanFinished()) {
             return;
         }
-        for (Integer blockId : mBlockScanner.keySet()) {
+        for (Integer blockId : blockScanner.keySet()) {
             String name = GameData.getBlockRegistry().getObjectById(blockId).getLocalizedName();
-            mFontRenderer.drawString(name + " : " + mBlockScanner.getCount(blockId), x, y, TEXT_COLOR, true);
+            mFontRenderer.drawString(name + " : " + blockScanner.getCount(blockId), x, y, TEXT_COLOR, true);
             y += Y_INC;
         }
     }
