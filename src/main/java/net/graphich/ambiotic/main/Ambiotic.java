@@ -4,36 +4,23 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.registries.ScannerRegistry;
 import net.graphich.ambiotic.registries.VariableRegistry;
-import net.graphich.ambiotic.scanners.BlockScanner;
-import net.graphich.ambiotic.scanners.ComplementsPointIterator;
-import net.graphich.ambiotic.scanners.Cuboid;
-import net.graphich.ambiotic.scanners.Point;
+import net.graphich.ambiotic.variables.*;
 import net.minecraftforge.common.MinecraftForge;
 import org.python.util.PythonInterpreter;
 
 @Mod(modid = Ambiotic.MODID, version = Ambiotic.VERSION)
 public class Ambiotic {
+
     public static final String MODID = "Ambiotic";
     public static final String VERSION = "0.0.1";
 
     private PythonInterpreter mPyInterp = new PythonInterpreter();
-    private long mTicksSinceUpdate = -1;
-    private boolean mPlayerLoggedIn = false;
 
-    //public VariableRegistry mVariableRegistry;
-    //private BlockScanner mScanner;
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-/*        mScanner = new BlockScanner(4096);
-        mScanner.registerBlocks("minecraft:stone");
-        FMLCommonHandler.instance().bus().register(mScanner);
-        MinecraftForge.EVENT_BUS.register(mScanner);*/
 
         FMLCommonHandler.instance().bus().register(VariableRegistry.instance());
         MinecraftForge.EVENT_BUS.register(VariableRegistry.instance());
@@ -45,52 +32,24 @@ public class Ambiotic {
         FMLCommonHandler.instance().bus().register(gui);
         MinecraftForge.EVENT_BUS.register(gui);
 
-        FMLCommonHandler.instance().bus().register(this);
-        MinecraftForge.EVENT_BUS.register(this);
-
-        Cuboid test1 = new Cuboid(new Point(0,0,0), new Point(10,10,10));
-        Cuboid test2 = test1.translated(1, 2, 3);
-        Cuboid test3 = test1.intersection(test2);
-        ComplementsPointIterator c = new ComplementsPointIterator(test1,test3);
+        initVariables();
     }
 
-    @SubscribeEvent
-    public void onTick(TickEvent event) {
-
-        if (event.phase != TickEvent.Phase.END)
-            return;
-        if (!mPlayerLoggedIn)
-            return;
-/*
-        mTicksSinceUpdate += 1;
-        if(mTicksSinceUpdate % 5 == 0 && mScanner.scanFinished()) {
-            for(Integer blockId : mScanner.keySet()) {
-                String name = GameData.getBlockRegistry().getObjectById(blockId).getUnlocalizedName();
-                System.out.println(name+" : "+mScanner.getCount(blockId));
-            }
-            mTicksSinceUpdate = 0;
-        }
-*/
+    public void initVariables() {
+        int tpt = 1;
+        VariableRegistry vr = VariableRegistry.instance();
+        vr.register(new CanRainOn("CanRainOn"), tpt);
+        vr.register(new CanSeeSky("CanSeeSky"), tpt);
+        vr.register(new IsRaining("IsRaining"), tpt);
+        vr.register(new LightLevel("NaturalLight", LightLevel.LightTypes.SUN), tpt);
+        vr.register(new LightLevel("TorchLight", LightLevel.LightTypes.LAMP), tpt);
+        vr.register(new LightLevel("TotalLight", LightLevel.LightTypes.TOTAL), tpt);
+        vr.register(new MoonPhase("MoonPhase"), tpt);
+        vr.register(new PlayerCoordinate("PlayerX", PlayerCoordinate.Coordinates.X), tpt);
+        vr.register(new PlayerCoordinate("PlayerY", PlayerCoordinate.Coordinates.Y), tpt);
+        vr.register(new PlayerCoordinate("PlayerZ", PlayerCoordinate.Coordinates.Z), tpt);
+        vr.register(new PlayerCoordinate("PlayerDim", PlayerCoordinate.Coordinates.DIM), tpt);
+        vr.register(new RainStrength("RainStrength", 1000), tpt);
+        vr.register(new ThunderStrength("ThunderStrength", 1000), tpt);
     }
-
-
-    @SubscribeEvent
-    public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        mPlayerLoggedIn = true;
-    }
-
-    /*
-            PointIterator locations = new CuboidPointIterator(2,2,2,5,5,5);
-        Point current = locations.next();
-        int test = 5*5*10;
-        int what = -1;
-        while(current != null && ++what < test) {
-            System.out.println("Point : "+current.toString());
-            current = locations.next();
-        }
-        if(what > 5*5*5) {
-            System.out.println("Bad iteration. : "+what);
-        }
-     */
-
 }

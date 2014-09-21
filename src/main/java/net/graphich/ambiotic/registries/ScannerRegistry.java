@@ -1,11 +1,7 @@
 package net.graphich.ambiotic.registries;
 
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import javafx.scene.effect.InnerShadow;
 import net.graphich.ambiotic.scanners.BlockScanner;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.Arrays;
@@ -27,14 +23,16 @@ public class ScannerRegistry {
         initBuiltIns();
     }
 
-    public static ScannerRegistry instance() {return INSTANCE;}
+    public static ScannerRegistry instance() {
+        return INSTANCE;
+    }
 
     public void register(String name, BlockScanner scanner) {
-        if(mScanners.containsKey(name)) {
+        if (mScanners.containsKey(name)) {
             //Log? Exception?
             return;
         }
-        mScanners.put(name,scanner);
+        mScanners.put(name, scanner);
     }
 
     public List<String> names() {
@@ -44,15 +42,15 @@ public class ScannerRegistry {
     }
 
     public BlockScanner scanner(String name) {
-        if(!mScanners.containsKey(name)) {
+        if (!mScanners.containsKey(name)) {
             //Log? Exception?
             return null;
         }
         return mScanners.get(name);
     }
 
-    public void initBuiltIns(){
-        BlockScanner s = new BlockScanner( (64*16*64)/4, 64, 16, 64);
+    public void initBuiltIns() {
+        BlockScanner s = new BlockScanner((64 * 16 * 64) / 4, 64, 16, 64);
         s.registerBlocks("logWood");
         s.registerBlocks("minecraft:dirt");
         register("Large", s);

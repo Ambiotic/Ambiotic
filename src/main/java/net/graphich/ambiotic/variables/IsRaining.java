@@ -1,15 +1,14 @@
 package net.graphich.ambiotic.variables;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * Is it raining in the world
  */
-public class IsRaining extends PlayerVariable {
+public class IsRaining extends Variable {
 
-    public IsRaining(String name, EntityPlayer player) {
-        super(name, player);
+    public IsRaining(String name) {
+        super(name);
     }
 
     @Override

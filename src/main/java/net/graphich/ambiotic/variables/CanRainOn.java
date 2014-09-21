@@ -1,14 +1,13 @@
 package net.graphich.ambiotic.variables;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * At the player's current coordinates in the world, can she be rained on?
  */
-public class CanRainOn extends PlayerVariable {
-    public CanRainOn(String name, EntityPlayer player) {
-        super(name, player);
+public class CanRainOn extends Variable {
+    public CanRainOn(String name) {
+        super(name);
     }
 
     @Override

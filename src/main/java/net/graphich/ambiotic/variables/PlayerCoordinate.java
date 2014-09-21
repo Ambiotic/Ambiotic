@@ -1,19 +1,16 @@
 package net.graphich.ambiotic.variables;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * Related to player's coordinates in space.
  */
-public class PlayerCoordinate extends PlayerVariable {
+public class PlayerCoordinate extends Variable {
 
     protected Coordinates mCoordinate;
 
-    ;
-
-    public PlayerCoordinate(String name, EntityPlayer player, Coordinates coordinate) {
-        super(name, player);
+    public PlayerCoordinate(String name, Coordinates coordinate) {
+        super(name);
         mCoordinate = coordinate;
     }
 

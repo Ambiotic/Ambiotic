@@ -1,15 +1,14 @@
 package net.graphich.ambiotic.variables;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * Block at player position can see the sky
  */
-public class CanSeeSky extends PlayerVariable {
+public class CanSeeSky extends Variable {
 
-    public CanSeeSky(String name, EntityPlayer player) {
-        super(name, player);
+    public CanSeeSky(String name) {
+        super(name);
     }
 
     @Override

@@ -1,17 +1,16 @@
 package net.graphich.ambiotic.variables;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * Fractional thunder strength multiplied by scalar (can be negative), values will be [0,scalar)
  */
-public class ThunderStrength extends PlayerVariable {
+public class ThunderStrength extends Variable {
 
     protected int mScalar;
 
-    public ThunderStrength(String name, EntityPlayer player, int scalar) {
-        super(name, player);
+    public ThunderStrength(String name, int scalar) {
+        super(name);
         mScalar = scalar;
     }
 

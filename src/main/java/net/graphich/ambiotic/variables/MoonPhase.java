@@ -1,15 +1,14 @@
 package net.graphich.ambiotic.variables;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * What is the current moon phase?
  */
-public class MoonPhase extends PlayerVariable {
+public class MoonPhase extends Variable {
 
-    public MoonPhase(String name, EntityPlayer player) {
-        super(name, player);
+    public MoonPhase(String name) {
+        super(name);
     }
 
     @Override

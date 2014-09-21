@@ -13,7 +13,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.IIcon;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import org.lwjgl.input.Keyboard;
 
@@ -83,7 +82,7 @@ public class DebugGui extends GuiScreen {
         for (Integer blockId : blockScanner.keySet()) {
             String name = GameData.getBlockRegistry().getObjectById(blockId).getUnlocalizedName();
             //this.drawTexturedModelRectFromIcon(x,y,name,name.getIconHeight(),name.getIconWidth());
-            mFontRenderer.drawString(name+" : "+blockScanner.getCount(blockId), x, y, TEXT_COLOR, true);
+            mFontRenderer.drawString(name + " : " + blockScanner.getCount(blockId), x, y, TEXT_COLOR, true);
             y += Y_INC;
         }
     }

@@ -1,17 +1,16 @@
 package net.graphich.ambiotic.variables;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * Fractional rain strength multiplied by scalar, values will be [0,scalar)
  */
-public class RainStrength extends PlayerVariable {
+public class RainStrength extends Variable {
 
     protected int mScalar;
 
-    public RainStrength(String name, EntityPlayer player, int scalar) {
-        super(name, player);
+    public RainStrength(String name, int scalar) {
+        super(name);
         mScalar = scalar;
     }
 

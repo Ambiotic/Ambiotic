@@ -8,12 +8,12 @@ public class CuboidPointIterator extends Cuboid implements PointIterator {
     protected Point mCurrent;
 
     public CuboidPointIterator(Point p1, Point p2) {
-        super(p1,p2);
+        super(p1, p2);
         reset();
     }
 
     public CuboidPointIterator(int centerX, int centerY, int centerZ, int sizeX, int sizeY, int sizeZ) {
-        super(centerX,centerY,centerZ,sizeX,sizeY,sizeZ);
+        super(centerX, centerY, centerZ, sizeX, sizeY, sizeZ);
         reset();
     }
 

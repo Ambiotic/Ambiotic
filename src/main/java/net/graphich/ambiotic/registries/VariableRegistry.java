@@ -3,8 +3,7 @@ package net.graphich.ambiotic.registries;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.graphich.ambiotic.variables.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.graphich.ambiotic.variables.Variable;
 
 import java.util.*;
 
@@ -28,23 +27,6 @@ public class VariableRegistry {
         return INSTANCE;
     }
 
-    protected void initBuiltIns(EntityPlayer player) {
-        int tpt = 1;
-        register(new CanRainOn("CanRainOn", player), tpt);
-        register(new CanSeeSky("CanSeeSky", player), tpt);
-        register(new IsRaining("IsRaining", player), tpt);
-        register(new LightLevel("NaturalLight", player, LightLevel.LightTypes.SUN), tpt);
-        register(new LightLevel("TorchLight", player, LightLevel.LightTypes.LAMP), tpt);
-        register(new LightLevel("TotalLight", player, LightLevel.LightTypes.TOTAL), tpt);
-        register(new MoonPhase("MoonPhase", player), tpt);
-        register(new PlayerCoordinate("PlayerX", player, PlayerCoordinate.Coordinates.X), tpt);
-        register(new PlayerCoordinate("PlayerY", player, PlayerCoordinate.Coordinates.Y), tpt);
-        register(new PlayerCoordinate("PlayerZ", player, PlayerCoordinate.Coordinates.Z), tpt);
-        register(new PlayerCoordinate("PlayerDim", player, PlayerCoordinate.Coordinates.DIM), tpt);
-        register(new RainStrength("RainStrength", player, 1000), tpt);
-        register(new ThunderStrength("ThunderStrength", player, 1000), tpt);
-    }
-
     public List<String> names() {
         List<String> names = Arrays.asList(mVariableLookup.keySet().toArray(new String[0]));
         Collections.sort(names);
@@ -66,7 +48,7 @@ public class VariableRegistry {
             //Log? Exception?
             return;
         }
-        if(mVariableLookup.containsKey(variable.name())) {
+        if (mVariableLookup.containsKey(variable.name())) {
             //Log? Exception?
             return;
         }
@@ -108,7 +90,10 @@ public class VariableRegistry {
 
     @SubscribeEvent
     public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        initBuiltIns(event.player);
+        // Bind variables to player and freeze, no more variables can be registered
+        for (Variable v : mVariableLookup.values()) {
+            v.setPlayer(event.player);
+        }
         freeze();
     }
 

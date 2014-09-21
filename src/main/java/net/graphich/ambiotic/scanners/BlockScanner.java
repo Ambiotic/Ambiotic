@@ -42,6 +42,9 @@ public class BlockScanner {
     protected int mLastY = 0;
     protected int mLastZ = 0;
     protected int mLastDimension;
+    //This is a hack until we get a proper PlaceEvent
+    // which I think is slated for the 1.8 version of Forge
+    protected Point mLastPlaced;
 
     public BlockScanner(int blocksPerTick, int xsize, int ysize, int zsize) {
         mBlocksPerTick = blocksPerTick;
@@ -138,9 +141,9 @@ public class BlockScanner {
     }
 
     protected void resetFullScan() {
-        mLastX = (int)mPlayer.posX;
-        mLastY = (int)mPlayer.posY;
-        mLastZ = (int)mPlayer.posZ;
+        mLastX = (int) mPlayer.posX;
+        mLastY = (int) mPlayer.posY;
+        mLastZ = (int) mPlayer.posZ;
         mLastDimension = mPlayer.dimension;
         mScanFinished = false;
         mFullRange = new CuboidPointIterator(mLastX, mLastY, mLastZ, mXSize, mYSize, mZSize);
@@ -159,36 +162,36 @@ public class BlockScanner {
         if (mPlayer == null) {
             return;
         }
-        int x,y,z;
-        x = (int)mPlayer.posX;
-        y = (int)mPlayer.posY;
-        z = (int)mPlayer.posZ;
-        Cuboid oldVolume = new Cuboid(mLastX,mLastY,mLastZ,mXSize,mYSize,mZSize);
-        Cuboid newVolume = new Cuboid(x,y,z,mXSize,mYSize,mZSize);
+        int x, y, z;
+        x = (int) mPlayer.posX;
+        y = (int) mPlayer.posY;
+        z = (int) mPlayer.posZ;
+        Cuboid oldVolume = new Cuboid(mLastX, mLastY, mLastZ, mXSize, mYSize, mZSize);
+        Cuboid newVolume = new Cuboid(x, y, z, mXSize, mYSize, mZSize);
         Cuboid intersect = oldVolume.intersection(newVolume);
         boolean playerMoved = (x != mLastX || y != mLastY || z != mLastZ);
         boolean fullScanReset = (
                 // Player went to a new dimension
                 mPlayer.dimension != mLastDimension ||
-                // Player teleported in same dimension
-                intersect == null ||
-                // Update scanning would be more expensive than rescanning
-                oldVolume.volume() < (oldVolume.volume() - intersect.volume())*2
+                        // Player teleported in same dimension
+                        intersect == null ||
+                        // Update scanning would be more expensive than rescanning
+                        oldVolume.volume() < (oldVolume.volume() - intersect.volume()) * 2
         );
         mLastX = x;
         mLastY = y;
         mLastZ = z;
         mLastDimension = mPlayer.dimension;
 
-        if(fullScanReset) {
+        if (fullScanReset) {
             //System.out.println("Full scan required ...");
             resetFullScan();
-        } else if(!mScanFinished) {
+        } else if (!mScanFinished) {
             continueFullScan();
-        } else if(playerMoved) {
+        } else if (playerMoved) {
             //System.out.println("Running update scan "+oldVolume.volume()+" vs "+((oldVolume.volume() - intersect.volume())*2));
-            mNewInRange = new ComplementsPointIterator(newVolume,intersect);
-            mNewOutOfRange = new ComplementsPointIterator(oldVolume,intersect);
+            mNewInRange = new ComplementsPointIterator(newVolume, intersect);
+            mNewOutOfRange = new ComplementsPointIterator(oldVolume, intersect);
             updateScan();
         }
     }
@@ -210,9 +213,6 @@ public class BlockScanner {
         mLastPlaced = null; //Hack
     }
 
-    //This is a hack until we get a proper PlaceEvent
-    // which I think is slated for the 1.8 version of Forge
-    protected Point mLastPlaced;
     @SubscribeEvent
     public void onBlockPlace(PlayerInteractEvent event) {
         if (event.isCanceled())

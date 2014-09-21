@@ -1,7 +1,7 @@
 package net.graphich.ambiotic.variables;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 /**
@@ -10,7 +10,7 @@ import net.minecraft.world.World;
  * that is exposed by the API and to the python engine.
  */
 public abstract class Variable {
-    protected EntityClientPlayerMP mPlayer;
+    protected EntityPlayer mPlayer;
     protected World mWorld;
 
     protected String mName;
@@ -30,4 +30,8 @@ public abstract class Variable {
         return mName;
     }
 
+    public void setPlayer(EntityPlayer player) {
+        mPlayer = player;
+        mWorld = player.getEntityWorld();
+    }
 }

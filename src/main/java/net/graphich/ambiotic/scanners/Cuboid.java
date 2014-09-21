@@ -14,19 +14,20 @@ public class Cuboid {
     protected Point mMin;
     protected Point mMax;
 
-    public Cuboid(int centerX, int centerY, int centerZ, int width, int height, int length)
-    {
+    public Cuboid(int centerX, int centerY, int centerZ, int width, int height, int length) {
         init(
-            new Point(centerX-width/2,centerY-height/2,centerZ-length/2),
-            new Point(centerX+width/2,centerY+height/2,centerZ+length/2)
+                new Point(centerX - width / 2, centerY - height / 2, centerZ - length / 2),
+                new Point(centerX + width / 2, centerY + height / 2, centerZ + length / 2)
         );
     }
 
-    public Cuboid(Point vx1, Point vx2) { init(vx1,vx2); }
+    public Cuboid(Point vx1, Point vx2) {
+        init(vx1, vx2);
+    }
 
     protected void init(Point vx1, Point vx2) {
 
-        if(!vx1.canFormCuboid(vx2))
+        if (!vx1.canFormCuboid(vx2))
             throw new IllegalArgumentException("Cannot form cuboid from vx1 and vx2");
 
         mVertices = new ArrayList<Point>();
@@ -70,8 +71,8 @@ public class Cuboid {
 
     public Cuboid translated(int dx, int dy, int dz) {
         return new Cuboid(
-          new Point(mMin.x + dx, mMin.y + dy, mMin.z + dz),
-          new Point(mMax.x + dx, mMax.y + dy, mMax.z + dz)
+                new Point(mMin.x + dx, mMin.y + dy, mMin.z + dz),
+                new Point(mMax.x + dx, mMax.y + dy, mMax.z + dz)
         );
     }
 
