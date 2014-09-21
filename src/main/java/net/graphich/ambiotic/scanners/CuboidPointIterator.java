@@ -6,20 +6,14 @@ package net.graphich.ambiotic.scanners;
 public class CuboidPointIterator extends Cuboid implements PointIterator {
 
     protected Point mCurrent;
-    protected Point mCenter;
 
     public CuboidPointIterator(Point p1, Point p2) {
         super(p1,p2);
-        mCenter = new Point(mMin.x+(mLength/2),mMin.y+(mHeight/2),mMin.z+(mWidth/2));
         reset();
     }
 
     public CuboidPointIterator(int centerX, int centerY, int centerZ, int sizeX, int sizeY, int sizeZ) {
-        super(
-                new Point(centerX - sizeX / 2, centerY - sizeY / 2, centerZ - sizeZ / 2),
-                new Point(centerX + sizeX / 2, centerY + sizeY / 2, centerZ + sizeZ / 2)
-        );
-        mCenter = new Point(centerX, centerY, centerZ);
+        super(centerX,centerY,centerZ,sizeX,sizeY,sizeZ);
         reset();
     }
 
@@ -43,17 +37,8 @@ public class CuboidPointIterator extends Cuboid implements PointIterator {
     }
 
     @Override
-    public void translate(int dx, int dy, int dz) {
-        super.translate(dx, dy, dz);
-        mCenter.translate(dx, dy, dz);
-    }
-
-    @Override
     public void reset() {
         mCurrent = new Point(mMin);
     }
 
-    public Point center() {
-        return new Point(mCenter);
-    }
 }

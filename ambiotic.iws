@@ -62,8 +62,8 @@
       <file leaf-file-name="DebugGui.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/main/DebugGui.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1041" max-vertical-offset="1649">
-              <caret line="78" column="67" selection-start-line="78" selection-start-column="67" selection-end-line="78" selection-end-column="67" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1666">
+              <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -72,18 +72,18 @@
       <file leaf-file-name="VariableRegistry.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/registries/VariableRegistry.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1089" max-vertical-offset="2533">
-              <caret line="108" column="0" selection-start-line="108" selection-start-column="0" selection-end-line="112" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1446" max-vertical-offset="2533">
+              <caret line="114" column="7" selection-start-line="114" selection-start-column="7" selection-end-line="114" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Ambiotic.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/main/Ambiotic.java">
+      <file leaf-file-name="PointIterator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/PointIterator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="1462">
-              <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
+              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -92,8 +92,8 @@
       <file leaf-file-name="CuboidPointIterator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/CuboidPointIterator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1037">
-              <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
+              <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -102,8 +102,8 @@
       <file leaf-file-name="Cuboid.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/Cuboid.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="1955">
-              <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="2193">
+              <caret line="29" column="22" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -112,8 +112,8 @@
       <file leaf-file-name="BlockScanner.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/BlockScanner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5390244" vertical-offset="2193" max-vertical-offset="3111">
-              <caret line="161" column="34" selection-start-line="161" selection-start-column="34" selection-end-line="161" selection-end-column="34" />
+            <state vertical-scroll-proportion="-0.6594828" vertical-offset="765" max-vertical-offset="3927">
+              <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -122,8 +122,8 @@
       <file leaf-file-name="ComplementsPointIterator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/ComplementsPointIterator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="531" max-vertical-offset="1479">
-              <caret line="61" column="28" selection-start-line="61" selection-start-column="28" selection-end-line="61" selection-end-column="28" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1496">
+              <caret line="22" column="41" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -131,21 +131,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Point.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/Point.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="680">
-              <caret line="34" column="5" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ScannerRegistry.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/registries/ScannerRegistry.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="580" max-vertical-offset="1241">
-              <caret line="55" column="44" selection-start-line="55" selection-start-column="44" selection-end-line="55" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="675" max-vertical-offset="1241">
+              <caret line="59" column="45" selection-start-line="59" selection-start-column="45" selection-end-line="59" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -202,13 +192,13 @@
         <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/PointIterator.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/Point.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/registries/VariableRegistry.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/main/DebugGui.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/registries/ScannerRegistry.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/CuboidComplementPointIterator.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/main/Ambiotic.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/ComplementsPointIterator.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/Cuboid.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/CuboidPointIterator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/ComplementsPointIterator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/registries/ScannerRegistry.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/main/DebugGui.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/BlockScanner.java" />
       </list>
     </option>
@@ -847,11 +837,11 @@
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.example.examplemod" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\jim\Documents\projects\ambiotic\src\main\java\net\graphich\ambiotic\geomutil" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jim\Documents\projects\ambiotic\src\main\java\net\graphich\ambiotic\geomutil" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Minecraft Client">
@@ -1077,7 +1067,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24097222" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36328125" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3294271" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28515625" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1107,7 +1097,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24097222" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23828125" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3294271" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1137,13 +1127,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.2-10.12.2.1147/forgeSrc-1.7.2-10.12.2.1147-sources.jar!/net/minecraftforge/oredict/OreDictionary.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="612" max-vertical-offset="9384">
-          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.2-10.12.2.1147/forgeSrc-1.7.2-10.12.2.1147-sources.jar!/cpw/mods/fml/common/FMLCommonHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1207" max-vertical-offset="10217">
@@ -1191,13 +1174,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2783" max-vertical-offset="7684">
           <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.2-10.12.2.1147/forgeSrc-1.7.2-10.12.2.1147-sources.jar!/net/minecraftforge/oredict/OreDictionary.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="612" max-vertical-offset="9384">
-          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -1359,14 +1335,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/PointIterator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.2-10.12.2.1147/forgeSrc-1.7.2-10.12.2.1147-sources.jar!/cpw/mods/fml/common/eventhandler/Event.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="66" max-vertical-offset="2312">
@@ -1439,18 +1407,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/registries/VariableRegistry.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/main/Ambiotic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1089" max-vertical-offset="2533">
-          <caret line="108" column="0" selection-start-line="108" selection-start-column="0" selection-end-line="112" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/main/DebugGui.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="799" max-vertical-offset="1649">
-          <caret line="78" column="67" selection-start-line="78" selection-start-column="67" selection-end-line="78" selection-end-column="67" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="1462">
+          <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -1463,44 +1423,76 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/registries/ScannerRegistry.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/ComplementsPointIterator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="580" max-vertical-offset="1241">
-          <caret line="55" column="44" selection-start-line="55" selection-start-column="44" selection-end-line="55" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1496">
+          <caret line="22" column="41" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/main/Ambiotic.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/Cuboid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="1462">
-          <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="2193">
+          <caret line="29" column="22" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/Cuboid.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.2-10.12.2.1147/forgeSrc-1.7.2-10.12.2.1147-sources.jar!/cpw/mods/fml/common/registry/GameData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="1955">
-          <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2910" max-vertical-offset="14943">
+          <caret line="239" column="0" selection-start-line="239" selection-start-column="0" selection-end-line="239" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.2-10.12.2.1147/forgeSrc-1.7.2-10.12.2.1147-sources.jar!/net/minecraftforge/oredict/OreDictionary.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="9384">
+          <caret line="344" column="39" selection-start-line="344" selection-start-column="39" selection-end-line="344" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/CuboidPointIterator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1037">
-          <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/ComplementsPointIterator.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/PointIterator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="531" max-vertical-offset="1479">
-          <caret line="61" column="28" selection-start-line="61" selection-start-column="28" selection-end-line="61" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/registries/VariableRegistry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1446" max-vertical-offset="2533">
+          <caret line="114" column="7" selection-start-line="114" selection-start-column="7" selection-end-line="114" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/main/DebugGui.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1666">
+          <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/registries/ScannerRegistry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="675" max-vertical-offset="1241">
+          <caret line="59" column="45" selection-start-line="59" selection-start-column="45" selection-end-line="59" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1509,8 +1501,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/graphich/ambiotic/scanners/BlockScanner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5390244" vertical-offset="2193" max-vertical-offset="3111">
-          <caret line="161" column="34" selection-start-line="161" selection-start-column="34" selection-end-line="161" selection-end-column="34" />
+        <state vertical-scroll-proportion="-0.6594828" vertical-offset="765" max-vertical-offset="3927">
+          <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
           <folding />
         </state>
       </provider>

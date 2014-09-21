@@ -53,7 +53,7 @@ public class ScannerRegistry {
 
     public void initBuiltIns(){
         BlockScanner s = new BlockScanner( (64*16*64)/4, 64, 16, 64);
-        s.registerBlocks("minecraft:stone");
+        s.registerBlocks("logWood");
         s.registerBlocks("minecraft:dirt");
         register("Large", s);
         FMLCommonHandler.instance().bus().register(s);

@@ -45,7 +45,7 @@ public class ComplementsPointIterator implements PointIterator {
                 mSegments.add(new CuboidPointIterator(new Point(imin.x,imin.y,vmin.z), new Point(imax.x,imax.y,imin.z)));
         }
 
-
+        /* Debugging code
         System.out.println("V : "+volume);
         System.out.println("I : "+intersect);
         System.out.println("Diff : "+(volume.volume()-intersect.volume()));
@@ -59,8 +59,9 @@ public class ComplementsPointIterator implements PointIterator {
         while(p != null) {
             if(!volume.contains(p)) System.out.println("V does not contain : "+p);
             if(intersect.contains(p)) System.out.println("I contains : "+p);
+            System.out.println("P Checked : "+p);
             p = this.next();
-        }
+        }*/
     }
 
     @Override

@@ -24,16 +24,24 @@ public class BlockScanner {
 
     protected HashMap<Integer, Integer> mCounts;
     protected EntityPlayer mPlayer;
-    protected CuboidPointIterator mFullIterator;
-    protected ComplementsPointIterator mDeltaMinusIterator;
-    protected ComplementsPointIterator mDeltaPlusIterator;
-    protected int mBlocksPerTick;
+
     protected boolean mScanFinished;
-    protected int mScanDimension; //Dimension the scan was started in
+    protected int mBlocksPerTick;
+
+    protected CuboidPointIterator mFullRange;
+
+    protected ComplementsPointIterator mNewInRange;
+    protected ComplementsPointIterator mNewOutOfRange;
 
     protected int mXSize = 0;
     protected int mYSize = 0;
     protected int mZSize = 0;
+
+    //Last tick's player coordinates
+    protected int mLastX = 0;
+    protected int mLastY = 0;
+    protected int mLastZ = 0;
+    protected int mLastDimension;
 
     public BlockScanner(int blocksPerTick, int xsize, int ysize, int zsize) {
         mBlocksPerTick = blocksPerTick;
@@ -75,8 +83,31 @@ public class BlockScanner {
         }
     }
 
-    protected void continueScan() {
-        Point point = mFullIterator.next();
+    protected void updateScan() {
+        Point point = mNewOutOfRange.next();
+        // Subtract out of range blocks
+        while (point != null) {
+            int blockId = Block.getIdFromBlock(mPlayer.worldObj.getBlock(point.x, point.y, point.z));
+            if (mCounts.containsKey(blockId)) {
+                int what = mCounts.get(blockId) - 1;
+                what = what < 0 ? 0 : what;
+                mCounts.put(blockId, what);
+            }
+            point = mNewOutOfRange.next();
+        }
+        point = mNewInRange.next();
+        while (point != null) {
+            int blockId = Block.getIdFromBlock(mPlayer.worldObj.getBlock(point.x, point.y, point.z));
+            if (mCounts.containsKey(blockId)) {
+                mCounts.put(blockId, mCounts.get(blockId) + 1);
+            }
+            point = mNewInRange.next();
+        }
+        mScanFinished = true;
+    }
+
+    protected void continueFullScan() {
+        Point point = mFullRange.next();
         int checked = 0;
 
         while (point != null && checked < mBlocksPerTick) {
@@ -85,12 +116,11 @@ public class BlockScanner {
             if (mCounts.containsKey(blockId)) {
                 mCounts.put(blockId, mCounts.get(blockId) + 1);
             }
-            point = mFullIterator.next();
+            point = mFullRange.next();
         }
         if (point == null) {
             mScanFinished = true;
         }
-
     }
 
     public Set<Integer> keySet() {
@@ -107,41 +137,59 @@ public class BlockScanner {
         return -1;
     }
 
-    protected void resetScan() {
-        Point oldCenter = mFullIterator.center();
-        int x = (int) mPlayer.posX;
-        int dx = x - oldCenter.x;
-        int y = (int) mPlayer.posY;
-        int dy = y - oldCenter.y;
-        int z = (int) mPlayer.posZ;
-        int dz = z - oldCenter.z;
-        if (dx == 0 && dy == 0 && dz == 0 && mScanDimension == mPlayer.dimension)
-            return;
+    protected void resetFullScan() {
+        mLastX = (int)mPlayer.posX;
+        mLastY = (int)mPlayer.posY;
+        mLastZ = (int)mPlayer.posZ;
+        mLastDimension = mPlayer.dimension;
         mScanFinished = false;
-        mFullIterator = new CuboidPointIterator(x, y, z, mXSize, mYSize, mZSize);
-        mScanDimension = mPlayer.dimension;
+        mFullRange = new CuboidPointIterator(mLastX, mLastY, mLastZ, mXSize, mYSize, mZSize);
         resetBlockCounts();
     }
 
     @SubscribeEvent
     public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         mPlayer = event.player;
-        int x = (int) mPlayer.posX;
-        int y = (int) mPlayer.posY;
-        int z = (int) mPlayer.posZ;
-        mFullIterator = new CuboidPointIterator(x, y, z, mXSize, mYSize, mZSize);
-        resetScan();
+        resetFullScan();
     }
 
     @SubscribeEvent
     public void onTick(TickEvent event) {
-        if (mPlayer == null || mFullIterator == null || event.phase != TickEvent.Phase.START) {
+        // No scan state
+        if (mPlayer == null) {
             return;
         }
-        if (!mScanFinished && mScanDimension == mPlayer.dimension) {
-            continueScan();
-        } else {
-            resetScan();
+        int x,y,z;
+        x = (int)mPlayer.posX;
+        y = (int)mPlayer.posY;
+        z = (int)mPlayer.posZ;
+        Cuboid oldVolume = new Cuboid(mLastX,mLastY,mLastZ,mXSize,mYSize,mZSize);
+        Cuboid newVolume = new Cuboid(x,y,z,mXSize,mYSize,mZSize);
+        Cuboid intersect = oldVolume.intersection(newVolume);
+        boolean playerMoved = (x != mLastX || y != mLastY || z != mLastZ);
+        boolean fullScanReset = (
+                // Player went to a new dimension
+                mPlayer.dimension != mLastDimension ||
+                // Player teleported in same dimension
+                intersect == null ||
+                // Update scanning would be more expensive than rescanning
+                oldVolume.volume() < (oldVolume.volume() - intersect.volume())*2
+        );
+        mLastX = x;
+        mLastY = y;
+        mLastZ = z;
+        mLastDimension = mPlayer.dimension;
+
+        if(fullScanReset) {
+            //System.out.println("Full scan required ...");
+            resetFullScan();
+        } else if(!mScanFinished) {
+            continueFullScan();
+        } else if(playerMoved) {
+            //System.out.println("Running update scan "+oldVolume.volume()+" vs "+((oldVolume.volume() - intersect.volume())*2));
+            mNewInRange = new ComplementsPointIterator(newVolume,intersect);
+            mNewOutOfRange = new ComplementsPointIterator(oldVolume,intersect);
+            updateScan();
         }
     }
 
