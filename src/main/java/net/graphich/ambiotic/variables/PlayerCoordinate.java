@@ -5,7 +5,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 /**
  * Related to player's coordinates in space.
  */
-public class PlayerCoordinate extends Variable {
+public class PlayerCoordinate extends PlayerVariable {
 
     protected Coordinates mCoordinate;
 

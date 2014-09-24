@@ -388,6 +388,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="org.python:jython-standalone:2.5.2" level="project" />
+    <orderEntry type="library" name="json-simple-1.1.1" level="project" />
   </component>
 </module>
 

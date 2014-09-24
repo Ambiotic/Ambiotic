@@ -3,16 +3,16 @@ package net.graphich.ambiotic.variables;
 import cpw.mods.fml.common.gameevent.TickEvent;
 
 /**
- * Is it raining in the world
+ * Created by jim on 9/21/2014.
  */
-public class IsRaining extends PlayerVariable {
+public class TimeOfDay extends PlayerVariable {
 
-    public IsRaining(String name) {
+    public TimeOfDay(String name) {
         super(name);
     }
 
     @Override
     public void update(TickEvent event) {
-        mValue = mWorld.getWorldInfo().isRaining() ? 1 : 0;
+        mValue = (int) (mWorld.getWorldInfo().getWorldTime() % 23000);
     }
 }

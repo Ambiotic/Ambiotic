@@ -1,8 +1,6 @@
 package net.graphich.ambiotic.registries;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.graphich.ambiotic.scanners.BlockScanner;
-import net.minecraftforge.common.MinecraftForge;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,7 +18,6 @@ public class ScannerRegistry {
 
     protected ScannerRegistry() {
         mScanners = new HashMap<String, BlockScanner>();
-        initBuiltIns();
     }
 
     public static ScannerRegistry instance() {
@@ -43,23 +40,8 @@ public class ScannerRegistry {
 
     public BlockScanner scanner(String name) {
         if (!mScanners.containsKey(name)) {
-            //Log? Exception?
             return null;
         }
         return mScanners.get(name);
-    }
-
-    public void initBuiltIns() {
-        BlockScanner s = new BlockScanner((64 * 16 * 64) / 4, 64, 16, 64);
-        s.registerBlocks("logWood");
-        s.registerBlocks("minecraft:dirt");
-        register("Large", s);
-        FMLCommonHandler.instance().bus().register(s);
-        MinecraftForge.EVENT_BUS.register(s);
-
-        //register("Small", new BlockScanner(  (16*4*16)/4, 16,  4, 16) );
-        // Just for testing
-        //scanner("Large").registerBlocks("woodLog");
-
     }
 }

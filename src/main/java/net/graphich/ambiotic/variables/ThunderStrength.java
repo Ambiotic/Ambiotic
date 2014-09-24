@@ -5,7 +5,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 /**
  * Fractional thunder strength multiplied by scalar (can be negative), values will be [0,scalar)
  */
-public class ThunderStrength extends Variable {
+public class ThunderStrength extends PlayerVariable {
 
     protected int mScalar;
 

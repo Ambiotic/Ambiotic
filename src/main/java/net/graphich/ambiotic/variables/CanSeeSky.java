@@ -5,7 +5,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 /**
  * Block at player position can see the sky
  */
-public class CanSeeSky extends Variable {
+public class CanSeeSky extends PlayerVariable {
 
     public CanSeeSky(String name) {
         super(name);

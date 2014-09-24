@@ -6,7 +6,7 @@ import net.minecraft.world.EnumSkyBlock;
 /**
  * Light value at player coordinates in the world, 3 types
  */
-public class LightLevel extends Variable {
+public class LightLevel extends PlayerVariable {
 
     LightTypes mType;
 

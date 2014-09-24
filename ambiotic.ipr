@@ -184,6 +184,13 @@
     <mapping directory="" vcs="" />
   </component>
   <component name="libraryTable">
+    <library name="json-simple-1.1.1">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/json-simple-1.1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
     <library name="org.python:jython-standalone:2.5.2" type="repository">
       <properties maven-id="org.python:jython-standalone:2.5.2" />
       <CLASSES>

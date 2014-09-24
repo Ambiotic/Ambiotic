@@ -3,6 +3,7 @@ package net.graphich.ambiotic.registries;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import net.graphich.ambiotic.variables.PlayerVariable;
 import net.graphich.ambiotic.variables.Variable;
 
 import java.util.*;
@@ -90,9 +91,11 @@ public class VariableRegistry {
 
     @SubscribeEvent
     public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        // Bind variables to player and freeze, no more variables can be registered
+        // Bind player variables to player and freeze, no more variables can be registered
         for (Variable v : mVariableLookup.values()) {
-            v.setPlayer(event.player);
+            if (v instanceof PlayerVariable) {
+                ((PlayerVariable) v).setPlayer(event.player);
+            }
         }
         freeze();
     }

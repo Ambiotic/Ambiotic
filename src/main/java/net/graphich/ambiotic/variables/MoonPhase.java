@@ -5,7 +5,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 /**
  * What is the current moon phase?
  */
-public class MoonPhase extends Variable {
+public class MoonPhase extends PlayerVariable {
 
     public MoonPhase(String name) {
         super(name);

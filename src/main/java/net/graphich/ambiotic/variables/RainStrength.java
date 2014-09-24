@@ -5,7 +5,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 /**
  * Fractional rain strength multiplied by scalar, values will be [0,scalar)
  */
-public class RainStrength extends Variable {
+public class RainStrength extends PlayerVariable {
 
     protected int mScalar;
 
