@@ -64,7 +64,7 @@ public class Ambiotic {
 
     protected void initJAMs() {
         String[] jamPaths = new String[]{"config/default.jam"};
-        jamPaths = mConfiguration.getStringList("Variables", "JAMPaths", jamPaths, "A list of file paths to JSON encoded ambiotic machine configurations.");
+        jamPaths = mConfiguration.getStringList("JAMPaths","Variables", jamPaths, "A list of file paths to JSON encoded ambiotic machine configurations.");
         mConfiguration.save();
         JSONParser parser = new JSONParser();
         for (String jamPath : jamPaths) {
@@ -73,10 +73,10 @@ public class Ambiotic {
             try {
                 json = (Map) parser.parse(new FileReader(jamPath));
             } catch (IOException ex) {
-                System.out.println("Skipping '" + jamPath + "' Error: " + ex.getMessage());
+                mLogger.warn("Skipping '" + jamPath + "' IO Error: " + ex.getMessage());
                 continue;
             } catch (ParseException ex) {
-                System.out.println("Skipping '" + jamPath + "' Error: " + ex.getMessage());
+                mLogger.warn("Skipping '" + jamPath + "' Parse Error: " + ex.getMessage());
                 continue;
             }
             Map variableDefs = (Map) json.get("Variables");
@@ -150,7 +150,6 @@ public class Ambiotic {
         vr.register(new RainStrength("RainStrength", scale), ticksPerUpdate);
         vr.register(new ThunderStrength("ThunderStrength", scale), ticksPerUpdate);
         vr.register(new TimeOfDay("TimeOfDay"), 480);
-
 
     }
 

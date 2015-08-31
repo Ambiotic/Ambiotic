@@ -1,0 +1,19 @@
+{
+    "Variables" : {
+        "Foliage" : {
+            "Type" : "BlockCounter",
+            "Scanner" : "Large",
+            "Blocks" : [
+                "treeLeaves",
+                "logWood"
+            ]
+        }
+        "TestCounter" : {
+            "Type" : "BlockCounter",
+            "Scanner" : "Large",
+            "Blocks" : [
+                "minecraft:stone"
+            ]
+        }
+    }
+}

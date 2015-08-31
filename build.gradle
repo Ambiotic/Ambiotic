@@ -22,7 +22,7 @@ group = "net.graphich.ambiotic"
 archivesBaseName = "ambiotic"
 
 minecraft {
-    version = "1.7.2-10.12.2.1147"
+    version = "1.7.10-10.13.4.1448-1.7.10"
     assetDir = "assets"
 }
 

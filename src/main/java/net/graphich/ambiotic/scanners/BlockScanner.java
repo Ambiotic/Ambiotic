@@ -25,13 +25,11 @@ public class BlockScanner {
     protected HashMap<Integer, Integer> mCounts;
     protected EntityPlayer mPlayer;
 
-    protected boolean mScanFinished;
-    protected int mBlocksPerTick;
+    protected boolean mScanFinished = false;
+    protected int mBlocksPerTick = 0;
+    protected int mTicksSinceFull = 0;
 
     protected CuboidPointIterator mFullRange;
-
-    protected ComplementsPointIterator mNewInRange;
-    protected ComplementsPointIterator mNewOutOfRange;
 
     protected int mXSize = 0;
     protected int mYSize = 0;
@@ -54,7 +52,7 @@ public class BlockScanner {
     }
 
     //Key in this case is OreDictionary Key or a BlockRegistry Key
-    public ArrayList<Integer> registerBlocks(String key) throws IllegalArgumentException {
+    public ArrayList<Integer> registerBlocks(String key) {
         ArrayList<ItemStack> items = OreDictionary.getOres(key);
         ArrayList<Integer> blockIds = new ArrayList<Integer>();
         if (items.size() > 0) {
@@ -85,25 +83,21 @@ public class BlockScanner {
         }
     }
 
-    protected void updateScan() {
-        Point point = mNewOutOfRange.next();
+    protected void updateScan(Cuboid newVolume, Cuboid oldVolume, Cuboid intersect) {
+        ComplementsPointIterator newInRange = new ComplementsPointIterator(newVolume, intersect);
+        ComplementsPointIterator newOutOfRange = new ComplementsPointIterator(oldVolume, intersect);
+        Point point = newOutOfRange.next();
         // Subtract out of range blocks
         while (point != null) {
             int blockId = Block.getIdFromBlock(mPlayer.worldObj.getBlock(point.x, point.y, point.z));
-            if (mCounts.containsKey(blockId)) {
-                int what = mCounts.get(blockId) - 1;
-                what = what < 0 ? 0 : what;
-                mCounts.put(blockId, what);
-            }
-            point = mNewOutOfRange.next();
+            addToCount(blockId,-1);
+            point = newOutOfRange.next();
         }
-        point = mNewInRange.next();
+        point = newInRange.next();
         while (point != null) {
             int blockId = Block.getIdFromBlock(mPlayer.worldObj.getBlock(point.x, point.y, point.z));
-            if (mCounts.containsKey(blockId)) {
-                mCounts.put(blockId, mCounts.get(blockId) + 1);
-            }
-            point = mNewInRange.next();
+            addToCount(blockId,1);
+            point = newInRange.next();
         }
         mScanFinished = true;
     }
@@ -115,9 +109,7 @@ public class BlockScanner {
         while (point != null && checked < mBlocksPerTick) {
             checked++;
             int blockId = Block.getIdFromBlock(mPlayer.worldObj.getBlock(point.x, point.y, point.z));
-            if (mCounts.containsKey(blockId)) {
-                mCounts.put(blockId, mCounts.get(blockId) + 1);
-            }
+            addToCount(blockId,1);
             point = mFullRange.next();
         }
         if (point == null) {
@@ -140,6 +132,7 @@ public class BlockScanner {
     }
 
     protected void resetFullScan() {
+        mTicksSinceFull = 0;
         mLastX = (int) mPlayer.posX;
         mLastY = (int) mPlayer.posY;
         mLastZ = (int) mPlayer.posZ;
@@ -149,18 +142,44 @@ public class BlockScanner {
         resetBlockCounts();
     }
 
+    protected void addToCount(Integer  blockId, Integer count) {
+        if(mCounts.containsKey(blockId)) {
+            int c = mCounts.get(blockId);
+            c += count;
+            if(c < 0) mCounts.put(blockId,0);
+            else mCounts.put(blockId,c);
+        }
+    }
+
+    @SubscribeEvent
+    public void onLeafDecay(BlockEvent.HarvestDropsEvent event) {
+        if(event.isCanceled()) {
+            return;
+        }
+        //Fake player means leaf decay / environmental cause
+        if(event.harvester != mPlayer) {
+            int blockId = Block.getIdFromBlock(event.block);
+            addToCount(blockId,-1);
+        }
+    }
+
     @SubscribeEvent
     public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        if(event.isCanceled()) {
+            return;
+        }
         mPlayer = event.player;
         resetFullScan();
+
     }
 
     @SubscribeEvent
     public void onTick(TickEvent event) {
         // No scan state
-        if (mPlayer == null) {
+        if (mPlayer == null || event.isCanceled()) {
             return;
         }
+        mTicksSinceFull += 1;
         int x, y, z;
         x = (int) mPlayer.posX;
         y = (int) mPlayer.posY;
@@ -174,7 +193,7 @@ public class BlockScanner {
         boolean fullScanReset = mPlayer.dimension != mLastDimension;
         //Player teleported in the same dimension
         fullScanReset = fullScanReset || intersect == null;
-        // Update scanning would be more expensive than rescanning, happens when player is moving ver fast
+        // Update scanning would be more expensive than rescanning, happens when player is moving very fast
         fullScanReset = fullScanReset || oldVolume.volume() < (oldVolume.volume() - intersect.volume()) * 2;
 
         mLastX = x;
@@ -183,64 +202,40 @@ public class BlockScanner {
         mLastDimension = mPlayer.dimension;
 
         if (fullScanReset) {
-            //System.out.println("Full scan required ...");
             resetFullScan();
+            continueFullScan();
         } else if (!mScanFinished) {
             continueFullScan();
         } else if (playerMoved) {
-            //System.out.println("Running update scan "+oldVolume.volume()+" vs "+((oldVolume.volume() - intersect.volume())*2));
-            mNewInRange = new ComplementsPointIterator(newVolume, intersect);
-            mNewOutOfRange = new ComplementsPointIterator(oldVolume, intersect);
-            updateScan();
+            updateScan(newVolume,oldVolume,intersect);
         }
     }
 
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
-        if (event.isCanceled())
+        if (event.isCanceled()) {
             return;
+        }
         //Need to check if block is within this scanners
         // volume before firing the below code in case
         // of multiplayer?
         int blockId = Block.getIdFromBlock(event.block);
-        if (mCounts.containsKey(blockId)) {
-            int c = mCounts.get(blockId);
-            c -= 1;
-            if (c > 0) mCounts.put(blockId, c);
-            else mCounts.put(blockId, 0);
-        }
-        mLastPlaced = null; //Hack
+        addToCount(blockId,-1);
     }
 
-    //This is a hack until we get a proper PlaceEvent
-    // which I think is slated for the 1.8 version of Forge
-    protected Point mLastPlaced;
     @SubscribeEvent
-    public void onBlockPlace(PlayerInteractEvent event) {
-        if (event.isCanceled())
+    public void onBlockPlace(BlockEvent.PlaceEvent event) {
+        if (event.isCanceled()) {
             return;
-
+        }
         Point where = new Point(event.x, event.y, event.z);
-        if (event.isCanceled() || event.useBlock == Event.Result.DENY) {
+        ItemStack inhand = event.itemInHand;
+        if(inhand == null)
             return;
-        }
-
-        if (mLastPlaced != null && mLastPlaced.equals(where)) {
-            mLastPlaced = null;
-            return;
-        }
-
-        if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
-            Block what = event.world.getBlock(event.x, event.y, event.z);
-            int placedBlockId = Block.getIdFromBlock(Block.getBlockFromItem(event.entityPlayer.getHeldItem().getItem()));
-            int worldBlockId = Block.getIdFromBlock(event.world.getBlock(event.x, event.y, event.z));
-            if (placedBlockId == worldBlockId && mCounts.containsKey(worldBlockId)) {
-                int c = mCounts.get(worldBlockId);
-                c += 1;
-                mCounts.put(worldBlockId, c);
-                mLastPlaced = where;
-            }
-        }
+        int placedBlockId = Block.getIdFromBlock(Block.getBlockFromItem(inhand.getItem()));
+        int worldBlockId = Block.getIdFromBlock(event.world.getBlock(event.x, event.y, event.z));
+        if (placedBlockId == worldBlockId)
+            addToCount(placedBlockId,1);
     }
 
 }
