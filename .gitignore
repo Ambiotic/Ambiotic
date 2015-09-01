@@ -8,3 +8,5 @@ mods/
 resourcepacks/
 options.txt
 usernamecache.json
+*.iws
+crash-reports/
