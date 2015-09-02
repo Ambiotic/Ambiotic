@@ -74,7 +74,7 @@ public class DebugGui extends GuiScreen {
     public void drawScanner() {
         int y = Y_OFFSET;
         int x = X_OFFSET;
-        BlockScanner blockScanner = ScannerRegistry.instance().scanner("Large");
+        BlockScanner blockScanner = ScannerRegistry.INSTANCE.scanner("Large");
         mFontRenderer.drawString("Large", x, y, TEXT_COLOR, true);
         y += Y_INC;
         if (blockScanner == null || !blockScanner.scanFinished()) {
@@ -92,13 +92,13 @@ public class DebugGui extends GuiScreen {
         int y = Y_OFFSET;
         int x = X_OFFSET;
 
-        if (!VariableRegistry.instance().isFrozen()) {
+        if (!VariableRegistry.INSTANCE.isFrozen()) {
             mFontRenderer.drawString("Registry is not frozen", x, y, TEXT_COLOR, true);
             return;
         }
 
-        for (String name : VariableRegistry.instance().names()) {
-            int v = VariableRegistry.instance().value(name);
+        for (String name : VariableRegistry.INSTANCE.names()) {
+            int v = VariableRegistry.INSTANCE.value(name);
             name += " = " + v;
             mFontRenderer.drawString(name, x, y, TEXT_COLOR, true);
             y += Y_INC;

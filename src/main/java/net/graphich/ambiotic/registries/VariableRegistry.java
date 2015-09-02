@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class VariableRegistry {
 
-    protected static VariableRegistry INSTANCE = new VariableRegistry();
+    public static VariableRegistry INSTANCE = new VariableRegistry();
 
     protected HashMap<TickRate, List<Variable>> mUpdates;
     protected HashMap<String, Variable> mVariableLookup;
@@ -26,10 +26,6 @@ public class VariableRegistry {
         mUpdates = new HashMap<TickRate, List<Variable>>();
         mVariableLookup = new HashMap<String, Variable>();
         mScriptEnv = new PythonInterpreter();
-    }
-
-    public static VariableRegistry instance() {
-        return INSTANCE;
     }
 
     public List<String> names() {

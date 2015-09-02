@@ -36,11 +36,11 @@ public class Ambiotic {
     @EventHandler
     public void init(FMLInitializationEvent event) {
 
-        FMLCommonHandler.instance().bus().register(VariableRegistry.instance());
-        MinecraftForge.EVENT_BUS.register(VariableRegistry.instance());
+        FMLCommonHandler.instance().bus().register(VariableRegistry.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(VariableRegistry.INSTANCE);
 
-        FMLCommonHandler.instance().bus().register(ScannerRegistry.instance());
-        MinecraftForge.EVENT_BUS.register(ScannerRegistry.instance());
+        FMLCommonHandler.instance().bus().register(ScannerRegistry.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(ScannerRegistry.INSTANCE);
 
         DebugGui gui = new DebugGui();
         FMLCommonHandler.instance().bus().register(gui);
@@ -106,7 +106,7 @@ public class Ambiotic {
                 mLogger.warn("Skipping '" + name + "' missing required key 'Scanner'");
                 continue;
             }
-            bsc = ScannerRegistry.instance().scanner(scanner);
+            bsc = ScannerRegistry.INSTANCE.scanner(scanner);
             if (bsc == null) {
                 mLogger.warn("Skipping '" + name + "' no such scanner : '" + scanner + "'");
                 continue;
@@ -126,7 +126,7 @@ public class Ambiotic {
                 }
                 bcv.addBlockIds(ids);
             }
-            VariableRegistry.instance().register(bcv, 1);
+            VariableRegistry.INSTANCE.register(bcv, 1);
         }
     }
 
@@ -135,7 +135,7 @@ public class Ambiotic {
         int ticksPerUpdate = mConfiguration.get("Variables", "TicksPerUpdate", 1).getInt();
         int scale = mConfiguration.get("Variables", "Scalar", 1000).getInt();
 
-        VariableRegistry vr = VariableRegistry.instance();
+        VariableRegistry vr = VariableRegistry.INSTANCE;
         vr.register(new CanRainOn("CanRainOn"), ticksPerUpdate);
         vr.register(new CanSeeSky("CanSeeSky"), ticksPerUpdate);
         vr.register(new IsRaining("IsRaining"), ticksPerUpdate);
@@ -154,7 +154,7 @@ public class Ambiotic {
     }
 
     protected void initScanners() {
-        ScannerRegistry sr = ScannerRegistry.instance();
+        ScannerRegistry sr = ScannerRegistry.INSTANCE;
 
         int xsize = mConfiguration.get("Scanners", "LargeX", 64).getInt();
         int ysize = mConfiguration.get("Scanners", "LargeY", 16).getInt();

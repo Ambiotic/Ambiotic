@@ -12,16 +12,12 @@ import java.util.List;
  */
 public class ScannerRegistry {
 
-    protected static ScannerRegistry INSTANCE = new ScannerRegistry();
+    public static ScannerRegistry INSTANCE = new ScannerRegistry();
 
     protected HashMap<String, BlockScanner> mScanners;
 
     protected ScannerRegistry() {
         mScanners = new HashMap<String, BlockScanner>();
-    }
-
-    public static ScannerRegistry instance() {
-        return INSTANCE;
     }
 
     public void register(String name, BlockScanner scanner) {
