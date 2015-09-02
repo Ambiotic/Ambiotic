@@ -12,7 +12,10 @@ public class IsRaining extends PlayerVariable {
     }
 
     @Override
-    public void update(TickEvent event) {
-        mValue = mWorld.getWorldInfo().isRaining() ? 1 : 0;
+    public boolean update(TickEvent event) {
+        int newValue = mWorld.getWorldInfo().isRaining() ? 1 : 0;
+        boolean updated = (newValue != mValue);
+        mValue = newValue;
+        return updated;
     }
 }

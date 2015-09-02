@@ -139,7 +139,8 @@ public class Ambiotic {
         vr.register(new CanRainOn("CanRainOn"), ticksPerUpdate);
         vr.register(new CanSeeSky("CanSeeSky"), ticksPerUpdate);
         vr.register(new IsRaining("IsRaining"), ticksPerUpdate);
-        vr.register(new LightLevel("NaturalLight", LightLevel.LightTypes.SUN), ticksPerUpdate);
+        vr.register(new LightLevel("MaximumSunLevel", LightLevel.LightTypes.MAXSUN), ticksPerUpdate);
+        vr.register(new LightLevel("SunLightLevel", LightLevel.LightTypes.SUN), ticksPerUpdate);
         vr.register(new LightLevel("TorchLight", LightLevel.LightTypes.LAMP), ticksPerUpdate);
         vr.register(new LightLevel("TotalLight", LightLevel.LightTypes.TOTAL), ticksPerUpdate);
         vr.register(new MoonPhase("MoonPhase"), ticksPerUpdate);
@@ -150,7 +151,6 @@ public class Ambiotic {
         vr.register(new RainStrength("RainStrength", scale), ticksPerUpdate);
         vr.register(new ThunderStrength("ThunderStrength", scale), ticksPerUpdate);
         vr.register(new TimeOfDay("TimeOfDay"), 480);
-
     }
 
     protected void initScanners() {
@@ -166,5 +166,4 @@ public class Ambiotic {
         FMLCommonHandler.instance().bus().register(bs);
         MinecraftForge.EVENT_BUS.register(bs);
     }
-
 }

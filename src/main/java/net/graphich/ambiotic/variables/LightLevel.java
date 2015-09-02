@@ -16,23 +16,30 @@ public class LightLevel extends PlayerVariable {
     }
 
     @Override
-    public void update(TickEvent event) {
-        int x, y, z;
+    public boolean update(TickEvent event) {
+        int x, y, z, newValue;
         x = (int) mPlayer.posX;
         y = (int) mPlayer.posY;
         z = (int) mPlayer.posZ;
+        newValue = 0;
         switch (mType) {
             case SUN:
-                mValue = (int) (mWorld.getSavedLightValue(EnumSkyBlock.Sky, x, y, z) * mWorld.getSunBrightness(1.5f));
+                newValue = (int) (mWorld.getSavedLightValue(EnumSkyBlock.Sky, x, y, z) * mWorld.getSunBrightness(1.5f));
                 break;
             case LAMP:
-                mValue = mWorld.getSavedLightValue(EnumSkyBlock.Block, x, y, z);
+                newValue = mWorld.getSavedLightValue(EnumSkyBlock.Block, x, y, z);
                 break;
             case TOTAL:
-                mValue = mWorld.getBlockLightValue(x, y, z);
+                newValue = mWorld.getBlockLightValue(x, y, z);
+                break;
+            case MAXSUN:
+                newValue = (int) (mWorld.getSavedLightValue(EnumSkyBlock.Sky, x, y, z));
                 break;
         }
+        boolean updated = (mValue != newValue);
+        mValue = newValue;
+        return updated;
     }
 
-    public enum LightTypes {SUN, LAMP, TOTAL}
+    public enum LightTypes {SUN, LAMP, TOTAL, MAXSUN}
 }

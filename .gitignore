@@ -10,3 +10,6 @@ options.txt
 usernamecache.json
 *.iws
 crash-reports/
+forge.cfg
+forgeChunkLoading.cfg
+splash.properties

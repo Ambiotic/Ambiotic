@@ -5,6 +5,8 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.variables.PlayerVariable;
 import net.graphich.ambiotic.variables.Variable;
+import org.python.core.PyObject;
+import org.python.util.PythonInterpreter;
 
 import java.util.*;
 
@@ -18,10 +20,12 @@ public class VariableRegistry {
     protected HashMap<TickRate, List<Variable>> mUpdates;
     protected HashMap<String, Variable> mVariableLookup;
     protected boolean mFrozen;
+    protected PythonInterpreter mScriptEnv;
 
     protected VariableRegistry() {
         mUpdates = new HashMap<TickRate, List<Variable>>();
         mVariableLookup = new HashMap<String, Variable>();
+        mScriptEnv = new PythonInterpreter();
     }
 
     public static VariableRegistry instance() {
@@ -78,15 +82,26 @@ public class VariableRegistry {
     public void onTick(TickEvent event) {
         if (mUpdates == null || !mFrozen)
             return;
-
+        StringBuilder code = new StringBuilder();
+        boolean updated = false;
         for (TickRate rate : mUpdates.keySet()) {
             rate.tick();
             if (rate.trigger()) {
                 for (Variable var : mUpdates.get(rate)) {
-                    var.update(event);
+                    if(var.update(event))
+                    {
+                        updated = true;
+                        code.append(var.pycode());
+                    }
                 }
             }
         }
+        if (updated)
+            mScriptEnv.exec(code.toString());
+        /** How to use mScriptEnv to eval conditons
+         PyObject thing = mScriptEnv.eval("TimeOfDay <= 30");
+         System.out.println("Time of Day : "+thing.__int__());
+         */
     }
 
     @SubscribeEvent
@@ -98,6 +113,16 @@ public class VariableRegistry {
             }
         }
         freeze();
+    }
+
+    protected void initScriptEnv()
+    {
+        StringBuilder code = new StringBuilder();
+        for (Variable v : mVariableLookup.values())
+        {
+            code.append(v.pycode());
+        }
+        mScriptEnv.exec(code.toString());
     }
 
     /**

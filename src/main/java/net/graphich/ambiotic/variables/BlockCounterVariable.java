@@ -21,13 +21,16 @@ public class BlockCounterVariable extends Variable {
     }
 
     @Override
-    public void update(TickEvent event) {
-        mValue = 0;
+    public boolean update(TickEvent event) {
+        int newValue = 0;
         if (mScanner == null)
-            return;
+            return false;
         for (Integer id : mBlockIds) {
-            mValue += mScanner.getCount(id);
+            newValue += mScanner.getCount(id);
         }
+        boolean updated = (newValue != mValue);
+        mValue = newValue;
+        return updated;
     }
 
     public void addBlockIds(List<Integer> blockIds) {

@@ -12,7 +12,10 @@ public class TimeOfDay extends PlayerVariable {
     }
 
     @Override
-    public void update(TickEvent event) {
-        mValue = (int) (mWorld.getWorldInfo().getWorldTime() % 23000);
+    public boolean update(TickEvent event) {
+        int newValue = (int) (mWorld.getWorldInfo().getWorldTime() % 23000);
+        boolean updated = (mValue != newValue);
+        mValue = newValue;
+        return updated;
     }
 }

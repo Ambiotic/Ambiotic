@@ -15,7 +15,7 @@ public abstract class Variable {
         mName = name;
     }
 
-    public abstract void update(TickEvent event);
+    public abstract boolean update(TickEvent event);
 
     public int value() {
         return mValue;
@@ -25,5 +25,6 @@ public abstract class Variable {
         return mName;
     }
 
+    public String pycode() { return mName+" = "+mValue+"\n"; }
 
 }

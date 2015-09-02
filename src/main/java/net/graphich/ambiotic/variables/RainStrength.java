@@ -15,7 +15,11 @@ public class RainStrength extends PlayerVariable {
     }
 
     @Override
-    public void update(TickEvent event) {
-        mValue = (int) mWorld.getWeightedThunderStrength(0f) * mScalar;
+    public boolean update(TickEvent event)
+    {
+        int newValue = (int) mWorld.getWeightedThunderStrength(0f) * mScalar;
+        boolean updated = (newValue != mValue);
+        mValue = newValue;
+        return updated;
     }
 }

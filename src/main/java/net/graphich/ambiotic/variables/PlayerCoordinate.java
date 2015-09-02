@@ -15,21 +15,25 @@ public class PlayerCoordinate extends PlayerVariable {
     }
 
     @Override
-    public void update(TickEvent event) {
+    public boolean update(TickEvent event) {
+        int newValue = 0;
         switch (mCoordinate) {
             case X:
-                mValue = (int) mPlayer.posX;
+                newValue = (int) mPlayer.posX;
                 break;
             case Y:
-                mValue = (int) mPlayer.posY;
+                newValue = (int) mPlayer.posY;
                 break;
             case Z:
-                mValue = (int) mPlayer.posZ;
+                newValue = (int) mPlayer.posZ;
                 break;
             case DIM:
-                mValue = mPlayer.dimension;
+                newValue = mPlayer.dimension;
                 break;
         }
+        boolean updated = (newValue != mValue);
+        mValue = newValue;
+        return updated;
     }
 
     public enum Coordinates {X, Y, Z, DIM}

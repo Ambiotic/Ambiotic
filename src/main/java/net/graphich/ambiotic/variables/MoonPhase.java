@@ -12,7 +12,11 @@ public class MoonPhase extends PlayerVariable {
     }
 
     @Override
-    public void update(TickEvent event) {
-        mValue = mWorld.getMoonPhase();
+    public boolean update(TickEvent event)
+    {
+        int newValue = mWorld.getMoonPhase();
+        boolean updated = (newValue != mValue);
+        mValue = newValue;
+        return updated;
     }
 }
