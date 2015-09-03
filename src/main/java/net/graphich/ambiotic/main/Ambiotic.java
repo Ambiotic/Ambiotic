@@ -10,6 +10,8 @@ import net.graphich.ambiotic.registries.ScannerRegistry;
 import net.graphich.ambiotic.registries.VariableRegistry;
 import net.graphich.ambiotic.scanners.BlockScanner;
 import net.graphich.ambiotic.variables.*;
+import net.minecraft.command.ICommand;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import org.json.simple.parser.JSONParser;
@@ -30,12 +32,11 @@ public class Ambiotic {
 
     private Configuration mConfiguration;
     private org.apache.logging.log4j.Logger mLogger;
-    private PythonInterpreter mPyInterp = new PythonInterpreter();
+    private PythonInterpreter mScriptEnv = new PythonInterpreter();
 
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-
         FMLCommonHandler.instance().bus().register(VariableRegistry.INSTANCE);
         MinecraftForge.EVENT_BUS.register(VariableRegistry.INSTANCE);
 
@@ -151,6 +152,8 @@ public class Ambiotic {
         vr.register(new RainStrength("RainStrength", scale), ticksPerUpdate);
         vr.register(new ThunderStrength("ThunderStrength", scale), ticksPerUpdate);
         vr.register(new TimeOfDay("TimeOfDay"), 480);
+        mScriptEnv = new PythonInterpreter();
+        vr.initScriptEnv(mScriptEnv);
     }
 
     protected void initScanners() {

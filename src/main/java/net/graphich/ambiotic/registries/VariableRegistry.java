@@ -25,7 +25,7 @@ public class VariableRegistry {
     protected VariableRegistry() {
         mUpdates = new HashMap<TickRate, List<Variable>>();
         mVariableLookup = new HashMap<String, Variable>();
-        mScriptEnv = new PythonInterpreter();
+        mScriptEnv = null;
     }
 
     public List<String> names() {
@@ -111,8 +111,9 @@ public class VariableRegistry {
         freeze();
     }
 
-    protected void initScriptEnv()
+    public void initScriptEnv(PythonInterpreter scriptEnv)
     {
+        mScriptEnv = scriptEnv;
         StringBuilder code = new StringBuilder();
         for (Variable v : mVariableLookup.values())
         {
