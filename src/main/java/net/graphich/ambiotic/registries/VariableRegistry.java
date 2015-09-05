@@ -1,13 +1,21 @@
 package net.graphich.ambiotic.registries;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import net.graphich.ambiotic.main.Ambiotic;
+import net.graphich.ambiotic.errors.JsonError;
 import net.graphich.ambiotic.variables.PlayerVariable;
 import net.graphich.ambiotic.variables.Variable;
-import org.python.core.PyObject;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 import org.python.util.PythonInterpreter;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -34,6 +42,35 @@ public class VariableRegistry {
         return names;
     }
 
+    public void load() {
+        ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/variables.json");
+        JsonParser parser = new JsonParser();
+        JsonObject json = null;
+        Ambiotic.logger().info("Loading variables file '" + rl + "'");
+        try {
+            InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(rl).getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            json = parser.parse(isr).getAsJsonObject();
+        } catch (Exception ex) {
+            Ambiotic.logger().error("Error reading '" + rl + "' : " + ex.getMessage());
+            return;
+        }
+        for(Map.Entry<String, JsonElement> variable : json.entrySet()) {
+            String name = variable.getKey();
+            Ambiotic.logger().info("Loading variable '"+name+"'");
+            if(!variable.getValue().isJsonObject()) {
+                Ambiotic.logger().warn("Skipping variable '" + name + "' it is not an object");
+                continue;
+            }
+            try {
+                Variable var = Variable.deserialize(name,variable.getValue().getAsJsonObject());
+                register(var); // Need to desiralize ticks
+            } catch(JsonError ex) {
+                Ambiotic.logger().warn("Skipping variable '"+name+"' : "+ex.getMessage());
+            }
+        }
+    }
+
     public int value(String name) {
         Variable var = mVariableLookup.get(name);
         if (var != null) {
@@ -44,7 +81,7 @@ public class VariableRegistry {
         }
     }
 
-    public void register(Variable variable, int ticksPerUpdate) {
+    public void register(Variable variable) {
         if (mFrozen) {
             //Log? Exception?
             return;
@@ -53,7 +90,7 @@ public class VariableRegistry {
             //Log? Exception?
             return;
         }
-        ticksPerUpdate = Math.abs(ticksPerUpdate);
+        int ticksPerUpdate = variable.ticksPerUpdate();
         TickRate key = new TickRate(ticksPerUpdate);
         if (!mUpdates.containsKey(key)) {
             mUpdates.put(key, new ArrayList<Variable>());

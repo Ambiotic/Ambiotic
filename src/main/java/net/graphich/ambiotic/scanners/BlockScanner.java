@@ -2,16 +2,16 @@ package net.graphich.ambiotic.scanners;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.registry.GameData;
-import net.graphich.ambiotic.main.AmbioticJsonError;
+import net.graphich.ambiotic.errors.JsonError;
+import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
+import net.graphich.ambiotic.errors.JsonMissingRequiredField;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -45,7 +45,7 @@ public class BlockScanner {
     protected int mLastZ = 0;
     protected int mLastDimension = 0;
 
-    public static BlockScanner deserialize(String name, JsonObject json) throws AmbioticJsonError {
+    public static BlockScanner deserialize(String name, JsonObject json) throws JsonError {
         int xs = 0;
         int ys = 0;
         int zs = 0;
@@ -53,32 +53,32 @@ public class BlockScanner {
         JsonElement cur = null;
 
         if(!json.has("XSize"))
-            throw new AmbioticJsonError("Missing required element XSize");
+            throw new JsonMissingRequiredField("XSize");
         if(!json.has("YSize"))
-            throw new AmbioticJsonError("Missing required element YSize");
+            throw new JsonMissingRequiredField("YSize");
         if(!json.has("ZSize"))
-            throw new AmbioticJsonError("Missing required element ZSize");
+            throw new JsonMissingRequiredField("ZSize");
 
         cur = json.get("XSize");
         if(!cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isNumber())
-            throw new AmbioticJsonError("Invalid XSize value");
+            throw new JsonInvalidTypeForField("XSize","integer");
         xs = json.get("XSize").getAsInt();
         if(xs <= 0)
-            throw new AmbioticJsonError("XSize must be greater than zero.");
+            throw new JsonError("XSize must be greater than zero.");
 
         cur = json.get("YSize");
         if(!cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isNumber())
-            throw new AmbioticJsonError("Invalid YSize value");
+            throw new JsonInvalidTypeForField("YSize","integer");
         ys = json.get("YSize").getAsInt();
         if(ys <= 0)
-            throw new AmbioticJsonError("YSize must be greater than zero.");
+            throw new JsonError("YSize must be greater than zero.");
 
         cur = json.get("ZSize");
         if(!cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isNumber())
-            throw new AmbioticJsonError("Invalid ZSize value");
+            throw new JsonInvalidTypeForField("ZSize","integer");
         zs = json.get("ZSize").getAsInt();
         if(zs <= 0)
-            throw new AmbioticJsonError("ZSize must be greater than zero.");
+            throw new JsonError("ZSize must be greater than zero.");
 
         // I might make blocks per tick configurable at some point
         bpt = (xs*ys*zs)/4;

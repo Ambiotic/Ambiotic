@@ -1,14 +1,18 @@
 package net.graphich.ambiotic.variables;
 
+import com.google.gson.JsonObject;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import net.graphich.ambiotic.errors.JsonError;
 
 /**
  * At the player's current coordinates in the world, can she be rained on?
  */
-public class CanRainOn extends PlayerVariable {
+public final class CanRainOn extends PlayerVariable {
     public CanRainOn(String name) {
         super(name);
     }
+
+    public CanRainOn(String name, JsonObject json) throws JsonError { super(name, json); }
 
     @Override
     public boolean update(TickEvent event) {
