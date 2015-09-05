@@ -3,7 +3,6 @@ package net.graphich.ambiotic.main;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.graphich.ambiotic.registries.ScannerRegistry;
@@ -16,9 +15,8 @@ import net.minecraftforge.common.MinecraftForge;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.python.util.PythonInterpreter;
-import com.google.gson.JsonParser;
+import org.apache.logging.log4j.Logger;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -32,11 +30,18 @@ public class Ambiotic {
     public static final String NAME = "Ambiotic";
     public static final String VERSION = "0.0.1";
 
-    private org.apache.logging.log4j.Logger mLogger;
+    protected static Logger log;
+    public static Logger logger() {return Ambiotic.log;}
+
+    protected PythonInterpreter scripter;
+    public static PythonInterpreter scripter() {return Ambiotic.scripter();}
+
+    private Logger mLogger;
     private PythonInterpreter mScriptEnv;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        Ambiotic.log = event.getModLog();
         mLogger = event.getModLog();
         mScriptEnv = new PythonInterpreter();
 
@@ -45,18 +50,17 @@ public class Ambiotic {
 
         FMLCommonHandler.instance().bus().register(ScannerRegistry.INSTANCE);
         MinecraftForge.EVENT_BUS.register(ScannerRegistry.INSTANCE);
-
-        DebugGui gui = new DebugGui();
-        FMLCommonHandler.instance().bus().register(gui);
-        MinecraftForge.EVENT_BUS.register(gui);
     }
 
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        initScanners();
+        ScannerRegistry.INSTANCE.load();
         initVariables();
         initJAMs();
+        DebugGui gui = new DebugGui();
+        FMLCommonHandler.instance().bus().register(gui);
+        MinecraftForge.EVENT_BUS.register(gui);
     }
 
     protected void initJAMs() {
@@ -149,16 +153,4 @@ public class Ambiotic {
         vr.initScriptEnv(mScriptEnv);
     }
 
-    protected void initScanners() {
-        ScannerRegistry sr = ScannerRegistry.INSTANCE;
-
-        int xsize = 64;
-        int ysize = 16;
-        int zsize = 64;
-
-        BlockScanner bs = new BlockScanner((xsize * ysize * zsize) / 4, xsize, ysize, zsize);
-        sr.register("Large", bs);
-        FMLCommonHandler.instance().bus().register(bs);
-        MinecraftForge.EVENT_BUS.register(bs);
-    }
 }

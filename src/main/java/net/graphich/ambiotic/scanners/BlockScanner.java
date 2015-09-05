@@ -1,10 +1,13 @@
 package net.graphich.ambiotic.scanners;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.registry.GameData;
+import net.graphich.ambiotic.main.AmbioticJsonError;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -34,6 +37,7 @@ public class BlockScanner {
     protected int mXSize = 0;
     protected int mYSize = 0;
     protected int mZSize = 0;
+    protected String mName = "";
 
     //Last tick's player coordinates
     protected int mLastX = 0;
@@ -41,15 +45,58 @@ public class BlockScanner {
     protected int mLastZ = 0;
     protected int mLastDimension = 0;
 
-    public BlockScanner(int blocksPerTick, int xsize, int ysize, int zsize) {
+    public static BlockScanner deserialize(String name, JsonObject json) throws AmbioticJsonError {
+        int xs = 0;
+        int ys = 0;
+        int zs = 0;
+        int bpt = 0;
+        JsonElement cur = null;
+
+        if(!json.has("XSize"))
+            throw new AmbioticJsonError("Missing required element XSize");
+        if(!json.has("YSize"))
+            throw new AmbioticJsonError("Missing required element YSize");
+        if(!json.has("ZSize"))
+            throw new AmbioticJsonError("Missing required element ZSize");
+
+        cur = json.get("XSize");
+        if(!cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isNumber())
+            throw new AmbioticJsonError("Invalid XSize value");
+        xs = json.get("XSize").getAsInt();
+        if(xs <= 0)
+            throw new AmbioticJsonError("XSize must be greater than zero.");
+
+        cur = json.get("YSize");
+        if(!cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isNumber())
+            throw new AmbioticJsonError("Invalid YSize value");
+        ys = json.get("YSize").getAsInt();
+        if(ys <= 0)
+            throw new AmbioticJsonError("YSize must be greater than zero.");
+
+        cur = json.get("ZSize");
+        if(!cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isNumber())
+            throw new AmbioticJsonError("Invalid ZSize value");
+        zs = json.get("ZSize").getAsInt();
+        if(zs <= 0)
+            throw new AmbioticJsonError("ZSize must be greater than zero.");
+
+        // I might make blocks per tick configurable at some point
+        bpt = (xs*ys*zs)/4;
+        return new BlockScanner(name,bpt,xs,ys,zs);
+    }
+
+    public BlockScanner(String name, int blocksPerTick, int xsize, int ysize, int zsize) {
         mBlocksPerTick = blocksPerTick;
         mCounts = new HashMap<Integer, Integer>();
         mScanFinished = false;
         mXSize = xsize;
         mYSize = ysize;
         mZSize = zsize;
+        mName = name;
         //Important variables set onLogin event
     }
+
+    public int size() { return mXSize*mYSize*mZSize; }
 
     //Key in this case is OreDictionary Key or a BlockRegistry Key
     public ArrayList<Integer> registerBlocks(String key) {
@@ -170,7 +217,6 @@ public class BlockScanner {
         }
         mPlayer = event.player;
         resetFullScan();
-
     }
 
     @SubscribeEvent
