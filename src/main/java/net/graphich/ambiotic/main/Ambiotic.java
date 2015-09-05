@@ -10,24 +10,26 @@ import net.graphich.ambiotic.registries.ScannerRegistry;
 import net.graphich.ambiotic.registries.VariableRegistry;
 import net.graphich.ambiotic.scanners.BlockScanner;
 import net.graphich.ambiotic.variables.*;
-import net.minecraft.command.ICommand;
-import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.python.util.PythonInterpreter;
+import com.google.gson.JsonParser;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@Mod(modid = Ambiotic.MODID, version = Ambiotic.VERSION)
+@Mod(modid = Ambiotic.MODID, version = Ambiotic.VERSION, name = Ambiotic.NAME)
 public class Ambiotic {
 
-    public static final String MODID = "Ambiotic";
+    public static final String MODID = "ambiotic";
+    public static final String NAME = "Ambiotic";
     public static final String VERSION = "0.0.1";
 
     private org.apache.logging.log4j.Logger mLogger;
@@ -61,25 +63,24 @@ public class Ambiotic {
     }
 
     protected void initJAMs() {
-        String[] jamPaths = new String[]{"config/default.jam"};
+        String jamPath = "assets/"+Ambiotic.MODID+"/config/default.jam";
         JSONParser parser = new JSONParser();
-        for (String jamPath : jamPaths) {
-            parser.reset();
-            Map json = null;
-            try {
-                json = (Map) parser.parse(new FileReader(jamPath));
-            } catch (IOException ex) {
-                mLogger.warn("Skipping '" + jamPath + "' IO Error: " + ex.getMessage());
-                continue;
-            } catch (ParseException ex) {
-                mLogger.warn("Skipping '" + jamPath + "' Parse Error: " + ex.getMessage());
-                continue;
-            }
-            Map variableDefs = (Map) json.get("Variables");
-            if (variableDefs != null) {
-                // We parse block counters first
-                parseBlockCounters(variableDefs);
-            }
+        ResourceLocation loc = new ResourceLocation(Ambiotic.MODID,"config/default.jam");
+        Map json = null;
+        try {
+            InputStreamReader reader = new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(loc).getInputStream());
+            json = (Map) parser.parse(reader);
+        } catch (IOException ex) {
+            mLogger.warn("Skipping '" + jamPath + "' IO Error: " + ex.getMessage());
+            return;
+        } catch (ParseException ex) {
+            mLogger.warn("Skipping '" + jamPath + "' Parse Error: " + ex.getMessage());
+            return;
+        }
+        Map variableDefs = (Map) json.get("Variables");
+        if (variableDefs != null) {
+            // We parse block counters first
+            parseBlockCounters(variableDefs);
         }
     }
 
