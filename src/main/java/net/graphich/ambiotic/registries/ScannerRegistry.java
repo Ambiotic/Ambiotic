@@ -44,13 +44,13 @@ public class ScannerRegistry {
         ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/scanners.json");
         JsonParser parser = new JsonParser();
         JsonObject json = null;
-        Ambiotic.logger().info("Loading scanners file '"+rl.getResourcePath()+"'");
+        Ambiotic.logger().info("Loading scanners file '"+rl+"'");
         try {
             InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(rl).getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
             json = parser.parse(isr).getAsJsonObject();
         } catch (Exception ex) {
-            Ambiotic.logger().error("Error reading '"+rl.getResourcePath()+"' : "+ex.getMessage());
+            Ambiotic.logger().error("Error reading '"+rl+"' : "+ex.getMessage());
             return;
         }
         for(Map.Entry<String, JsonElement> scanner : json.entrySet())
