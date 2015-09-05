@@ -63,9 +63,9 @@ public class Ambiotic {
     }
 
     protected void initJAMs() {
-        String jamPath = "assets/"+Ambiotic.MODID+"/config/default.jam";
+        String jamPath = "assets/"+Ambiotic.MODID+"/config/variables.json";
         JSONParser parser = new JSONParser();
-        ResourceLocation loc = new ResourceLocation(Ambiotic.MODID,"config/default.jam");
+        ResourceLocation loc = new ResourceLocation(Ambiotic.MODID,"config/variables.json");
         Map json = null;
         try {
             InputStreamReader reader = new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(loc).getInputStream());
