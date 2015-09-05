@@ -33,11 +33,13 @@ public class Ambiotic {
     public static final String VERSION = "0.0.1";
 
     private org.apache.logging.log4j.Logger mLogger;
-    private PythonInterpreter mScriptEnv = new PythonInterpreter();
-
+    private PythonInterpreter mScriptEnv;
 
     @EventHandler
-    public void init(FMLInitializationEvent event) {
+    public void preInit(FMLPreInitializationEvent event) {
+        mLogger = event.getModLog();
+        mScriptEnv = new PythonInterpreter();
+
         FMLCommonHandler.instance().bus().register(VariableRegistry.INSTANCE);
         MinecraftForge.EVENT_BUS.register(VariableRegistry.INSTANCE);
 
@@ -47,11 +49,6 @@ public class Ambiotic {
         DebugGui gui = new DebugGui();
         FMLCommonHandler.instance().bus().register(gui);
         MinecraftForge.EVENT_BUS.register(gui);
-    }
-
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        mLogger = event.getModLog();
     }
 
 
