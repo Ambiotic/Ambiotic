@@ -1,0 +1,13 @@
+{
+    "forestbird" : {
+        "category" : "master",
+        "sounds" : [
+            "bird1",
+            "bird2",
+            "bird3",
+            "bird4",
+            "bird5",
+            "bird6"
+        ]
+    }
+}

@@ -10,33 +10,36 @@ import net.graphich.ambiotic.registries.ScannerRegistry;
 import net.graphich.ambiotic.registries.VariableRegistry;
 import net.graphich.ambiotic.scanners.BlockScanner;
 import net.graphich.ambiotic.variables.*;
-import net.minecraft.command.ICommand;
-import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.python.util.PythonInterpreter;
+import com.google.gson.JsonParser;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@Mod(modid = Ambiotic.MODID, version = Ambiotic.VERSION)
+@Mod(modid = Ambiotic.MODID, version = Ambiotic.VERSION, name = Ambiotic.NAME)
 public class Ambiotic {
 
-    public static final String MODID = "Ambiotic";
+    public static final String MODID = "ambiotic";
+    public static final String NAME = "Ambiotic";
     public static final String VERSION = "0.0.1";
 
-    private Configuration mConfiguration;
     private org.apache.logging.log4j.Logger mLogger;
-    private PythonInterpreter mScriptEnv = new PythonInterpreter();
-
+    private PythonInterpreter mScriptEnv;
 
     @EventHandler
-    public void init(FMLInitializationEvent event) {
+    public void preInit(FMLPreInitializationEvent event) {
+        mLogger = event.getModLog();
+        mScriptEnv = new PythonInterpreter();
+
         FMLCommonHandler.instance().bus().register(VariableRegistry.INSTANCE);
         MinecraftForge.EVENT_BUS.register(VariableRegistry.INSTANCE);
 
@@ -48,13 +51,6 @@ public class Ambiotic {
         MinecraftForge.EVENT_BUS.register(gui);
     }
 
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        mLogger = event.getModLog();
-        mConfiguration = new Configuration(event.getSuggestedConfigurationFile());
-        mConfiguration.load();
-    }
-
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
@@ -64,27 +60,24 @@ public class Ambiotic {
     }
 
     protected void initJAMs() {
-        String[] jamPaths = new String[]{"config/default.jam"};
-        jamPaths = mConfiguration.getStringList("JAMPaths","Variables", jamPaths, "A list of file paths to JSON encoded ambiotic machine configurations.");
-        mConfiguration.save();
+        String jamPath = "assets/"+Ambiotic.MODID+"/config/variables.json";
         JSONParser parser = new JSONParser();
-        for (String jamPath : jamPaths) {
-            parser.reset();
-            Map json = null;
-            try {
-                json = (Map) parser.parse(new FileReader(jamPath));
-            } catch (IOException ex) {
-                mLogger.warn("Skipping '" + jamPath + "' IO Error: " + ex.getMessage());
-                continue;
-            } catch (ParseException ex) {
-                mLogger.warn("Skipping '" + jamPath + "' Parse Error: " + ex.getMessage());
-                continue;
-            }
-            Map variableDefs = (Map) json.get("Variables");
-            if (variableDefs != null) {
-                // We parse block counters first
-                parseBlockCounters(variableDefs);
-            }
+        ResourceLocation loc = new ResourceLocation(Ambiotic.MODID,"config/variables.json");
+        Map json = null;
+        try {
+            InputStreamReader reader = new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(loc).getInputStream());
+            json = (Map) parser.parse(reader);
+        } catch (IOException ex) {
+            mLogger.warn("Skipping '" + jamPath + "' IO Error: " + ex.getMessage());
+            return;
+        } catch (ParseException ex) {
+            mLogger.warn("Skipping '" + jamPath + "' Parse Error: " + ex.getMessage());
+            return;
+        }
+        Map variableDefs = (Map) json.get("Variables");
+        if (variableDefs != null) {
+            // We parse block counters first
+            parseBlockCounters(variableDefs);
         }
     }
 
@@ -133,8 +126,8 @@ public class Ambiotic {
 
     protected void initVariables() {
         //Need to read from main config;
-        int ticksPerUpdate = mConfiguration.get("Variables", "TicksPerUpdate", 1).getInt();
-        int scale = mConfiguration.get("Variables", "Scalar", 1000).getInt();
+        int ticksPerUpdate = 1;
+        int scale = 1000;
 
         VariableRegistry vr = VariableRegistry.INSTANCE;
         vr.register(new CanRainOn("CanRainOn"), ticksPerUpdate);
@@ -159,10 +152,9 @@ public class Ambiotic {
     protected void initScanners() {
         ScannerRegistry sr = ScannerRegistry.INSTANCE;
 
-        int xsize = mConfiguration.get("Scanners", "LargeX", 64).getInt();
-        int ysize = mConfiguration.get("Scanners", "LargeY", 16).getInt();
-        int zsize = mConfiguration.get("Scanners", "LargeZ", 64).getInt();
-        mConfiguration.save();
+        int xsize = 64;
+        int ysize = 16;
+        int zsize = 64;
 
         BlockScanner bs = new BlockScanner((xsize * ysize * zsize) / 4, xsize, ysize, zsize);
         sr.register("Large", bs);
