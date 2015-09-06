@@ -20,10 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by jim on 9/14/2014.
- */
-public class BlockScanner {
+public final class BlockScanner {
 
     protected HashMap<Integer, Integer> mCounts;
     protected EntityPlayer mPlayer;
@@ -93,8 +90,9 @@ public class BlockScanner {
         mYSize = ysize;
         mZSize = zsize;
         mName = name;
-        //Important variables set onLogin event
     }
+
+    public String name() { return mName; }
 
     public int size() { return mXSize*mYSize*mZSize; }
 

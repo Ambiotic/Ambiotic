@@ -26,8 +26,9 @@ public class ScannerRegistry {
         mScanners = new HashMap<String, BlockScanner>();
     }
 
-    public void register(String name, BlockScanner scanner) {
-        if (mScanners.containsKey(name)) {
+    public void register(BlockScanner scanner) {
+        String name = scanner.name();
+        if(mScanners.containsKey(name)) {
             //Log? Exception?
             return;
         }
@@ -57,12 +58,17 @@ public class ScannerRegistry {
             }
             try {
                 BlockScanner bs = BlockScanner.deserialize(name,scanner.getValue().getAsJsonObject());
-                register(name,bs);
-                FMLCommonHandler.instance().bus().register(bs);
-                MinecraftForge.EVENT_BUS.register(bs);
+                register(bs);
             } catch(JsonError ex) {
                 Ambiotic.logger().warn("Skipping scanner '"+name+"' : "+ex.getMessage());
             }
+        }
+    }
+
+    public void subscribeAll() {
+        for(BlockScanner scanner : mScanners.values()) {
+            FMLCommonHandler.instance().bus().register(scanner);
+            MinecraftForge.EVENT_BUS.register(scanner);
         }
     }
 

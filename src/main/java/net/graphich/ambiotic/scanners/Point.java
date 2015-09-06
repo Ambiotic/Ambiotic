@@ -1,8 +1,5 @@
 package net.graphich.ambiotic.scanners;
 
-/**
- * Created by Jim on 9/4/2014.
- */
 public class Point {
     public int x;
     public int y;

@@ -17,9 +17,6 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import org.lwjgl.input.Keyboard;
 
-/**
- * Created by jim on 9/11/2014.
- */
 public class DebugGui extends GuiScreen {
 
     // Rendering variables

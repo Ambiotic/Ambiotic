@@ -3,6 +3,7 @@ package net.graphich.ambiotic.registries;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -11,6 +12,7 @@ import net.graphich.ambiotic.errors.JsonError;
 import net.graphich.ambiotic.variables.Variable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import org.python.util.PythonInterpreter;
 
 import java.io.InputStream;
@@ -26,7 +28,7 @@ public class VariableRegistry {
 
     protected HashMap<TickRate, List<Variable>> mUpdates;
     protected HashMap<String, Variable> mVariableLookup;
-    protected boolean mFrozen;
+    protected boolean mFrozen = false;
 
     protected VariableRegistry() {
         mUpdates = new HashMap<TickRate, List<Variable>>();
@@ -56,7 +58,7 @@ public class VariableRegistry {
             String name = variable.getKey();
             Ambiotic.logger().info("Loading variable '"+name+"'");
             if(!variable.getValue().isJsonObject()) {
-                Ambiotic.logger().warn("Skipping variable '" + name + "' it is not an object");
+                Ambiotic.logger().warn("Skipping variable '" + name + "': it is not a JSON object");
                 continue;
             }
             try {
@@ -66,6 +68,12 @@ public class VariableRegistry {
                 Ambiotic.logger().warn("Skipping variable '"+name+"' : "+ex.getMessage());
             }
         }
+    }
+
+    public void subscribeAll() {
+        //To reduce congestion, variables only have update() called from this classes onTick()
+        FMLCommonHandler.instance().bus().register(VariableRegistry.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(VariableRegistry.INSTANCE);
     }
 
     public int value(String name) {
@@ -148,10 +156,6 @@ public class VariableRegistry {
         Ambiotic.scripter().exec(code.toString());
     }
 
-    /**
-     * Used to track when certain variables should have
-     * update() called.
-     */
     protected class TickRate {
         private int mTicksSinceTrigger = -1;
         private int mTicksPerTrigger = 1;

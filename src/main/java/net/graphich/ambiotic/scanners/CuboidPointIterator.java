@@ -1,8 +1,5 @@
 package net.graphich.ambiotic.scanners;
 
-/**
- * Created by jim on 9/14/2014.
- */
 public class CuboidPointIterator extends Cuboid implements PointIterator {
 
     protected Point mCurrent;
