@@ -1,3 +1,7 @@
 {
-
+  "Large" : {
+    "XSize" : 64,
+    "YSize" : 16,
+    "ZSize" : 64
+  }
 }

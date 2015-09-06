@@ -1,19 +1,90 @@
 {
-    "Variables" : {
-        "Foliage" : {
-            "Type" : "BlockCounter",
-            "Scanner" : "Large",
-            "Blocks" : [
-                "treeLeaves",
-                "logWood"
-            ]
-        }
-        "TestCounter" : {
-            "Type" : "BlockCounter",
-            "Scanner" : "Large",
-            "Blocks" : [
-                "minecraft:stone"
-            ]
-        }
+    "TimeOfDay" : {
+        "Type" : "GameTime",
+        "Modulus" : 23000,
+        "TicksPerUpdate" : 480
+    },
+
+    "Raining" : {
+        "Type" : "IsRaining"
+    },
+
+    "ThunderStrength" : {
+        "Type" : "ThunderStrength",
+        "Scalar" : 1000
+    },
+
+    "RainStrength" : {
+        "Type" : "RainStrength",
+        "Scalar" : 1000
+    },
+
+    "PlayerX" : {
+        "Type" : "PlayerCoordinate",
+        "SubType" : "X"
+    },
+
+    "PlayerY" : {
+        "Type" : "PlayerCoordinate",
+        "SubType" : "Y"
+    },
+
+    "PlayerZ" : {
+        "Type" : "PlayerCoordinate",
+        "SubType" : "Z"
+    },
+
+    "PlayerDIM" : {
+        "Type" : "PlayerCoordinate",
+        "SubType" : "DIM"
+    },
+
+    "MoonPhase" : {
+        "Type" : "MoonPhase"
+    },
+
+    "SunLevel" : {
+        "Type" : "LightLevel",
+        "SubType" : "SUN"
+    },
+
+    "TorchLevel" : {
+        "Type" : "LightLevel",
+        "SubType" : "LAMP"
+    },
+
+    "LightLevel" : {
+        "Type" : "LightLevel",
+        "SubType" : "TOTAL"
+    },
+
+    "MaxSun" : {
+        "Type" : "LightLevel",
+        "SubType" : "MAXSUN"
+    },
+
+    "CanRainOn" : {
+        "Type" : "CanRainOn"
+    },
+
+    "CanSeeSky" : {
+        "Type" : "CanSeeSky"
+    },
+
+    "Foliage" : {
+        "Type" : "BlockCounter",
+        "Scanner" : "Large",
+        "Blocks" : [
+            "treeLeaves",
+            "logWood"
+        ]
+    },
+
+    "TestCounter" : {
+        "Type" : "BlockCounter",
+        "Scanner" : "Large",
+        "Blocks" : [
+            "minecraft:stone"
+        ]
     }
 }

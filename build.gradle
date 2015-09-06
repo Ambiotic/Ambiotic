@@ -47,7 +47,7 @@ processResources
 }
 
 jar {
-    from { configurations.external.collect { it.isDirectory() ? it : zipTree(it) } }
+    //from { configurations.external.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 configurations {
@@ -57,5 +57,4 @@ configurations {
 
 dependencies {
     external 'org.python:jython-standalone:2.5.2'
-    external 'com.googlecode.json-simple:json-simple:1.1.1'
 }
