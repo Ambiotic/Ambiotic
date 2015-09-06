@@ -47,7 +47,7 @@ processResources
 }
 
 jar {
-    //from { configurations.external.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.external.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 configurations {

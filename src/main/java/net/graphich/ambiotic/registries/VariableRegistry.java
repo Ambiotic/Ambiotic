@@ -27,12 +27,10 @@ public class VariableRegistry {
     protected HashMap<TickRate, List<Variable>> mUpdates;
     protected HashMap<String, Variable> mVariableLookup;
     protected boolean mFrozen;
-    protected PythonInterpreter mScriptEnv;
 
     protected VariableRegistry() {
         mUpdates = new HashMap<TickRate, List<Variable>>();
         mVariableLookup = new HashMap<String, Variable>();
-        mScriptEnv = null;
     }
 
     public List<String> names() {
@@ -129,7 +127,7 @@ public class VariableRegistry {
             }
         }
         if (updated)
-            mScriptEnv.exec(code.toString());
+            Ambiotic.scripter().exec(code.toString());
         /** How to use mScriptEnv to eval conditons
          PyObject thing = mScriptEnv.eval("TimeOfDay <= 30");
          System.out.println("Time of Day : "+thing.__int__());
@@ -138,24 +136,16 @@ public class VariableRegistry {
 
     @SubscribeEvent
     public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        // Bind player variables to player and freeze, no more variables can be registered
-/*        for (Variable v : mVariableLookup.values()) {
-            if (v instanceof PlayerVariable) {
-                ((PlayerVariable) v).setPlayer(event.player);
-            }
-        }*/
         freeze();
     }
 
-    public void initScriptEnv(PythonInterpreter scriptEnv)
-    {
-        mScriptEnv = scriptEnv;
+    public void refreshScripter() {
         StringBuilder code = new StringBuilder();
         for (Variable v : mVariableLookup.values())
         {
             code.append(v.pycode());
         }
-        mScriptEnv.exec(code.toString());
+        Ambiotic.scripter().exec(code.toString());
     }
 
     /**
