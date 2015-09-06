@@ -6,11 +6,13 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.errors.JsonError;
 import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
 import net.graphich.ambiotic.errors.JsonMissingRequiredField;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * Related to player's coordinates in space.
  */
-public class PlayerCoordinate extends PlayerVariable {
+public final class PlayerCoordinate extends Variable {
 
     protected Coordinates mCoordinate;
 
@@ -43,18 +45,21 @@ public class PlayerCoordinate extends PlayerVariable {
     @Override
     public boolean update(TickEvent event) {
         int newValue = 0;
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        if(player == null)
+            return false;
         switch (mCoordinate) {
             case X:
-                newValue = (int) mPlayer.posX;
+                newValue = (int) player.posX;
                 break;
             case Y:
-                newValue = (int) mPlayer.posY;
+                newValue = (int) player.posY;
                 break;
             case Z:
-                newValue = (int) mPlayer.posZ;
+                newValue = (int) player.posZ;
                 break;
             case DIM:
-                newValue = mPlayer.dimension;
+                newValue = player.dimension;
                 break;
         }
         boolean updated = (newValue != mValue);

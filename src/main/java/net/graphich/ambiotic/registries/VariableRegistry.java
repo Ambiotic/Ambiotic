@@ -8,7 +8,6 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.main.Ambiotic;
 import net.graphich.ambiotic.errors.JsonError;
-import net.graphich.ambiotic.variables.PlayerVariable;
 import net.graphich.ambiotic.variables.Variable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -140,11 +139,11 @@ public class VariableRegistry {
     @SubscribeEvent
     public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         // Bind player variables to player and freeze, no more variables can be registered
-        for (Variable v : mVariableLookup.values()) {
+/*        for (Variable v : mVariableLookup.values()) {
             if (v instanceof PlayerVariable) {
                 ((PlayerVariable) v).setPlayer(event.player);
             }
-        }
+        }*/
         freeze();
     }
 

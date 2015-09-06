@@ -14,8 +14,6 @@ import net.graphich.ambiotic.errors.JsonMissingRequiredField;
  */
 public abstract class Variable {
 
-    public static final int DEFAULT_UPDATE_TICKS = 1;
-
     protected String mName;
     protected int mValue = 0;
     protected int mTicksPerUpdate = 1;

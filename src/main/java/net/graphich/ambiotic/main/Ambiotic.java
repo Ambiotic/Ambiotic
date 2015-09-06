@@ -7,21 +7,10 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.graphich.ambiotic.registries.ScannerRegistry;
 import net.graphich.ambiotic.registries.VariableRegistry;
-import net.graphich.ambiotic.scanners.BlockScanner;
-import net.graphich.ambiotic.variables.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.python.util.PythonInterpreter;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Mod(modid = Ambiotic.MODID, version = Ambiotic.VERSION, name = Ambiotic.NAME)
 public class Ambiotic {

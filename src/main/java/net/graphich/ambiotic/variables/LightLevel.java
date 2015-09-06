@@ -6,12 +6,15 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.errors.JsonError;
 import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
 import net.graphich.ambiotic.errors.JsonMissingRequiredField;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.World;
 
 /**
  * Light value at player coordinates in the world, 3 types
  */
-public final class LightLevel extends PlayerVariable {
+public final class LightLevel extends Variable {
 
     LightTypes mType;
 
@@ -44,22 +47,26 @@ public final class LightLevel extends PlayerVariable {
     @Override
     public boolean update(TickEvent event) {
         int x, y, z, newValue;
-        x = (int) mPlayer.posX;
-        y = (int) mPlayer.posY;
-        z = (int) mPlayer.posZ;
+        World world = Minecraft.getMinecraft().theWorld;
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        if(world == null || player == null)
+            return false;
+        x = (int) player.posX;
+        y = (int) player.posY;
+        z = (int) player.posZ;
         newValue = 0;
         switch (mType) {
             case SUN:
-                newValue = (int) (mWorld.getSavedLightValue(EnumSkyBlock.Sky, x, y, z) * mWorld.getSunBrightness(1.5f));
+                newValue = (int) (world.getSavedLightValue(EnumSkyBlock.Sky, x, y, z) * world.getSunBrightness(1.5f));
                 break;
             case LAMP:
-                newValue = mWorld.getSavedLightValue(EnumSkyBlock.Block, x, y, z);
+                newValue = world.getSavedLightValue(EnumSkyBlock.Block, x, y, z);
                 break;
             case TOTAL:
-                newValue = mWorld.getBlockLightValue(x, y, z);
+                newValue = world.getBlockLightValue(x, y, z);
                 break;
             case MAXSUN:
-                newValue = (int) (mWorld.getSavedLightValue(EnumSkyBlock.Sky, x, y, z));
+                newValue = (int) (world.getSavedLightValue(EnumSkyBlock.Sky, x, y, z));
                 break;
         }
         boolean updated = (mValue != newValue);

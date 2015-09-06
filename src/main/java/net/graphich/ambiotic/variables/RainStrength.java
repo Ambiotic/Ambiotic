@@ -5,11 +5,13 @@ import com.google.gson.JsonObject;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.errors.JsonError;
 import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.World;
 
 /**
  * Fractional rain strength multiplied by scalar, values will be [0,scalar)
  */
-public final class RainStrength extends PlayerVariable {
+public final class RainStrength extends Variable {
 
     protected int mScalar;
 
@@ -32,7 +34,10 @@ public final class RainStrength extends PlayerVariable {
     @Override
     public boolean update(TickEvent event)
     {
-        int newValue = (int) mWorld.getWeightedThunderStrength(0f) * mScalar;
+        World world = Minecraft.getMinecraft().theWorld;
+        if(world == null)
+            return false;
+        int newValue = (int) world.getWeightedThunderStrength(0f) * mScalar;
         boolean updated = (newValue != mValue);
         mValue = newValue;
         return updated;

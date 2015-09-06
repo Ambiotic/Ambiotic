@@ -5,11 +5,13 @@ import com.google.gson.JsonObject;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.errors.JsonError;
 import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.World;
 
 /**
  * Created by jim on 9/21/2014.
  */
-public final class GameTime extends PlayerVariable {
+public final class GameTime extends Variable {
 
     private int mModulus = 1;
 
@@ -31,7 +33,10 @@ public final class GameTime extends PlayerVariable {
 
     @Override
     public boolean update(TickEvent event) {
-        int newValue = (int) (mWorld.getWorldInfo().getWorldTime() % mModulus);
+        World world = Minecraft.getMinecraft().theWorld;
+        if(world == null)
+            return false;
+        int newValue = (int) (world.getWorldInfo().getWorldTime() % mModulus);
         boolean updated = (mValue != newValue);
         mValue = newValue;
         return updated;
