@@ -47,5 +47,15 @@ public class Ambiotic {
         FMLCommonHandler.instance().bus().register(ScannerRegistry.INSTANCE);
         MinecraftForge.EVENT_BUS.register(ScannerRegistry.INSTANCE);
         VariableRegistry.INSTANCE.refreshScripter();
+
+        //For testing
+        AmbientEvent test = new AmbientEvent(
+                "Test",
+                "ambiotic:forestbird",
+                "Foliage >= 1500 and TimeOfDay <= 15000",
+                1500
+        );
+        FMLCommonHandler.instance().bus().register(test);
+        MinecraftForge.EVENT_BUS.register(test);
     }
 }
