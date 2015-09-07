@@ -12,7 +12,7 @@
             "animals/birds/bird_squeek2",
             "animals/birds/bird_squeek3"
         ]
-    }
+    },
 
     "ambient.animal.wolf_howl" : {
         "category" : "master",

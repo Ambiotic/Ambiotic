@@ -5,7 +5,7 @@
         "Conditions" : [
             "Foliage >= 1500",
             "and",
-            "TimeOfDay <= 15000",
+            "TimeOfDay <= 11500",
             "and",
             "not Raining"
         ],
@@ -16,12 +16,12 @@
         },
         "Pitch" : {
             "Type" : "Random",
-            "Min" : 0.90,
+            "Min" : 0.80,
             "Max" : 1.10
         },
         "Volume" : {
             "Type" : "Constant",
-            "Value" : 0.50
+            "Value" : 0.40
         }
     }
 }

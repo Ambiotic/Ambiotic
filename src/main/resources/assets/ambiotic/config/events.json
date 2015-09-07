@@ -1,3 +1,4 @@
 [
-    "ambiotic:config/events/day_wildlife.json"
+    "ambiotic:config/events/day_wildlife.json",
+    "ambiotic:config/events/night_wildlife.json"
 ]
