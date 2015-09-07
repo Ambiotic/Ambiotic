@@ -23,5 +23,27 @@
             "Type" : "Constant",
             "Value" : 0.40
         }
+    },
+
+    "VariousGrassBugs" : {
+        "Type" : "ScriptedSound",
+        "Sound" : "ambiotic:ambient.grassland.daynightbug",
+        "Conditions" : [
+            "Raining == 0"
+        ],
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min" : 1500,
+            "Max" : 3500
+        },
+        "Pitch" : {
+            "Type" : "Random",
+            "Min" : 0.80,
+            "Max" : 1.10
+        },
+        "Volume" : {
+            "Type" : "Constant",
+            "Value" : 0.40
+        }
     }
 }

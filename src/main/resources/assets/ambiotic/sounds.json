@@ -14,6 +14,15 @@
         ]
     },
 
+    "ambient.grassland.daynightbug" : {
+        "category" : "master",
+        "sounds" : [
+            "animals/bugs/cricket_click1",
+            "animals/bugs/cricket_click2",
+            "animals/bugs/cricket_click3"
+        ]
+    },
+
     "ambient.animal.wolf_howl" : {
         "category" : "master",
         "streaming" : "true",
