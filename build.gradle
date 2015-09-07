@@ -54,7 +54,3 @@ configurations {
     external
     compile.extendsFrom external
 }
-
-dependencies {
-    external 'org.python:jython-standalone:2.5.2'
-}

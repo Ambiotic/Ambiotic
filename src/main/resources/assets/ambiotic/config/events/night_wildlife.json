@@ -4,12 +4,12 @@
         "Sound" : "ambiotic:ambient.animal.wolf_howl",
         "Conditions" : [
             "Foliage >= 1500",
-            "and",
-            "TimeOfDay >= 16000 and TimeOfDay <= 20000",
-            "and",
+            "&&",
+            "TimeOfDay >= 16000 && TimeOfDay <= 20000",
+            "&&",
             "MoonPhase == 0",
-            "and",
-            "not Raining"
+            "&&",
+            "Raining == 0"
         ],
         "CoolDown" : {
             "Type" : "Random",

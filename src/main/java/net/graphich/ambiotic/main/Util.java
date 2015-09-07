@@ -2,9 +2,7 @@ package net.graphich.ambiotic.main;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import net.graphich.ambiotic.errors.JsonError;
-import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
 import net.graphich.ambiotic.errors.JsonInvalidTypeForListElement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -40,6 +38,6 @@ public class Util {
             line = line.trim()+" "; //We want exactly 1 trailing space
             code.append(line);
         }
-        return code.toString();
+        return "("+code.toString().trim()+");";
     }
 }

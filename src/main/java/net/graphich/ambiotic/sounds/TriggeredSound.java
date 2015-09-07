@@ -7,7 +7,6 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.errors.JsonError;
 import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
 import net.graphich.ambiotic.errors.JsonMissingRequiredField;
-import net.graphich.ambiotic.main.Ambiotic;
 import net.minecraft.client.Minecraft;
 
 public abstract class TriggeredSound {

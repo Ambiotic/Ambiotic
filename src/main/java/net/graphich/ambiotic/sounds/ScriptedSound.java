@@ -2,19 +2,15 @@ package net.graphich.ambiotic.sounds;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.errors.JsonError;
-import net.graphich.ambiotic.errors.JsonInvalidResource;
 import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
 import net.graphich.ambiotic.errors.JsonMissingRequiredField;
 import net.graphich.ambiotic.main.Ambiotic;
 import net.graphich.ambiotic.main.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import org.python.core.PyObject;
 
-import java.util.Random;
+import javax.script.ScriptException;
 
 public final class ScriptedSound extends TriggeredSound {
 
@@ -37,13 +33,18 @@ public final class ScriptedSound extends TriggeredSound {
         } catch (JsonError ex) {
             throw new JsonError("Invalid Conditions specification : "+ex.getMessage());
         }
-        Ambiotic.logger().debug("Conditions for Sound '"+name+"' : \n  "+mConditionCode);
+        Ambiotic.logger().debug("Conditions for Sound '" + name + "' : \n  " + mConditionCode);
     }
 
     public boolean play() {
-        PyObject result = Ambiotic.scripter().eval(mConditionCode);
+        Boolean canplay = false;
+        try {
+            canplay = (Boolean)Ambiotic.scripter().eval(mConditionCode);
+        } catch (ScriptException ex) {
+            Ambiotic.logger().error("Script error in Sound Event '"+mName+"' : "+ex.getMessage());
+        }
         // Conditions not met
-        if(result.asInt() <= 0)
+        if(!canplay)
             return false;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         player.playSound(mSound, mVolume.value(), mPitch.value());

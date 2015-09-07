@@ -13,8 +13,8 @@ import net.graphich.ambiotic.variables.Variable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import org.python.util.PythonInterpreter;
 
+import javax.script.ScriptException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -129,17 +129,19 @@ public class VariableRegistry {
                     if(var.update(event))
                     {
                         updated = true;
-                        code.append(var.pycode());
+                        code.append(var.jsAssignCode());
                     }
                 }
             }
         }
-        if (updated)
-            Ambiotic.scripter().exec(code.toString());
-        /** How to use mScriptEnv to eval conditons
-         PyObject thing = mScriptEnv.eval("TimeOfDay <= 30");
-         System.out.println("Time of Day : "+thing.__int__());
-         */
+        if(!updated)
+            return;
+
+        try {
+            Ambiotic.scripter().eval(code.toString());
+        } catch(ScriptException ex) {
+            Ambiotic.logger().error("Script error when updating variables : "+ex.getMessage());
+        }
     }
 
     @SubscribeEvent
@@ -151,9 +153,13 @@ public class VariableRegistry {
         StringBuilder code = new StringBuilder();
         for (Variable v : mVariableLookup.values())
         {
-            code.append(v.pycode());
+            code.append(v.jsAssignCode());
         }
-        Ambiotic.scripter().exec(code.toString());
+        try {
+            Ambiotic.scripter().eval(code.toString());
+        } catch (ScriptException ex) {
+            Ambiotic.logger().error("Script error when refreshing script environment : "+ex.getMessage());
+        }
     }
 
     protected class TickRate {

@@ -44,7 +44,7 @@ public abstract class Variable {
 
     public int ticksPerUpdate() {return mTicksPerUpdate;}
 
-    public String pycode() { return mName+" = "+mValue+"\n"; }
+    public String jsAssignCode() { return mName+" = "+mValue+";\n"; }
 
     public static Variable deserialize(String name, JsonObject json) throws JsonError {
         if(!json.has("Type"))

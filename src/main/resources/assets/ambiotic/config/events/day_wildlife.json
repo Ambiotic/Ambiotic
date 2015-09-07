@@ -4,10 +4,10 @@
         "Sound" : "ambiotic:ambient.forest.bird",
         "Conditions" : [
             "Foliage >= 1500",
-            "and",
+            "&&",
             "TimeOfDay <= 11500",
-            "and",
-            "not Raining"
+            "&&",
+            "Raining == 0"
         ],
         "CoolDown" : {
             "Type" : "Random",

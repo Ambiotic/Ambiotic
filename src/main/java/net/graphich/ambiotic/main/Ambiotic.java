@@ -9,8 +9,10 @@ import net.graphich.ambiotic.registries.SoundRegistry;
 import net.graphich.ambiotic.registries.ScannerRegistry;
 import net.graphich.ambiotic.registries.VariableRegistry;
 import net.minecraftforge.common.MinecraftForge;
-import org.python.util.PythonInterpreter;
 import org.apache.logging.log4j.Logger;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 
 @Mod(modid = Ambiotic.MODID, version = Ambiotic.VERSION, name = Ambiotic.NAME)
 public class Ambiotic {
@@ -22,14 +24,15 @@ public class Ambiotic {
     protected static Logger logger;
     public static Logger logger() {return Ambiotic.logger;}
 
-    protected static PythonInterpreter scripter;
-    public static PythonInterpreter scripter() {return Ambiotic.scripter;}
+    protected static ScriptEngine scripter;
+    public static ScriptEngine scripter() {return Ambiotic.scripter;}
 
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        ScriptEngineManager man = new ScriptEngineManager();
         Ambiotic.logger = event.getModLog();
-        Ambiotic.scripter = new PythonInterpreter();
+        Ambiotic.scripter = man.getEngineByName("JavaScript");
 
         //Load all registry data from json
         ScannerRegistry.INSTANCE.load();
