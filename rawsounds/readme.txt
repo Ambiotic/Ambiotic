@@ -5,6 +5,4 @@ from the source material.
 
 These files dont go directly into the mod.
 
-If the file is named:
-<description>_fs_<somestring>_<somenumber>
-The file came frome freesounds.org/people/<somestring>/sounds/<somenumber>
+I try to track the source of the file
