@@ -48,6 +48,7 @@ public final class ScriptedSound extends TriggeredSound {
             return false;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         player.playSound(mSound, mVolume.value(), mPitch.value());
+        //Minecraft.getMinecraft().theWorld.playSound(player.posX, player.posY, player.posZ,mSound,mVolume.value(),mPitch.value(),true);
         return true;
     }
 }
