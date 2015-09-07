@@ -27,6 +27,7 @@ public abstract class TriggeredSound {
         mVolume = new FloatConstant(1.0f);
         mPitch = new FloatConstant(1.0f);
         mCoolDown = new FloatConstant(10000.0f);
+        mCanPlayAgain = -1;
     }
 
     public static TriggeredSound deserialize(String name, JsonObject json) throws JsonError {
@@ -45,6 +46,8 @@ public abstract class TriggeredSound {
     }
 
     public TriggeredSound(String name, JsonObject json) throws JsonError {
+        mCanPlayAgain = -1;
+        mName = name;
         if(!json.has("Sound"))
             throw new JsonMissingRequiredField("Sound");
         JsonElement cur = json.get("Sound");
@@ -103,6 +106,8 @@ public abstract class TriggeredSound {
         // Not logged in or whatever
         if(Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().theWorld == null)
             return;
+        if(mCanPlayAgain == -1)
+            mCanPlayAgain = (int)mCoolDown.value();
         mTicksSincePlayed += 1;
         if(mTicksSincePlayed < mCanPlayAgain)
             return;
