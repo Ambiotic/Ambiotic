@@ -1,13 +1,19 @@
 {
     "RegularForestBirds" : {
         "Type" : "ScriptedSound",
-        "Sound" : "ambiotic:forestbird",
-        "CoolDown" : 1500,
+        "Sound" : "ambiotic:ambient.forest.bird",
         "Conditions" : [
             "Foliage >= 1500",
             "and",
-            "TimeOfDay <= 15000"
+            "TimeOfDay <= 15000",
+            "and",
+            "not Raining"
         ],
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min" : 1500,
+            "Max" : 3500
+        },
         "Pitch" : {
             "Type" : "Random",
             "Min" : 0.90,
@@ -15,7 +21,7 @@
         },
         "Volume" : {
             "Type" : "Constant",
-            "Value" : 0.75
+            "Value" : 0.50
         }
     }
 }

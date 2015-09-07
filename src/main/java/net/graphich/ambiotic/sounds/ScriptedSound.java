@@ -20,8 +20,8 @@ public final class ScriptedSound extends TriggeredSound {
 
     protected String mConditionCode = "";
 
-    public ScriptedSound(String name, int cooldown, String sound, String condition) {
-        super(name, cooldown, sound);
+    public ScriptedSound(String name, String sound, String condition) {
+        super(name, sound);
         mConditionCode = condition;
     }
 
@@ -37,7 +37,7 @@ public final class ScriptedSound extends TriggeredSound {
         } catch (JsonError ex) {
             throw new JsonError("Invalid Conditions specification : "+ex.getMessage());
         }
-        Ambiotic.logger().debug("Conditions for Sound '"+name+"':\n  "+mConditionCode);
+        Ambiotic.logger().debug("Conditions for Sound '"+name+"' : \n  "+mConditionCode);
     }
 
     public boolean play() {

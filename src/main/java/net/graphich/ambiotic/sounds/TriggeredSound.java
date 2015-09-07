@@ -5,28 +5,28 @@ import com.google.gson.JsonObject;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.errors.JsonError;
-import net.graphich.ambiotic.errors.JsonInvalidResource;
 import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
 import net.graphich.ambiotic.errors.JsonMissingRequiredField;
-import net.graphich.ambiotic.main.Util;
+import net.graphich.ambiotic.main.Ambiotic;
 import net.minecraft.client.Minecraft;
 
 public abstract class TriggeredSound {
 
     protected String mName = "";
-    protected int mCoolDown = 0;
     protected String mSound = "";
-    protected int mTicksSinceFire = 0;
+    protected int mTicksSincePlayed = 0;
     protected FloatProvider mVolume;
     protected FloatProvider mPitch;
+    protected FloatProvider mCoolDown;
+    protected int mCanPlayAgain = 0;
 
-    public TriggeredSound(String name, int cooldown, String sound) {
+    public TriggeredSound(String name,String sound) {
         mName = name;
-        mCoolDown = cooldown;
         mSound = sound;
         // Default pitch / volume calculators
         mVolume = new FloatConstant(1.0f);
         mPitch = new FloatConstant(1.0f);
+        mCoolDown = new FloatConstant(10000.0f);
     }
 
     public static TriggeredSound deserialize(String name, JsonObject json) throws JsonError {
@@ -54,14 +54,18 @@ public abstract class TriggeredSound {
         //if(!Util.resourceExists(mSound))
         //    throw new JsonInvalidResource("Sound", mSound);
 
-        if(!json.has("CoolDown"))
-            throw new JsonMissingRequiredField("CoolDown");
-        cur = json.get("CoolDown");
-        if(!cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isNumber())
-            throw new JsonInvalidTypeForField("CoolDown", "integer");
-        mCoolDown = cur.getAsInt();
-        if(mCoolDown <= 0)
-            throw new JsonError("CoolDown must be greater than zero.");
+        //Cooldown spec is optional
+        mCoolDown = new FloatConstant(10000.0f);
+        if(json.has("CoolDown")) {
+            cur = json.get("CoolDown");
+            if(!cur.isJsonObject())
+                throw new JsonInvalidTypeForField("CoolDown", "JSON object");
+            try {
+                mCoolDown = FloatProvider.deserialize(cur.getAsJsonObject());
+            } catch (JsonError ex) {
+                throw new JsonError("Invalid CoolDown specification : "+ex.getMessage());
+            }
+        }
 
         //Pitch spec is optional
         mPitch = new FloatConstant(1.0f);
@@ -83,7 +87,7 @@ public abstract class TriggeredSound {
             if(!cur.isJsonObject())
                 throw new JsonInvalidTypeForField("Volume", "JSON object");
             try {
-                mPitch = FloatProvider.deserialize(cur.getAsJsonObject());
+                mVolume = FloatProvider.deserialize(cur.getAsJsonObject());
             } catch (JsonError ex) {
                 throw new JsonError("Invalid Volume specification : "+ex.getMessage());
             }
@@ -99,10 +103,12 @@ public abstract class TriggeredSound {
         // Not logged in or whatever
         if(Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().theWorld == null)
             return;
-        mTicksSinceFire += 1;
-        if(mTicksSinceFire < mCoolDown)
+        mTicksSincePlayed += 1;
+        if(mTicksSincePlayed < mCanPlayAgain)
             return;
-        if(play())
-            mTicksSinceFire = 0;
+        if(play()) {
+            mTicksSincePlayed = 0;
+            mCanPlayAgain = (int)mCoolDown.value();
+        }
     }
 }

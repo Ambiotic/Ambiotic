@@ -1,13 +1,16 @@
 {
-    "forestbird" : {
+    "ambient.forest.bird" : {
         "category" : "master",
         "sounds" : [
-            "bird1",
-            "bird2",
-            "bird3",
-            "bird4",
-            "bird5",
-            "bird6"
+            "animals/birds/bird_chatter1",
+            "animals/birds/bird_chatter2",
+            "animals/birds/bird_chatter3",
+            "animals/birds/bird_chirp1",
+            "animals/birds/bird_squak1",
+            "animals/birds/bird_squak2",
+            "animals/birds/bird_squeek1",
+            "animals/birds/bird_squeek2",
+            "animals/birds/bird_squeek3"
         ]
     }
 }

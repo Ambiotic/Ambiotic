@@ -15,10 +15,8 @@ public class Util {
     protected static final Random RNG = new Random();
 
     public static float randomFloatInRange(float minf, float maxf) {
-        float scale = 1000.0f;
-        int dif = (int)((maxf - minf)*scale);
-        int min = (int)(minf);
-        return (Util.RNG.nextInt(min) + dif) / scale;
+        float rv = Util.RNG.nextFloat() * (maxf - minf) + minf;
+        return rv;
     }
 
     public static boolean resourceExists(String resource) {
