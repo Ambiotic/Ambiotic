@@ -13,4 +13,12 @@
             "animals/birds/bird_squeek3"
         ]
     }
+
+    "ambient.animal.wolf_howl" : {
+        "category" : "master",
+        "streaming" : "true",
+        "sounds" : [
+            "animals/wolf/wolf_howl1"
+        ]
+    }
 }
