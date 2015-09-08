@@ -1,84 +1,43 @@
 package net.graphich.ambiotic.scanners;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.registry.GameData;
-import net.graphich.ambiotic.errors.JsonError;
-import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
-import net.graphich.ambiotic.errors.JsonMissingRequiredField;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.oredict.OreDictionary;
-import scala.Int;
 
 import java.util.*;
 
-public final class BlockScanner {
+public class BlockScanner {
 
-    protected HashMap<Integer, Integer> mCounts;
-    protected EntityPlayer mPlayer;
-
-    protected boolean mScanFinished = false;
-    protected int mBlocksPerTick = 0;
-    protected int mTicksSinceFull = 0;
-
-    protected CuboidPointIterator mFullRange;
-
+    @SerializedName("XSize")
     protected int mXSize = 0;
+    @SerializedName("YSize")
     protected int mYSize = 0;
+    @SerializedName("ZSize")
     protected int mZSize = 0;
+    @SerializedName("Name")
     protected String mName = "";
+    @SerializedName("BlocksPerTick")
+    protected int mBlocksPerTick = 0;
+
+    protected transient HashMap<Integer, Integer> mCounts;
+
+    protected transient boolean mScanFinished = false;
+    protected transient int mTicksSinceFull = 0;
+
+    protected transient CuboidPointIterator mFullRange;
 
     //Last tick's player coordinates
-    protected int mLastX = 0;
-    protected int mLastY = 0;
-    protected int mLastZ = 0;
-    protected int mLastDimension = 0;
-
-    public static BlockScanner deserialize(String name, JsonObject json) throws JsonError {
-        int xs = 0;
-        int ys = 0;
-        int zs = 0;
-        int bpt = 0;
-        JsonElement cur = null;
-
-        if(!json.has("XSize"))
-            throw new JsonMissingRequiredField("XSize");
-        if(!json.has("YSize"))
-            throw new JsonMissingRequiredField("YSize");
-        if(!json.has("ZSize"))
-            throw new JsonMissingRequiredField("ZSize");
-
-        cur = json.get("XSize");
-        if(!cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isNumber())
-            throw new JsonInvalidTypeForField("XSize","integer");
-        xs = json.get("XSize").getAsInt();
-        if(xs <= 0)
-            throw new JsonError("XSize must be greater than zero.");
-
-        cur = json.get("YSize");
-        if(!cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isNumber())
-            throw new JsonInvalidTypeForField("YSize","integer");
-        ys = json.get("YSize").getAsInt();
-        if(ys <= 0)
-            throw new JsonError("YSize must be greater than zero.");
-
-        cur = json.get("ZSize");
-        if(!cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isNumber())
-            throw new JsonInvalidTypeForField("ZSize","integer");
-        zs = json.get("ZSize").getAsInt();
-        if(zs <= 0)
-            throw new JsonError("ZSize must be greater than zero.");
-
-        // I might make blocks per tick configurable at some point
-        bpt = (xs*ys*zs)/4;
-        return new BlockScanner(name,bpt,xs,ys,zs);
-    }
+    protected transient int mLastX = 0;
+    protected transient int mLastY = 0;
+    protected transient int mLastZ = 0;
+    protected transient int mLastDimension = 0;
 
     public BlockScanner(String name, int blocksPerTick, int xsize, int ysize, int zsize) {
         mBlocksPerTick = blocksPerTick;
@@ -89,6 +48,25 @@ public final class BlockScanner {
         mZSize = zsize;
         mName = name;
     }
+
+    public void validate() throws Exception {
+        if(mName == null || mName.equals(""))
+            throw new Exception("No name or blank name specified");
+        if(mXSize <= 0)
+            throw new Exception("XSize must be defined and must be greater than 0");
+        if(mYSize <= 0)
+            throw new Exception("XSize must be defined and must be greater than 0");
+        if(mZSize <= 0)
+            throw new Exception("XSize must be defined and must be greater than 0");
+        if(mBlocksPerTick < 0)
+            throw new Exception("BlocksPerTick must be greater than 0");
+        // BlocksPerTick is optional
+        if(mBlocksPerTick == 0)
+            mBlocksPerTick = (mXSize*mZSize*mYSize)/4;
+        //Nonserialized stuff must be initialized
+        mCounts = new HashMap<Integer, Integer>();
+    }
+
 
     public String name() {
         return mName;
@@ -122,15 +100,16 @@ public final class BlockScanner {
         ComplementsPointIterator newInRange = new ComplementsPointIterator(newVolume, intersect);
         ComplementsPointIterator newOutOfRange = new ComplementsPointIterator(oldVolume, intersect);
         Point point = newOutOfRange.next();
+        World world =  Minecraft.getMinecraft().theWorld;
         // Subtract out of range blocks
         while (point != null) {
-            int blockId = Block.getIdFromBlock(mPlayer.worldObj.getBlock(point.x, point.y, point.z));
+            int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
             addToCount(blockId,-1);
             point = newOutOfRange.next();
         }
         point = newInRange.next();
         while (point != null) {
-            int blockId = Block.getIdFromBlock(mPlayer.worldObj.getBlock(point.x, point.y, point.z));
+            int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
             addToCount(blockId,1);
             point = newInRange.next();
         }
@@ -141,9 +120,11 @@ public final class BlockScanner {
         Point point = mFullRange.next();
         int checked = 0;
 
+        World world = Minecraft.getMinecraft().theWorld;
+
         while (point != null && checked < mBlocksPerTick) {
             checked++;
-            int blockId = Block.getIdFromBlock(mPlayer.worldObj.getBlock(point.x, point.y, point.z));
+            int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
             addToCount(blockId,1);
             point = mFullRange.next();
         }
@@ -167,11 +148,12 @@ public final class BlockScanner {
     }
 
     protected void resetFullScan() {
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         mTicksSinceFull = 0;
-        mLastX = (int) mPlayer.posX;
-        mLastY = (int) mPlayer.posY;
-        mLastZ = (int) mPlayer.posZ;
-        mLastDimension = mPlayer.dimension;
+        mLastX = (int) player.posX;
+        mLastY = (int) player.posY;
+        mLastZ = (int) player.posZ;
+        mLastDimension = player.dimension;
         mScanFinished = false;
         mFullRange = new CuboidPointIterator(mLastX, mLastY, mLastZ, mXSize, mYSize, mZSize);
         resetBlockCounts();
@@ -187,53 +169,34 @@ public final class BlockScanner {
     }
 
     @SubscribeEvent
-    public void onLeafDecay(BlockEvent.HarvestDropsEvent event) {
-        if(event.isCanceled()) {
-            return;
-        }
-        //Fake player means leaf decay / environmental cause
-        if(event.harvester != mPlayer) {
-            int blockId = Block.getIdFromBlock(event.block);
-            addToCount(blockId,-1);
-        }
-    }
-
-    @SubscribeEvent
-    public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        if(event.isCanceled()) {
-            return;
-        }
-        mPlayer = event.player;
-        resetFullScan();
-    }
-
-    @SubscribeEvent
     public void onTick(TickEvent event) {
         // No scan state
-        if (mPlayer == null || event.isCanceled()) {
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        if (player == null || player.worldObj == null || event.isCanceled()) {
             return;
         }
         mTicksSinceFull += 1;
         int x, y, z;
-        x = (int) mPlayer.posX;
-        y = (int) mPlayer.posY;
-        z = (int) mPlayer.posZ;
+        x = (int) player.posX;
+        y = (int) player.posY;
+        z = (int) player.posZ;
         Cuboid oldVolume = new Cuboid(mLastX, mLastY, mLastZ, mXSize, mYSize, mZSize);
         Cuboid newVolume = new Cuboid(x, y, z, mXSize, mYSize, mZSize);
         Cuboid intersect = oldVolume.intersection(newVolume);
         boolean playerMoved = (x != mLastX || y != mLastY || z != mLastZ);
 
         //Player went to a new dimension
-        boolean fullScanReset = mPlayer.dimension != mLastDimension;
+        boolean fullScanReset = player.dimension != mLastDimension;
         //Player teleported in the same dimension
         fullScanReset = fullScanReset || intersect == null;
         // Update scanning would be more expensive than rescanning, happens when player is moving very fast
-        fullScanReset = fullScanReset || oldVolume.volume() < (oldVolume.volume() - intersect.volume()) * 2;
+        if(intersect != null)
+            fullScanReset = fullScanReset || oldVolume.volume() < (oldVolume.volume() - intersect.volume()) * 2;
 
         mLastX = x;
         mLastY = y;
         mLastZ = z;
-        mLastDimension = mPlayer.dimension;
+        mLastDimension = player.dimension;
 
         if (fullScanReset) {
             resetFullScan();
@@ -272,4 +235,15 @@ public final class BlockScanner {
             addToCount(placedBlockId,1);
     }
 
+    @SubscribeEvent
+    public void onLeafDecay(BlockEvent.HarvestDropsEvent event) {
+        if(event.isCanceled()) {
+            return;
+        }
+        //Fake player means leaf decay / environmental cause
+        if(event.harvester != Minecraft.getMinecraft().thePlayer) {
+            int blockId = Block.getIdFromBlock(event.block);
+            addToCount(blockId,-1);
+        }
+    }
 }

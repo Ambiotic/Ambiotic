@@ -1,5 +1,6 @@
 package net.graphich.ambiotic.main;
 
+import com.google.gson.GsonBuilder;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -22,11 +23,23 @@ public class Ambiotic {
     public static final String VERSION = "0.0.2";
 
     protected static Logger logger;
-    public static Logger logger() {return Ambiotic.logger;}
+    public static Logger logger() {
+        return Ambiotic.logger;
+    }
 
     protected static ScriptEngine scripter;
-    public static ScriptEngine scripter() {return Ambiotic.scripter;}
+    public static ScriptEngine scripter() {
+        return Ambiotic.scripter;
+    }
 
+    protected static GsonBuilder gsonbuilder;
+    public static GsonBuilder gsonbuilder() {
+        return Ambiotic.gsonbuilder;
+    }
+
+    protected void initGsonBuilder() {
+
+    }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {

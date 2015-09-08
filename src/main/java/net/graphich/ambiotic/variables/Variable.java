@@ -19,9 +19,10 @@ public abstract class Variable {
 
     @SerializedName("Name")
     protected String mName;
-    protected transient int mValue = 0;
     @SerializedName("TicksPerUpdate")
     protected int mTicksPerUpdate = 1;
+
+    protected transient int mValue = 0;
 
     public Variable(String name) {
         mName = name;

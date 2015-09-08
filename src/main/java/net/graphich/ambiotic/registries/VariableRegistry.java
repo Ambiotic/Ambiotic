@@ -6,19 +6,15 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.main.Ambiotic;
-import net.graphich.ambiotic.errors.JsonError;
 import net.graphich.ambiotic.main.Util;
 import net.graphich.ambiotic.scanners.BlockScanner;
 import net.graphich.ambiotic.variables.BlockCounter;
 import net.graphich.ambiotic.variables.Variable;
 import net.graphich.ambiotic.variables.VariableSerializer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
 import javax.script.ScriptException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -45,21 +41,19 @@ public class VariableRegistry {
 
     public void load() {
         ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/variables.json");
-        JsonParser parser = new JsonParser();
         JsonArray variableList = null;
-        Ambiotic.logger().info("Loading variables file '" + rl + "'");
+        Ambiotic.logger().info("Reading variables file '" + rl + "'");
+        try {
+            variableList = Util.getRootObjectList(rl);
+        } catch (Exception ex) {
+            Ambiotic.logger().error("Error reading '" + rl + "' : " + ex.getCause().getMessage());
+            return;
+        }
+
+        //Deserialize and register each variable
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Variable.class, new VariableSerializer());
         Gson gson = gsonBuilder.create();
-        try {
-            InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(rl).getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            variableList = parser.parse(isr).getAsJsonArray();
-        } catch (Exception ex) {
-            Ambiotic.logger().error("Error reading '" + rl + "' : " + ex.getMessage());
-            return;
-        }
-        //Deserialize and register each variable
         int variablePos = 0;
         for(JsonElement element : variableList) {
             Variable variable = null;
@@ -67,14 +61,11 @@ public class VariableRegistry {
 
             try {
                 variable = gson.fromJson(element, Variable.class);
-            } catch(JsonParseException ex) {
+                variable.validate();
+            } catch (JsonParseException ex) {
                 Ambiotic.logger().error(errPrefix + " of parse error : " + ex.getCause().getMessage());
                 continue;
-            }
-
-            try {
-                variable.validate();
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 Ambiotic.logger().error(errPrefix + " it's invalid : "+ex.getCause().getMessage());
                 continue;
             }
@@ -97,6 +88,7 @@ public class VariableRegistry {
                 int size = 0;
                 for(String spec : counter.getBlockSpecs()) {
                     blockIds.addAll(Util.buildBlockIdList(spec));
+                    // Warn user that a bad block specification was in the counter's list
                     if(size == blockIds.size())
                         Ambiotic.logger().warn("In block counter variable '"+counter.name()+"' : Ignoring bad block ID '"+spec+"'");
                     size = blockIds.size();

@@ -3,14 +3,11 @@ package net.graphich.ambiotic.registries;
 import com.google.gson.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.graphich.ambiotic.main.Ambiotic;
-import net.graphich.ambiotic.errors.JsonError;
+import net.graphich.ambiotic.main.Util;
 import net.graphich.ambiotic.scanners.BlockScanner;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.*;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Logger;
@@ -37,31 +34,33 @@ public class ScannerRegistry {
 
     public void load() {
         ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/scanners.json");
-        JsonParser parser = new JsonParser();
-        JsonObject json = null;
+        JsonArray scannerList = null;
         Ambiotic.logger().info("Loading scanners file '" + rl + "'");
         try {
-            InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(rl).getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            json = parser.parse(isr).getAsJsonObject();
+            scannerList = Util.getRootObjectList(rl);
         } catch (Exception ex) {
-            Ambiotic.logger().error("Error reading '"+rl+"' : "+ex.getMessage());
+            Ambiotic.logger().error("Error reading '" + rl + "' : "+ex.getCause().getMessage());
             return;
         }
-        for(Map.Entry<String, JsonElement> scanner : json.entrySet())
-        {
-            String name = scanner.getKey();
-            Ambiotic.logger().info("Loading scanner '"+name+"'");
-            if(!scanner.getValue().isJsonObject()) {
-                Ambiotic.logger().warn("Skipping scanner '" + name + "' it is not an object");
+        //Deserialize and register each scanner
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+        int scannerPos = 0;
+        for(JsonElement scannerElm : scannerList) {
+            String errPrefix = "Skipping variable # " + scannerPos + " because ";
+            BlockScanner scanner = null;
+            try {
+                scanner = gson.fromJson(scannerElm, BlockScanner.class);
+                scanner.validate();
+            } catch (JsonParseException ex) {
+                Ambiotic.logger().error(errPrefix+" of parse error : "+ex.getCause().getMessage());
+                continue;
+            } catch (Exception ex) {
+                Ambiotic.logger().error(errPrefix+" it's invalid : "+ex.getCause().getMessage());
                 continue;
             }
-            try {
-                BlockScanner bs = BlockScanner.deserialize(name,scanner.getValue().getAsJsonObject());
-                register(bs);
-            } catch(JsonError ex) {
-                Ambiotic.logger().warn("Skipping scanner '"+name+"' : "+ex.getMessage());
-            }
+            register(scanner);
+            scannerPos += 1;
         }
     }
 

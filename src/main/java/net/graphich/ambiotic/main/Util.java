@@ -1,16 +1,19 @@
 package net.graphich.ambiotic.main;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
+import com.google.gson.*;
 import cpw.mods.fml.common.registry.GameData;
 import net.graphich.ambiotic.errors.JsonError;
 import net.graphich.ambiotic.errors.JsonInvalidTypeForListElement;
+import net.graphich.ambiotic.variables.Variable;
+import net.graphich.ambiotic.variables.VariableSerializer;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -59,5 +62,12 @@ public class Util {
             blockIds.add(blockId);
         }
         return blockIds;
+    }
+
+    public static JsonArray getRootObjectList(ResourceLocation rl) throws Exception {
+        JsonParser parser = new JsonParser();
+        InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(rl).getInputStream();
+        InputStreamReader isr = new InputStreamReader(is);
+        return parser.parse(isr).getAsJsonArray();
     }
 }
