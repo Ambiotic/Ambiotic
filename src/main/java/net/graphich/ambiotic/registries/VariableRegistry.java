@@ -63,25 +63,25 @@ public class VariableRegistry {
         int variablePos = 0;
         for(JsonElement element : variableList) {
             Variable variable = null;
-            String errPrefix = "Skipping variable # " + variablePos;
+            String errPrefix = "Skipping variable # " + variablePos + " because ";
 
             try {
                 variable = gson.fromJson(element, Variable.class);
             } catch(JsonParseException ex) {
-                Ambiotic.logger().error(errPrefix + " Json Error : " + ex.getCause().getMessage());
+                Ambiotic.logger().error(errPrefix + " of parse error : " + ex.getCause().getMessage());
                 continue;
             }
 
             try {
                 variable.validate();
             } catch(Exception ex) {
-                Ambiotic.logger().error(errPrefix + " Variable invalid : "+ex.getCause().getMessage());
+                Ambiotic.logger().error(errPrefix + " it's invalid : "+ex.getCause().getMessage());
                 continue;
             }
 
             //Variable name is taken
             if(mVariableLookup.containsKey(variable.name())) {
-                Ambiotic.logger().error(errPrefix + " : Variable already registered with name '"+variable.name()+"'");
+                Ambiotic.logger().error(errPrefix + " another is already registered with name '"+variable.name()+"'");
                 continue;
             }
 
@@ -90,19 +90,19 @@ public class VariableRegistry {
                 BlockCounter counter = (BlockCounter) variable;
                 BlockScanner scanner = ScannerRegistry.INSTANCE.scanner(counter.getScannerName());
                 if(scanner == null) {
-                    Ambiotic.logger().error(errPrefix + " No scanner named '"+counter.getScannerName()+"' registered");
+                    Ambiotic.logger().error(errPrefix + " no block scanner named '"+counter.getScannerName()+"' is registered");
                     continue;
                 }
                 List<Integer> blockIds = new ArrayList<Integer>();
-                int oldsize = 0;
+                int size = 0;
                 for(String spec : counter.getBlockSpecs()) {
                     blockIds.addAll(Util.buildBlockIdList(spec));
-                    if(oldsize == blockIds.size())
+                    if(size == blockIds.size())
                         Ambiotic.logger().warn("In block counter variable '"+counter.name()+"' : Ignoring bad block ID '"+spec+"'");
-                    oldsize = blockIds.size();
+                    size = blockIds.size();
                 }
-                if(oldsize == 0) {
-                    Ambiotic.logger().error(errPrefix+" No valid blocks ID were specified");
+                if(size == 0) {
+                    Ambiotic.logger().error(errPrefix+" no valid block IDs were specified");
                     continue;
                 }
                 // Link scanner and variable
@@ -112,7 +112,7 @@ public class VariableRegistry {
             }
             //Finally register variable
             register(variable);
-            Ambiotic.logger().info("Loaded variable : \n"+variable);
+            Ambiotic.logger().debug("Loaded variable : \n" + variable);
             variablePos += 1;
         }
     }
