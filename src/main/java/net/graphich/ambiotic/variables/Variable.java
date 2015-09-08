@@ -1,7 +1,10 @@
 package net.graphich.ambiotic.variables;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.errors.JsonError;
 import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
@@ -14,25 +17,25 @@ import net.graphich.ambiotic.errors.JsonMissingRequiredField;
  */
 public abstract class Variable {
 
+    @SerializedName("Name")
     protected String mName;
-    protected int mValue = 0;
+    protected transient int mValue = 0;
+    @SerializedName("TicksPerUpdate")
     protected int mTicksPerUpdate = 1;
 
     public Variable(String name) {
         mName = name;
     }
 
-    public Variable(String name, JsonObject json) throws JsonError {
-        mName = name;
-        if(!json.has("TicksPerUpdate"))
-            return;
-        JsonElement cur = json.get("TicksPerUpdate");
-        if(!cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isNumber())
-            throw new JsonInvalidTypeForField("TicksPerUpdate", "integer");
-        mTicksPerUpdate = cur.getAsInt();
-    }
-
     public abstract boolean update(TickEvent event);
+
+    public void validate() throws Exception {
+        if(mName == null || mName.equals(""))
+            throw new Exception("No name or blank name specified");
+        //Default ticks per update
+        if(mTicksPerUpdate == 0)
+            mTicksPerUpdate = 1;
+    }
 
     public int value() {
         return mValue;
@@ -42,40 +45,19 @@ public abstract class Variable {
         return mName;
     }
 
-    public int ticksPerUpdate() {return mTicksPerUpdate;}
+    public int ticksPerUpdate() {
+        return mTicksPerUpdate;
+    }
 
-    public String jsAssignCode() { return mName+" = "+mValue+";\n"; }
+    public String jsAssignCode() {
+        return mName+" = "+mValue+";";
+    }
 
-    public static Variable deserialize(String name, JsonObject json) throws JsonError {
-        if(!json.has("Type"))
-            throw new JsonMissingRequiredField("Type");
-        JsonElement check = json.get("Type");
-        if(!check.isJsonPrimitive() || !check.getAsJsonPrimitive().isString())
-            throw new JsonInvalidTypeForField("Type", "string");
-        String type = check.getAsString();
-        Variable variable = null;
-        if(type.equals("BlockCounter"))
-            variable = new BlockCounterVariable(name, json);
-        else if(type.equals("GameTime"))
-            variable = new GameTime(name, json);
-        else if(type.equals("ThunderStrength"))
-            variable = new ThunderStrength(name, json);
-        else if(type.equals("RainStrength"))
-            variable = new RainStrength(name, json);
-        else if(type.equals("PlayerCoordinate"))
-            variable = new PlayerCoordinate(name, json);
-        else if(type.equals("MoonPhase"))
-            variable = new MoonPhase(name, json);
-        else if(type.equals("LightLevel"))
-            variable = new LightLevel(name, json);
-        else if(type.equals("IsRaining"))
-            variable = new IsRaining(name, json);
-        else if(type.equals("CanSeeSky"))
-            variable = new CanSeeSky(name, json);
-        else if(type.equals("CanRainOn"))
-            variable = new CanRainOn(name, json);
-        else
-            throw new JsonError("No such variable type '"+type+"'");
-        return variable;
+    @Override
+    public String toString() {
+        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(Variable.class, new VariableSerializer());
+        Gson gson = gsonBuilder.create();
+        return gson.toJson(gson.toJsonTree(this));
     }
 }

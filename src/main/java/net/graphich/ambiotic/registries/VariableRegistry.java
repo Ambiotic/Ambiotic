@@ -1,15 +1,17 @@
 package net.graphich.ambiotic.registries;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.main.Ambiotic;
 import net.graphich.ambiotic.errors.JsonError;
+import net.graphich.ambiotic.main.Util;
+import net.graphich.ambiotic.scanners.BlockScanner;
+import net.graphich.ambiotic.variables.BlockCounter;
 import net.graphich.ambiotic.variables.Variable;
+import net.graphich.ambiotic.variables.VariableSerializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -44,29 +46,74 @@ public class VariableRegistry {
     public void load() {
         ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/variables.json");
         JsonParser parser = new JsonParser();
-        JsonObject json = null;
+        JsonArray variableList = null;
         Ambiotic.logger().info("Loading variables file '" + rl + "'");
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Variable.class, new VariableSerializer());
+        Gson gson = gsonBuilder.create();
         try {
             InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(rl).getInputStream();
             InputStreamReader isr = new InputStreamReader(is);
-            json = parser.parse(isr).getAsJsonObject();
+            variableList = parser.parse(isr).getAsJsonArray();
         } catch (Exception ex) {
             Ambiotic.logger().error("Error reading '" + rl + "' : " + ex.getMessage());
             return;
         }
-        for(Map.Entry<String, JsonElement> variable : json.entrySet()) {
-            String name = variable.getKey();
-            Ambiotic.logger().info("Loading variable '"+name+"'");
-            if(!variable.getValue().isJsonObject()) {
-                Ambiotic.logger().warn("Skipping variable '" + name + "': it is not a JSON object");
+        //Deserialize and register each variable
+        int variablePos = 0;
+        for(JsonElement element : variableList) {
+            Variable variable = null;
+            String errPrefix = "Skipping variable # " + variablePos;
+
+            try {
+                variable = gson.fromJson(element, Variable.class);
+            } catch(JsonParseException ex) {
+                Ambiotic.logger().error(errPrefix + " Json Error : " + ex.getCause().getMessage());
                 continue;
             }
+
             try {
-                Variable var = Variable.deserialize(name,variable.getValue().getAsJsonObject());
-                register(var); // Need to desiralize ticks
-            } catch(JsonError ex) {
-                Ambiotic.logger().warn("Skipping variable '"+name+"' : "+ex.getMessage());
+                variable.validate();
+            } catch(Exception ex) {
+                Ambiotic.logger().error(errPrefix + " Variable invalid : "+ex.getCause().getMessage());
+                continue;
             }
+
+            //Variable name is taken
+            if(mVariableLookup.containsKey(variable.name())) {
+                Ambiotic.logger().error(errPrefix + " : Variable already registered with name '"+variable.name()+"'");
+                continue;
+            }
+
+            // Need to register block types with scanner
+            if(variable instanceof BlockCounter) {
+                BlockCounter counter = (BlockCounter) variable;
+                BlockScanner scanner = ScannerRegistry.INSTANCE.scanner(counter.getScannerName());
+                if(scanner == null) {
+                    Ambiotic.logger().error(errPrefix + " No scanner named '"+counter.getScannerName()+"' registered");
+                    continue;
+                }
+                List<Integer> blockIds = new ArrayList<Integer>();
+                int oldsize = 0;
+                for(String spec : counter.getBlockSpecs()) {
+                    blockIds.addAll(Util.buildBlockIdList(spec));
+                    if(oldsize == blockIds.size())
+                        Ambiotic.logger().warn("In block counter variable '"+counter.name()+"' : Ignoring bad block ID '"+spec+"'");
+                    oldsize = blockIds.size();
+                }
+                if(oldsize == 0) {
+                    Ambiotic.logger().error(errPrefix+" No valid blocks ID were specified");
+                    continue;
+                }
+                // Link scanner and variable
+                counter.setScanner(scanner);
+                counter.addBlockIds(blockIds);
+                scanner.registerBlockIds(blockIds);
+            }
+            //Finally register variable
+            register(variable);
+            Ambiotic.logger().info("Loaded variable : \n"+variable);
+            variablePos += 1;
         }
     }
 

@@ -10,13 +10,11 @@ import net.minecraft.world.World;
 /**
  * Block at player position can see the sky
  */
-public final class CanSeeSky extends Variable {
+public class CanSeeSky extends Variable {
 
     public CanSeeSky(String name) {
         super(name);
     }
-
-    public CanSeeSky(String name, JsonObject json) throws JsonError { super(name, json); }
 
     @Override
     public boolean update(TickEvent event) {

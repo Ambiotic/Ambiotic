@@ -14,11 +14,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.oredict.OreDictionary;
+import scala.Int;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public final class BlockScanner {
 
@@ -92,26 +90,12 @@ public final class BlockScanner {
         mName = name;
     }
 
-    public String name() { return mName; }
+    public String name() {
+        return mName;
+    }
 
-    public int size() { return mXSize*mYSize*mZSize; }
-
-    //Key in this case is OreDictionary Key or a BlockRegistry Key
-    public ArrayList<Integer> registerBlocks(String key) {
-        ArrayList<ItemStack> items = OreDictionary.getOres(key);
-        ArrayList<Integer> blockIds = new ArrayList<Integer>();
-        if (items.size() > 0) {
-            for (ItemStack is : items) {
-                int blockId = Block.getIdFromBlock(Block.getBlockFromItem(is.getItem()));
-                registerBlock(blockId);
-                blockIds.add(blockId);
-            }
-        } else if (GameData.getBlockRegistry().containsKey(key)) {
-            int blockId = GameData.getBlockRegistry().getId(key);
-            registerBlock(blockId);
-            blockIds.add(blockId);
-        }
-        return blockIds;
+    public int size() {
+        return mXSize*mYSize*mZSize;
     }
 
     public boolean scanFinished() {
@@ -120,6 +104,12 @@ public final class BlockScanner {
 
     protected void registerBlock(int blockId) {
         mCounts.put(blockId, 0);
+    }
+
+    public void registerBlockIds(List<Integer> blockIds) {
+        for(Integer id : blockIds) {
+            registerBlock(id);
+        }
     }
 
     protected void resetBlockCounts() {
