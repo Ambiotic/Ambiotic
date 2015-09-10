@@ -1,35 +1,32 @@
 package net.graphich.ambiotic.registries;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import cpw.mods.fml.common.FMLCommonHandler;
-import net.graphich.ambiotic.errors.JsonError;
 import net.graphich.ambiotic.main.Ambiotic;
-import net.graphich.ambiotic.main.Util;
-import net.graphich.ambiotic.sounds.TriggeredSound;
-import net.minecraft.client.Minecraft;
+import net.graphich.ambiotic.sounds.FloatProvider;
+import net.graphich.ambiotic.util.Helpers;
+import net.graphich.ambiotic.sounds.AmbioticSoundEvent;
+import net.graphich.ambiotic.util.StrictJsonSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
+
 
 public class SoundRegistry {
     public static SoundRegistry INSTANCE = new SoundRegistry();
 
-    protected HashMap<String, TriggeredSound> mRegistry;
+    protected HashMap<String, AmbioticSoundEvent> mRegistry;
     protected boolean mFrozen = false;
 
     protected SoundRegistry() {
-        mRegistry = new LinkedHashMap<String, TriggeredSound>();
+        mRegistry = new LinkedHashMap<String, AmbioticSoundEvent>();
     }
 
-    public void register(TriggeredSound sound) {
+    public void register(AmbioticSoundEvent sound) {
         if(mFrozen) {
             //Log? Exception?
             return;
@@ -45,64 +42,46 @@ public class SoundRegistry {
 
     public void load() {
         ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/events.json");
-        JsonParser parser = new JsonParser();
-        JsonArray includes = null;
-        Ambiotic.logger().info("Loading main events file '" + rl + "'");
+
+        String[] includeList = null;
         try {
-            InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(rl).getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            includes = parser.parse(isr).getAsJsonArray();
+            JsonParser parser = new JsonParser();
+            JsonElement json = parser.parse(Helpers.resourceAsStreamReader(rl));
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            Gson gson = gsonBuilder.create();
+            includeList = gson.fromJson(json,String[].class);
         } catch (Exception ex) {
-            Ambiotic.logger().error("Error reading '" + rl + "' : "+ex.getMessage());
+            Ambiotic.logger().error("Could not read event include list : " + ex.getMessage());
             return;
         }
-        int includeno = 0;
-        for(JsonElement include : includes) {
-            if(!include.isJsonPrimitive() || !include.getAsJsonPrimitive().isString()) {
-                Ambiotic.logger().error("Skipping include number "+includeno+" : Bad JSON type, must be string");
+
+        for(String include : includeList) {
+            rl = new ResourceLocation(include);
+            Ambiotic.logger().info("Loading event include '" + rl + "'");
+            try {
+                load(rl);
+            } catch (Exception ex) {
+                Ambiotic.logger().error("Loading '" + rl + "' failed : "+ex.getMessage());
                 continue;
             }
-            String resString = include.getAsString();
-            if(!Util.resourceExists(resString)) {
-                Ambiotic.logger().error("Skipping '"+resString+"' : No such resource file");
-                continue;
-            }
-            load(new ResourceLocation(resString));
-            includeno += 1;
         }
     }
 
-    protected void load(ResourceLocation rl) {
-        Ambiotic.logger().info("Loading event include '" + rl +"'");
-        JsonParser parser = new JsonParser();
-        JsonObject soundevents = null;
-        try {
-            InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(rl).getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            soundevents = parser.parse(isr).getAsJsonObject();
-        } catch (Exception ex) {
-            Ambiotic.logger().error("Error reading '" + rl + "' : "+ex.getMessage());
-            return;
-        }
-        for(Map.Entry<String, JsonElement> soundevent : soundevents.entrySet()) {
-            String name = soundevent.getKey();
-            Ambiotic.logger().info("Loading sound event '"+name+"'");
-            if(!soundevent.getValue().isJsonObject()) {
-                Ambiotic.logger().warn("Skipping sound event '" + name + "' : it is not a JSON object");
-                continue;
-            }
-            try {
-                TriggeredSound sound = TriggeredSound.deserialize(name,soundevent.getValue().getAsJsonObject());
-                register(sound);
-            } catch (JsonError ex) {
-                Ambiotic.logger().warn("Skipping sound event '"+name+"' : "+ex.getMessage());
-            }
+    protected void load(ResourceLocation rl) throws JsonParseException, IOException {
+        JsonArray events = Helpers.getRootJsonArray(rl);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(AmbioticSoundEvent.class, AmbioticSoundEvent.STRICT_ADAPTER);
+        gsonBuilder.registerTypeAdapter(FloatProvider.class, FloatProvider.STRICT_ADAPTER);
+        Gson gson = gsonBuilder.create();
+        for(JsonElement eventElm : events) {
+            AmbioticSoundEvent event = gson.fromJson(eventElm, AmbioticSoundEvent.class);
+            register(event);
         }
     }
 
     public void subscribeAll() {
         mFrozen = true;
-        for(TriggeredSound sound  : mRegistry.values()) {
+        for(AmbioticSoundEvent sound  : mRegistry.values()) {
             FMLCommonHandler.instance().bus().register(sound);
             MinecraftForge.EVENT_BUS.register(sound);
         }

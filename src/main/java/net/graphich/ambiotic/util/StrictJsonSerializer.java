@@ -1,0 +1,46 @@
+package net.graphich.ambiotic.util;
+
+import com.google.common.collect.BiMap;
+import com.google.gson.*;
+
+import java.lang.reflect.Type;
+
+public class StrictJsonSerializer<T> implements JsonSerializer<T>, JsonDeserializer<T> {
+
+    private BiMap<String, Type> mTypeMap;
+    private Class<T> mRootType;
+
+    public StrictJsonSerializer(BiMap<String, Type> typeMap, Class<T> rootType) {
+        mTypeMap = typeMap;
+        mRootType = rootType;
+    }
+
+    @Override
+    public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        JsonElement type = json.getAsJsonObject().get("Type");
+        String rootName = mRootType.getSimpleName();
+        if(!type.isJsonPrimitive() || !type.getAsJsonPrimitive().isString())
+            throw new JsonParseException(rootName + " Type must be string");
+        if(!mTypeMap.containsKey(type.getAsString()))
+            throw new JsonParseException("No such " + rootName + " Type '"+type.getAsString()+"'");
+        Type varClass = mTypeMap.get(type.getAsString());
+        T result = context.deserialize(json,varClass);
+        // If the object implements StrictJson call validate and initialize
+        if(result instanceof StrictJson) {
+            ((StrictJson)result).validate(); //Might throw StrictJsonException
+            ((StrictJson)result).initialize();
+        }
+        return result;
+    }
+
+    @Override
+    public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context) {
+        //Default to the types simple name
+        String strType = typeOfSrc.getClass().getSimpleName();
+        if(mTypeMap.containsValue(typeOfSrc))
+            strType = mTypeMap.inverse().get(typeOfSrc);
+        JsonElement outElm = context.serialize(src,typeOfSrc);
+        outElm.getAsJsonObject().add("Type",  context.serialize(strType));
+        return outElm;
+    }
+}

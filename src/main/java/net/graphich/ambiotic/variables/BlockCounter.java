@@ -1,15 +1,9 @@
 package net.graphich.ambiotic.variables;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.graphich.ambiotic.main.Ambiotic;
-import net.graphich.ambiotic.errors.JsonError;
-import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
-import net.graphich.ambiotic.errors.JsonMissingRequiredField;
-import net.graphich.ambiotic.registries.ScannerRegistry;
 import net.graphich.ambiotic.scanners.BlockScanner;
+import net.graphich.ambiotic.util.StrictJsonException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +25,19 @@ public class BlockCounter extends Variable {
     }
 
     @Override
-    public void validate() throws Exception {
+    public void validate() throws StrictJsonException {
         super.validate();
-        if(mBlockSpecifiers == null || mBlockSpecifiers.length == 0)
-            throw new Exception("Blocks list must be defined and not empty for BlockCounter variable");
+        if(mBlockSpecifiers == null)
+            throw new StrictJsonException("Blocks list must be defined and not empty for BlockCounter variable");
         if(mScannerName == null || mScannerName.equals(""))
-            throw new Exception("BlockCounter variable requires a Scanner to be defined");
+            throw new StrictJsonException("BlockCounter variable requires a Scanner to be defined");
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+        //Transients
+        mBlockIds = new ArrayList<Integer>();
     }
 
     @Override

@@ -6,11 +6,11 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.main.Ambiotic;
-import net.graphich.ambiotic.main.Util;
+import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.scanners.BlockScanner;
+import net.graphich.ambiotic.util.StrictJsonSerializer;
 import net.graphich.ambiotic.variables.BlockCounter;
 import net.graphich.ambiotic.variables.Variable;
-import net.graphich.ambiotic.variables.VariableSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -44,15 +44,15 @@ public class VariableRegistry {
         JsonArray variableList = null;
         Ambiotic.logger().info("Reading variables file '" + rl + "'");
         try {
-            variableList = Util.getRootObjectList(rl);
+            variableList = Helpers.getRootJsonArray(rl);
         } catch (Exception ex) {
-            Ambiotic.logger().error("Error reading '" + rl + "' : " + ex.getCause().getMessage());
+            Ambiotic.logger().error("Error reading '" + rl + "' : " + ex.getMessage());
             return;
         }
 
         //Deserialize and register each variable
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Variable.class, new VariableSerializer());
+        gsonBuilder.registerTypeAdapter(Variable.class, Variable.STRICT_ADAPTER);
         Gson gson = gsonBuilder.create();
         int variablePos = 0;
         for(JsonElement element : variableList) {
@@ -61,12 +61,8 @@ public class VariableRegistry {
 
             try {
                 variable = gson.fromJson(element, Variable.class);
-                variable.validate();
             } catch (JsonParseException ex) {
                 Ambiotic.logger().error(errPrefix + " of parse error : " + ex.getCause().getMessage());
-                continue;
-            } catch (Exception ex) {
-                Ambiotic.logger().error(errPrefix + " it's invalid : "+ex.getCause().getMessage());
                 continue;
             }
 
@@ -87,7 +83,7 @@ public class VariableRegistry {
                 List<Integer> blockIds = new ArrayList<Integer>();
                 int size = 0;
                 for(String spec : counter.getBlockSpecs()) {
-                    blockIds.addAll(Util.buildBlockIdList(spec));
+                    blockIds.addAll(Helpers.buildBlockIdList(spec));
                     // Warn user that a bad block specification was in the counter's list
                     if(size == blockIds.size())
                         Ambiotic.logger().warn("In block counter variable '"+counter.name()+"' : Ignoring bad block ID '"+spec+"'");

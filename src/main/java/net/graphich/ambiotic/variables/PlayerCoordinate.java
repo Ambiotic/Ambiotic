@@ -1,12 +1,8 @@
 package net.graphich.ambiotic.variables;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.graphich.ambiotic.errors.JsonError;
-import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
-import net.graphich.ambiotic.errors.JsonMissingRequiredField;
+import net.graphich.ambiotic.util.StrictJsonException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -24,10 +20,10 @@ public class PlayerCoordinate extends Variable {
     }
 
     @Override
-    public void validate() throws Exception {
+    public void validate() throws StrictJsonException {
         super.validate();
         if(mCoordinate == null)
-            throw new Exception("No SubType specified, valid subtypes are X, Y, Z or DIM");
+            throw new  StrictJsonException("No SubType specified, valid subtypes are X, Y, Z or DIM");
     }
 
     @Override

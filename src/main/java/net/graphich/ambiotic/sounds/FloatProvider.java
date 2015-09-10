@@ -1,27 +1,39 @@
 package net.graphich.ambiotic.sounds;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.graphich.ambiotic.errors.JsonError;
-import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
-import net.graphich.ambiotic.errors.JsonMissingRequiredField;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.sun.org.apache.bcel.internal.classfile.ConstantFloat;
+import net.graphich.ambiotic.util.StrictJson;
+import net.graphich.ambiotic.util.StrictJsonException;
+import net.graphich.ambiotic.util.StrictJsonSerializer;
 
-public abstract class FloatProvider {
+import java.lang.reflect.Type;
+
+public abstract class FloatProvider implements StrictJson {
 
     public abstract float value();
 
-    public static FloatProvider deserialize(JsonObject json) throws JsonError {
-        if(!json.has("Type"))
-            throw new JsonMissingRequiredField("Type");
-        JsonElement cur = json.get("Type");
-        if(!cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isString())
-            throw new JsonInvalidTypeForField("Type","string");
-        String type = cur.getAsString();
-        if(type.equals("Random"))
-            return new FloatRandom(json);
-        else if(type.equals("Constant"))
-            return new FloatConstant(json);
-        else
-            throw new JsonError("No such Type '"+type+"'");
+    @Override
+    public String toString() {
+        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(FloatProvider.class , STRICT_ADAPTER);
+        Gson gson = gsonBuilder.create();
+        return gson.toJson(gson.toJsonTree(this));
     }
+
+    @Override
+    public void validate() throws StrictJsonException {}
+    @Override
+    public void initialize() throws StrictJsonException {}
+
+    public static final StrictJsonSerializer<FloatProvider> STRICT_ADAPTER;
+    static {
+        BiMap<String, Type> types = HashBiMap.create();
+        types.put("Random", FloatRandom.class);
+        types.put("Constant", FloatConstant.class);
+        STRICT_ADAPTER = new StrictJsonSerializer<FloatProvider>(types,FloatProvider.class);
+    }
+
 }

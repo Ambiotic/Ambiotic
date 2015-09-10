@@ -3,7 +3,7 @@ package net.graphich.ambiotic.registries;
 import com.google.gson.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.graphich.ambiotic.main.Ambiotic;
-import net.graphich.ambiotic.main.Util;
+import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.scanners.BlockScanner;
 
 import java.util.*;
@@ -37,7 +37,7 @@ public class ScannerRegistry {
         JsonArray scannerList = null;
         Ambiotic.logger().info("Loading scanners file '" + rl + "'");
         try {
-            scannerList = Util.getRootObjectList(rl);
+            scannerList = Helpers.getRootJsonArray(rl);
         } catch (Exception ex) {
             Ambiotic.logger().error("Error reading '" + rl + "' : "+ex.getCause().getMessage());
             return;

@@ -1,11 +1,7 @@
 package net.graphich.ambiotic.variables;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.graphich.ambiotic.errors.JsonError;
-import net.graphich.ambiotic.errors.JsonInvalidTypeForField;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
 
@@ -19,8 +15,7 @@ public class GameTime extends Variable {
     }
 
     @Override
-    public void validate() throws Exception {
-        super.validate();
+    public void initialize() {
         // Default modulus
         if(mModulus == 0)
             mModulus = 1;
