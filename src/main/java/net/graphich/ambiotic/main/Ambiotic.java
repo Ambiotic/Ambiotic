@@ -1,5 +1,6 @@
 package net.graphich.ambiotic.main;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -9,8 +10,11 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.graphich.ambiotic.registries.SoundRegistry;
 import net.graphich.ambiotic.registries.ScannerRegistry;
 import net.graphich.ambiotic.registries.VariableRegistry;
+import net.graphich.ambiotic.sounds.AmbioticSoundEvent;
+import net.graphich.ambiotic.sounds.FloatProvider;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Logger;
+import net.graphich.ambiotic.variables.Variable;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -22,6 +26,7 @@ public class Ambiotic {
     public static final String NAME = "Ambiotic";
     public static final String VERSION = "0.0.2";
 
+    //Utilities : logger, script engine, json builder
     protected static Logger logger;
     public static Logger logger() {
         return Ambiotic.logger;
@@ -32,14 +37,18 @@ public class Ambiotic {
         return Ambiotic.scripter;
     }
 
-    protected static GsonBuilder gsonbuilder;
-    public static GsonBuilder gsonbuilder() {
-        return Ambiotic.gsonbuilder;
+    protected static final GsonBuilder gsonbuilder;
+    public static Gson gson() {
+        return Ambiotic.gsonbuilder.create();
+    }
+    static {
+        gsonbuilder = new GsonBuilder();
+        gsonbuilder.registerTypeAdapter(Variable.class, Variable.STRICT_ADAPTER);
+        gsonbuilder.registerTypeAdapter(AmbioticSoundEvent.class, AmbioticSoundEvent.STRICT_ADAPTER);
+        gsonbuilder.registerTypeAdapter(FloatProvider.class, FloatProvider.STRICT_ADAPTER);
+        gsonbuilder.setPrettyPrinting();
     }
 
-    protected void initGsonBuilder() {
-
-    }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {

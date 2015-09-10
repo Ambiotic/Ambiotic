@@ -69,10 +69,7 @@ public class SoundRegistry {
 
     protected void load(ResourceLocation rl) throws JsonParseException, IOException {
         JsonArray events = Helpers.getRootJsonArray(rl);
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(AmbioticSoundEvent.class, AmbioticSoundEvent.STRICT_ADAPTER);
-        gsonBuilder.registerTypeAdapter(FloatProvider.class, FloatProvider.STRICT_ADAPTER);
-        Gson gson = gsonBuilder.create();
+        Gson gson = Ambiotic.gson();
         for(JsonElement eventElm : events) {
             AmbioticSoundEvent event = gson.fromJson(eventElm, AmbioticSoundEvent.class);
             register(event);

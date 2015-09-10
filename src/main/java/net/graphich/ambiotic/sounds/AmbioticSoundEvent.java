@@ -41,6 +41,12 @@ public abstract class AmbioticSoundEvent implements StrictJson {
             throw new StrictJsonException("Name is required");
         if(mSound == null || mSound.equals(""))
             throw new StrictJsonException("Sound is required");
+        if(mPitch != null)
+            mPitch.validate();
+        if(mVolume != null)
+            mVolume.validate();
+        if(mCoolDown != null)
+            mCoolDown.validate();
     }
 
     @Override

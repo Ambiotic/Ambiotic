@@ -8,7 +8,6 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.main.Ambiotic;
 import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.scanners.BlockScanner;
-import net.graphich.ambiotic.util.StrictJsonSerializer;
 import net.graphich.ambiotic.variables.BlockCounter;
 import net.graphich.ambiotic.variables.Variable;
 import net.minecraft.util.ResourceLocation;
@@ -51,9 +50,7 @@ public class VariableRegistry {
         }
 
         //Deserialize and register each variable
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Variable.class, Variable.STRICT_ADAPTER);
-        Gson gson = gsonBuilder.create();
+        Gson gson = Ambiotic.gson();
         int variablePos = 0;
         for(JsonElement element : variableList) {
             Variable variable = null;

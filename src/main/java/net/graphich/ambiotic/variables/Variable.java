@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import net.graphich.ambiotic.main.Ambiotic;
 import net.graphich.ambiotic.util.StrictJson;
 import net.graphich.ambiotic.util.StrictJsonException;
 import net.graphich.ambiotic.util.StrictJsonSerializer;
@@ -63,9 +64,7 @@ public abstract class Variable implements StrictJson {
 
     @Override
     public String toString() {
-        GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
-        gsonBuilder.registerTypeAdapter(Variable.class, STRICT_ADAPTER);
-        Gson gson = gsonBuilder.create();
+        Gson gson = Ambiotic.gson();
         return gson.toJson(gson.toJsonTree(this));
     }
 
