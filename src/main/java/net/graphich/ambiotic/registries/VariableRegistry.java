@@ -1,5 +1,6 @@
 package net.graphich.ambiotic.registries;
 
+import com.google.common.base.Joiner;
 import com.google.gson.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -8,13 +9,20 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.main.Ambiotic;
 import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.scanners.BlockScanner;
+import net.graphich.ambiotic.util.StrictJsonException;
 import net.graphich.ambiotic.variables.BlockCounter;
 import net.graphich.ambiotic.variables.Variable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.graphich.ambiotic.scanners.Scanner;
 
 import javax.script.ScriptException;
-import java.util.*;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Collections;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Holds and updates instances of variables
@@ -44,7 +52,7 @@ public class VariableRegistry {
         Ambiotic.logger().info("Reading variables file '" + rl + "'");
         try {
             variableList = Helpers.getRootJsonArray(rl);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             Ambiotic.logger().error("Error reading '" + rl + "' : " + ex.getMessage());
             return;
         }
@@ -56,10 +64,11 @@ public class VariableRegistry {
             Variable variable = null;
             String errPrefix = "Skipping variable # " + variablePos + " because ";
 
+            //Fails strict json
             try {
                 variable = gson.fromJson(element, Variable.class);
-            } catch (JsonParseException ex) {
-                Ambiotic.logger().error(errPrefix + " of parse error : " + ex.getCause().getMessage());
+            } catch (StrictJsonException ex) {
+                Ambiotic.logger().error(errPrefix + " because it's invalid : " + ex.getMessage());
                 continue;
             }
 
@@ -69,31 +78,27 @@ public class VariableRegistry {
                 continue;
             }
 
-            // Need to register block types with scanner
+            // Need to link block counter to block scanner
             if(variable instanceof BlockCounter) {
                 BlockCounter counter = (BlockCounter) variable;
-                BlockScanner scanner = ScannerRegistry.INSTANCE.scanner(counter.getScannerName());
-                if(scanner == null) {
+                Scanner scanner = ScannerRegistry.INSTANCE.scanner(counter.getScannerName());
+                if(scanner == null || !(scanner instanceof BlockScanner)) {
                     Ambiotic.logger().error(errPrefix + " no block scanner named '"+counter.getScannerName()+"' is registered");
                     continue;
                 }
-                List<Integer> blockIds = new ArrayList<Integer>();
-                int size = 0;
-                for(String spec : counter.getBlockSpecs()) {
-                    blockIds.addAll(Helpers.buildBlockIdList(spec));
-                    // Warn user that a bad block specification was in the counter's list
-                    if(size == blockIds.size())
-                        Ambiotic.logger().warn("In block counter variable '"+counter.name()+"' : Ignoring bad block ID '"+spec+"'");
-                    size = blockIds.size();
+                List<String> badSpecs = counter.linkToScanner((BlockScanner)scanner);
+                if(badSpecs.size() != 0) {
+                    String msg = "In the variable '" + variable.name() + "' ";
+                    boolean allBad = (counter.getBlockSpecs().length == badSpecs.size());
+                    if(allBad)
+                        msg += " all the block specifications were bad and it was ignored.";
+                    else
+                        msg += "the following bad blocks specifications were ignored : " +Joiner.on(", ").join(badSpecs);
+                    Ambiotic.logger().warn(msg);
+                    // Skip past block counter's with no valid block specifications
+                    if(allBad)
+                        continue;
                 }
-                if(size == 0) {
-                    Ambiotic.logger().error(errPrefix+" no valid block IDs were specified");
-                    continue;
-                }
-                // Link scanner and variable
-                counter.setScanner(scanner);
-                counter.addBlockIds(blockIds);
-                scanner.registerBlockIds(blockIds);
             }
             //Finally register variable
             register(variable);

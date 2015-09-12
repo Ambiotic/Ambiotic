@@ -10,6 +10,8 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.graphich.ambiotic.registries.SoundRegistry;
 import net.graphich.ambiotic.registries.ScannerRegistry;
 import net.graphich.ambiotic.registries.VariableRegistry;
+import net.graphich.ambiotic.scanners.BlockScanner;
+import net.graphich.ambiotic.scanners.Scanner;
 import net.graphich.ambiotic.sounds.AmbioticSoundEvent;
 import net.graphich.ambiotic.sounds.FloatProvider;
 import net.minecraftforge.common.MinecraftForge;
@@ -46,6 +48,7 @@ public class Ambiotic {
         gsonbuilder.registerTypeAdapter(Variable.class, Variable.STRICT_ADAPTER);
         gsonbuilder.registerTypeAdapter(AmbioticSoundEvent.class, AmbioticSoundEvent.STRICT_ADAPTER);
         gsonbuilder.registerTypeAdapter(FloatProvider.class, FloatProvider.STRICT_ADAPTER);
+        gsonbuilder.registerTypeAdapter(Scanner.class, Scanner.STRICT_ADAPTER);
         gsonbuilder.setPrettyPrinting();
     }
 

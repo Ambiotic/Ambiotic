@@ -54,10 +54,19 @@ public abstract class AmbioticSoundEvent implements StrictJson {
         // Default pitch / volume calculators
         if(mVolume == null)
             mVolume = new FloatConstant(1.0f);
+        else
+            mVolume.initialize();
+
         if(mPitch == null)
             mPitch = new FloatConstant(1.0f);
+        else
+            mPitch.initialize();
+
         if(mCoolDown == null)
             mCoolDown = new FloatConstant(10000.0f);
+        else
+            mCoolDown.initialize();
+
         mCanPlayAgain = -1;
         mTicksSincePlayed = 0;
         mCanPlayAgain = 0;

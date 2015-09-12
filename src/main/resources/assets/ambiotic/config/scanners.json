@@ -1,5 +1,6 @@
 [
   {
+    "Type" : "BlockScanner",
     "Name" : "Large",
     "XSize" : 64,
     "YSize" : 16,

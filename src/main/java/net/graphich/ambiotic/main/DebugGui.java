@@ -8,6 +8,7 @@ import cpw.mods.fml.common.registry.GameData;
 import net.graphich.ambiotic.registries.ScannerRegistry;
 import net.graphich.ambiotic.registries.VariableRegistry;
 import net.graphich.ambiotic.scanners.BlockScanner;
+import net.graphich.ambiotic.scanners.Scanner;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;
@@ -70,7 +71,7 @@ public class DebugGui extends GuiScreen {
     public void drawScanner() {
         int y = Y_OFFSET;
         int x = X_OFFSET;
-        BlockScanner blockScanner = ScannerRegistry.INSTANCE.scanner("Large");
+        BlockScanner blockScanner = (BlockScanner)ScannerRegistry.INSTANCE.scanner("Large");
         mFontRenderer.drawString("Large", x, y, TEXT_COLOR, true);
         y += Y_INC;
         if (blockScanner == null || !blockScanner.scanFinished()) {

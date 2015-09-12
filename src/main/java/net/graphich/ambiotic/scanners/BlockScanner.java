@@ -1,9 +1,14 @@
 package net.graphich.ambiotic.scanners;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import net.graphich.ambiotic.util.StrictJson;
+import net.graphich.ambiotic.util.StrictJsonException;
+import net.graphich.ambiotic.util.StrictJsonSerializer;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,9 +16,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
 
+import java.lang.reflect.Type;
 import java.util.*;
 
-public class BlockScanner {
+public class BlockScanner extends Scanner {
 
     @SerializedName("XSize")
     protected int mXSize = 0;
@@ -21,8 +27,6 @@ public class BlockScanner {
     protected int mYSize = 0;
     @SerializedName("ZSize")
     protected int mZSize = 0;
-    @SerializedName("Name")
-    protected String mName = "";
     @SerializedName("BlocksPerTick")
     protected int mBlocksPerTick = 0;
 
@@ -49,17 +53,21 @@ public class BlockScanner {
         mName = name;
     }
 
-    public void validate() throws Exception {
-        if(mName == null || mName.equals(""))
-            throw new Exception("No name or blank name specified");
+    @Override
+    public void validate() throws StrictJsonException {
+        super.validate();
         if(mXSize <= 0)
-            throw new Exception("XSize must be defined and must be greater than 0");
+            throw new StrictJsonException("XSize must be defined and must be greater than 0");
         if(mYSize <= 0)
-            throw new Exception("XSize must be defined and must be greater than 0");
+            throw new StrictJsonException("XSize must be defined and must be greater than 0");
         if(mZSize <= 0)
-            throw new Exception("XSize must be defined and must be greater than 0");
+            throw new StrictJsonException("XSize must be defined and must be greater than 0");
         if(mBlocksPerTick < 0)
-            throw new Exception("BlocksPerTick must be greater than 0");
+            throw new StrictJsonException("BlocksPerTick must be greater than 0");
+    }
+
+    @Override
+    public void initialize() {
         // BlocksPerTick is optional
         if(mBlocksPerTick == 0)
             mBlocksPerTick = (mXSize*mZSize*mYSize)/4;
@@ -213,9 +221,6 @@ public class BlockScanner {
         if (event.isCanceled()) {
             return;
         }
-        //Need to check if block is within this scanners
-        // volume before firing the below code in case
-        // of multiplayer?
         int blockId = Block.getIdFromBlock(event.block);
         addToCount(blockId,-1);
     }
@@ -225,14 +230,8 @@ public class BlockScanner {
         if (event.isCanceled()) {
             return;
         }
-        Point where = new Point(event.x, event.y, event.z);
-        ItemStack inhand = event.itemInHand;
-        if(inhand == null)
-            return;
-        int placedBlockId = Block.getIdFromBlock(Block.getBlockFromItem(inhand.getItem()));
-        int worldBlockId = Block.getIdFromBlock(event.world.getBlock(event.x, event.y, event.z));
-        if (placedBlockId == worldBlockId)
-            addToCount(placedBlockId,1);
+        int placedBlockId = Block.getIdFromBlock(event.block);
+        addToCount(placedBlockId,1);
     }
 
     @SubscribeEvent

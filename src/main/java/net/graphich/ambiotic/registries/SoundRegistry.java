@@ -6,6 +6,7 @@ import net.graphich.ambiotic.main.Ambiotic;
 import net.graphich.ambiotic.sounds.FloatProvider;
 import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.sounds.AmbioticSoundEvent;
+import net.graphich.ambiotic.util.StrictJsonException;
 import net.graphich.ambiotic.util.StrictJsonSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -43,6 +44,7 @@ public class SoundRegistry {
     public void load() {
         ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/events.json");
 
+        Ambiotic.logger().info("Loading event include list file '" + rl + "'");
         String[] includeList = null;
         try {
             JsonParser parser = new JsonParser();
@@ -50,29 +52,36 @@ public class SoundRegistry {
             GsonBuilder gsonBuilder = new GsonBuilder();
             Gson gson = gsonBuilder.create();
             includeList = gson.fromJson(json,String[].class);
-        } catch (Exception ex) {
-            Ambiotic.logger().error("Could not read event include list : " + ex.getMessage());
+        } catch (IOException ex) {
+            Ambiotic.logger().error("Error reading '" + rl + " : " + ex.getMessage());
             return;
         }
 
         for(String include : includeList) {
             rl = new ResourceLocation(include);
             Ambiotic.logger().info("Loading event include '" + rl + "'");
-            try {
-                load(rl);
-            } catch (Exception ex) {
-                Ambiotic.logger().error("Loading '" + rl + "' failed : "+ex.getMessage());
-                continue;
-            }
+            load(rl);
         }
     }
 
-    protected void load(ResourceLocation rl) throws JsonParseException, IOException {
-        JsonArray events = Helpers.getRootJsonArray(rl);
+    protected void load(ResourceLocation rl)  {
+        JsonArray events = null;
+        try {
+            events = Helpers.getRootJsonArray(rl);
+        } catch (IOException ex) {
+            Ambiotic.logger().warn("Can't load '" + rl + "' : " + ex.getMessage());
+            return;
+        }
         Gson gson = Ambiotic.gson();
+        int eventNo = -1;
         for(JsonElement eventElm : events) {
-            AmbioticSoundEvent event = gson.fromJson(eventElm, AmbioticSoundEvent.class);
-            register(event);
+            try {
+                eventNo += 1;
+                AmbioticSoundEvent event = gson.fromJson(eventElm, AmbioticSoundEvent.class);
+                register(event);
+            } catch (StrictJsonException ex) {
+                Ambiotic.logger().warn("Skipping sound event # " + eventNo + " : " + ex.getMessage());
+            }
         }
     }
 

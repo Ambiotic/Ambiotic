@@ -16,19 +16,18 @@ public class StrictJsonSerializer<T> implements JsonSerializer<T>, JsonDeseriali
     }
 
     @Override
-    public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws StrictJsonException {
         JsonElement type = json.getAsJsonObject().get("Type");
         String rootName = mRootType.getSimpleName();
         if(!type.isJsonPrimitive() || !type.getAsJsonPrimitive().isString())
-            throw new JsonParseException(rootName + " Type must be string");
+            throw new StrictJsonException(rootName + " Type must be string");
         if(!mTypeMap.containsKey(type.getAsString()))
-            throw new JsonParseException("No such " + rootName + " Type '"+type.getAsString()+"'");
+            throw new StrictJsonException("No such " + rootName + " Type '"+type.getAsString()+"'");
         Type varClass = mTypeMap.get(type.getAsString());
         T result = context.deserialize(json,varClass);
-        // If the object implements StrictJson call validate and initialize
         if(result instanceof StrictJson) {
-            ((StrictJson)result).validate(); //Might throw StrictJsonException
-            ((StrictJson)result).initialize();
+            ((StrictJson) result).validate();
+            ((StrictJson) result).initialize();
         }
         return result;
     }

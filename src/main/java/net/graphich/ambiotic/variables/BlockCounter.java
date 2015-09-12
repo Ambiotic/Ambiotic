@@ -3,6 +3,7 @@ package net.graphich.ambiotic.variables;
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.scanners.BlockScanner;
+import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.util.StrictJsonException;
 
 import java.util.ArrayList;
@@ -53,16 +54,27 @@ public class BlockCounter extends Variable {
         return updated;
     }
 
+    public List<String> linkToScanner(BlockScanner scanner) {
+        mScanner = scanner;
+        List<String> badSpecs = new ArrayList<String>();
+        for(String spec : mBlockSpecifiers) {
+            ArrayList<Integer> blockIds = Helpers.buildBlockIdList(spec);
+            if(blockIds.size() == 0) {
+                badSpecs.add(spec);
+                continue;
+            }
+            mScanner.registerBlockIds(blockIds);
+            addBlockIds(blockIds);
+        }
+        return badSpecs;
+    }
+
     public String[] getBlockSpecs() {
         return mBlockSpecifiers;
     }
 
     public String getScannerName() {
         return mScannerName;
-    }
-
-    public void setScanner(BlockScanner scanner) {
-        mScanner = scanner;
     }
 
     public void addBlockIds(List<Integer> blockIds) {
