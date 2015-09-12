@@ -87,6 +87,11 @@
     },
 
     {
+        "Name" : "IsOutside",
+        "Type" : "PlayerOutside"
+    },
+
+    {
         "Name" : "Foliage",
         "Type" : "BlockCounter",
         "Scanner" : "Large",
