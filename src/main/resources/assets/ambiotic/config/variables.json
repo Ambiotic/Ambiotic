@@ -1,77 +1,93 @@
-{
-    "TimeOfDay" : {
+[
+    {
+        "Name" : "TimeOfDay",
         "Type" : "GameTime",
         "Modulus" : 23000,
         "TicksPerUpdate" : 480
     },
 
-    "Raining" : {
+    {
+        "Name" : "Raining",
         "Type" : "IsRaining"
     },
 
-    "ThunderStrength" : {
+    {
+        "Name" : "ThunderStrength",
         "Type" : "ThunderStrength",
         "Scalar" : 1000
     },
 
-    "RainStrength" : {
+    {
+        "Name" : "RainStrength",
         "Type" : "RainStrength",
         "Scalar" : 1000
     },
 
-    "PlayerX" : {
+    {
+        "Name" : "PlayerX",
         "Type" : "PlayerCoordinate",
         "SubType" : "X"
     },
 
-    "PlayerY" : {
+    {
+        "Name" : "PlayerY",
         "Type" : "PlayerCoordinate",
         "SubType" : "Y"
     },
 
-    "PlayerZ" : {
+    {
+        "Name" : "PlayerZ",
         "Type" : "PlayerCoordinate",
         "SubType" : "Z"
     },
 
-    "PlayerDIM" : {
+    {
+        "Name" : "PlayerDIM",
         "Type" : "PlayerCoordinate",
         "SubType" : "DIM"
     },
 
-    "MoonPhase" : {
+    {
+        "Name" : "MoonPhase",
         "Type" : "MoonPhase"
     },
 
-    "SunLevel" : {
+    {
+        "Name" : "SunLevel",
         "Type" : "LightLevel",
         "SubType" : "SUN"
     },
 
-    "TorchLevel" : {
+    {
+        "Name" : "TorchLevel",
         "Type" : "LightLevel",
         "SubType" : "LAMP"
     },
 
-    "LightLevel" : {
+    {
+        "Name" : "LightLevel",
         "Type" : "LightLevel",
         "SubType" : "TOTAL"
     },
 
-    "MaxSun" : {
+    {
+        "Name" : "MaxSun",
         "Type" : "LightLevel",
         "SubType" : "MAXSUN"
     },
 
-    "CanRainOn" : {
+    {
+        "Name" : "CanRainOn",
         "Type" : "CanRainOn"
     },
 
-    "CanSeeSky" : {
+    {
+        "Name" : "CanSeeSky",
         "Type" : "CanSeeSky"
     },
 
-    "Foliage" : {
+    {
+        "Name" : "Foliage",
         "Type" : "BlockCounter",
         "Scanner" : "Large",
         "Blocks" : [
@@ -80,11 +96,12 @@
         ]
     },
 
-    "TestCounter" : {
+    {
+        "Name" : "TestCounter",
         "Type" : "BlockCounter",
         "Scanner" : "Large",
         "Blocks" : [
             "minecraft:stone"
         ]
     }
-}
+]

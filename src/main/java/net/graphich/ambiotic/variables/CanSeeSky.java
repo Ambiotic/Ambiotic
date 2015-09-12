@@ -1,8 +1,6 @@
 package net.graphich.ambiotic.variables;
 
-import com.google.gson.JsonObject;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.graphich.ambiotic.errors.JsonError;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -10,13 +8,11 @@ import net.minecraft.world.World;
 /**
  * Block at player position can see the sky
  */
-public final class CanSeeSky extends Variable {
+public class CanSeeSky extends Variable {
 
     public CanSeeSky(String name) {
         super(name);
     }
-
-    public CanSeeSky(String name, JsonObject json) throws JsonError { super(name, json); }
 
     @Override
     public boolean update(TickEvent event) {

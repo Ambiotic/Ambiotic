@@ -1,14 +1,9 @@
-{
-    "RegularForestBirds" : {
-        "Type" : "ScriptedSound",
+[
+    {
+        "Name" : "RegularForestBirds",
+        "Type" : "Scripted",
         "Sound" : "ambiotic:ambient.forest.bird",
-        "Conditions" : [
-            "Foliage >= 1500",
-            "&&",
-            "TimeOfDay <= 11500",
-            "&&",
-            "Raining == 0"
-        ],
+        "Conditions" : "Foliage >= 1500 && TimeOfDay <= 11500 && Raining == 0",
         "CoolDown" : {
             "Type" : "Random",
             "Min" : 1500,
@@ -25,12 +20,11 @@
         }
     },
 
-    "VariousGrassBugs" : {
-        "Type" : "ScriptedSound",
+    {
+        "Name" : "VariousGrassBugs",
+        "Type" : "Scripted",
         "Sound" : "ambiotic:ambient.grassland.daynightbug",
-        "Conditions" : [
-            "Raining == 0"
-        ],
+        "Conditions" : "Raining == 0",
         "CoolDown" : {
             "Type" : "Random",
             "Min" : 1500,
@@ -46,4 +40,4 @@
             "Value" : 0.40
         }
     }
-}
+]

@@ -1,23 +1,28 @@
 package net.graphich.ambiotic.registries;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.common.base.Joiner;
+import com.google.gson.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.main.Ambiotic;
-import net.graphich.ambiotic.errors.JsonError;
+import net.graphich.ambiotic.util.Helpers;
+import net.graphich.ambiotic.scanners.BlockScanner;
+import net.graphich.ambiotic.util.StrictJsonException;
+import net.graphich.ambiotic.variables.BlockCounter;
 import net.graphich.ambiotic.variables.Variable;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.graphich.ambiotic.scanners.Scanner;
 
 import javax.script.ScriptException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.*;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Collections;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Holds and updates instances of variables
@@ -43,30 +48,62 @@ public class VariableRegistry {
 
     public void load() {
         ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/variables.json");
-        JsonParser parser = new JsonParser();
-        JsonObject json = null;
-        Ambiotic.logger().info("Loading variables file '" + rl + "'");
+        JsonArray variableList = null;
+        Ambiotic.logger().info("Reading variables file '" + rl + "'");
         try {
-            InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(rl).getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            json = parser.parse(isr).getAsJsonObject();
-        } catch (Exception ex) {
+            variableList = Helpers.getRootJsonArray(rl);
+        } catch (IOException ex) {
             Ambiotic.logger().error("Error reading '" + rl + "' : " + ex.getMessage());
             return;
         }
-        for(Map.Entry<String, JsonElement> variable : json.entrySet()) {
-            String name = variable.getKey();
-            Ambiotic.logger().info("Loading variable '"+name+"'");
-            if(!variable.getValue().isJsonObject()) {
-                Ambiotic.logger().warn("Skipping variable '" + name + "': it is not a JSON object");
+
+        //Deserialize and register each variable
+        Gson gson = Ambiotic.gson();
+        int variablePos = 0;
+        for(JsonElement element : variableList) {
+            Variable variable = null;
+            String errPrefix = "Skipping variable # " + variablePos + " because ";
+
+            //Fails strict json
+            try {
+                variable = gson.fromJson(element, Variable.class);
+            } catch (StrictJsonException ex) {
+                Ambiotic.logger().error(errPrefix + " because it's invalid : " + ex.getMessage());
                 continue;
             }
-            try {
-                Variable var = Variable.deserialize(name,variable.getValue().getAsJsonObject());
-                register(var); // Need to desiralize ticks
-            } catch(JsonError ex) {
-                Ambiotic.logger().warn("Skipping variable '"+name+"' : "+ex.getMessage());
+
+            //Variable name is taken
+            if(mVariableLookup.containsKey(variable.name())) {
+                Ambiotic.logger().error(errPrefix + " another is already registered with name '"+variable.name()+"'");
+                continue;
             }
+
+            // Need to link block counter to block scanner
+            if(variable instanceof BlockCounter) {
+                BlockCounter counter = (BlockCounter) variable;
+                Scanner scanner = ScannerRegistry.INSTANCE.scanner(counter.getScannerName());
+                if(scanner == null || !(scanner instanceof BlockScanner)) {
+                    Ambiotic.logger().error(errPrefix + " no block scanner named '"+counter.getScannerName()+"' is registered");
+                    continue;
+                }
+                List<String> badSpecs = counter.linkToScanner((BlockScanner)scanner);
+                if(badSpecs.size() != 0) {
+                    String msg = "In the variable '" + variable.name() + "' ";
+                    boolean allBad = (counter.getBlockSpecs().length == badSpecs.size());
+                    if(allBad)
+                        msg += " all the block specifications were bad and it was ignored.";
+                    else
+                        msg += "the following bad blocks specifications were ignored : " +Joiner.on(", ").join(badSpecs);
+                    Ambiotic.logger().warn(msg);
+                    // Skip past block counter's with no valid block specifications
+                    if(allBad)
+                        continue;
+                }
+            }
+            //Finally register variable
+            register(variable);
+            Ambiotic.logger().debug("Loaded variable : \n" + variable);
+            variablePos += 1;
         }
     }
 
