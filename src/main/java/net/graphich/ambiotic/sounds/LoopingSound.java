@@ -20,6 +20,8 @@ public class LoopingSound extends MovingSound {
 
     @Override
     public void update() {
+        if(donePlaying)
+            return;
         if(!mScripted.conditionsMet()) {
             volume = 0;
             donePlaying = true;
