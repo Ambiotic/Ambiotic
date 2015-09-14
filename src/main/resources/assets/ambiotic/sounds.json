@@ -25,9 +25,17 @@
 
     "ambient.animal.wolf_howl" : {
         "category" : "master",
-        "streaming" : "true",
+        "streaming" : true,
         "sounds" : [
             "animals/wolf/wolf_howl1"
+        ]
+    },
+
+    "ambient.weather.whistle_wind" : {
+        "category" : "master",
+        "streaming" : true,
+        "sounds" : [
+            "weather/wind/whistle_wind_loop1"
         ]
     }
 }

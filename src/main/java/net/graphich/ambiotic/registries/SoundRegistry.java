@@ -2,12 +2,17 @@ package net.graphich.ambiotic.registries;
 
 import com.google.gson.*;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.main.Ambiotic;
-import net.graphich.ambiotic.sounds.FloatProvider;
+import net.graphich.ambiotic.sounds.LoopingEmitter;
+import net.graphich.ambiotic.sounds.LoopingSound;
+import net.graphich.ambiotic.sounds.SoundEmitter;
 import net.graphich.ambiotic.util.Helpers;
-import net.graphich.ambiotic.sounds.AmbioticSoundEvent;
 import net.graphich.ambiotic.util.StrictJsonException;
-import net.graphich.ambiotic.util.StrictJsonSerializer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ISound;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -20,14 +25,14 @@ import java.util.LinkedHashMap;
 public class SoundRegistry {
     public static SoundRegistry INSTANCE = new SoundRegistry();
 
-    protected HashMap<String, AmbioticSoundEvent> mRegistry;
+    protected HashMap<String, SoundEmitter> mRegistry;
     protected boolean mFrozen = false;
 
     protected SoundRegistry() {
-        mRegistry = new LinkedHashMap<String, AmbioticSoundEvent>();
+        mRegistry = new LinkedHashMap<String, SoundEmitter>();
     }
 
-    public void register(AmbioticSoundEvent sound) {
+    public void register(SoundEmitter sound) {
         if(mFrozen) {
             //Log? Exception?
             return;
@@ -77,7 +82,7 @@ public class SoundRegistry {
         for(JsonElement eventElm : events) {
             try {
                 eventNo += 1;
-                AmbioticSoundEvent event = gson.fromJson(eventElm, AmbioticSoundEvent.class);
+                SoundEmitter event = gson.fromJson(eventElm, SoundEmitter.class);
                 register(event);
             } catch (StrictJsonException ex) {
                 Ambiotic.logger().warn("Skipping sound event # " + eventNo + " : " + ex.getMessage());
@@ -85,11 +90,24 @@ public class SoundRegistry {
         }
     }
 
-    public void subscribeAll() {
-        mFrozen = true;
-        for(AmbioticSoundEvent sound  : mRegistry.values()) {
-            FMLCommonHandler.instance().bus().register(sound);
-            MinecraftForge.EVENT_BUS.register(sound);
+    @SubscribeEvent
+    public void onTick(TickEvent event) {
+        if(event.isCanceled() || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
+            return;
+        SoundHandler handler = Minecraft.getMinecraft().getSoundHandler();
+        for(SoundEmitter emitter : mRegistry.values()) {
+            ISound emitted = emitter.emit();
+            if(emitted != null && !handler.isSoundPlaying(emitted)) {
+                Ambiotic.logger().info("Playing "+emitter.name());
+                handler.playSound(emitted);
+            }
         }
     }
+
+    public void subscribeAll() {
+        mFrozen = true;
+        FMLCommonHandler.instance().bus().register(this);
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
 }

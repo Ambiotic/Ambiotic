@@ -1,0 +1,8 @@
+[
+    {
+        "Name" : "HighWind",
+        "Type" : "Looping",
+        "Sound" : "ambiotic:ambient.weather.whistle_wind",
+        "Conditions" : "PlayerY >= 150"
+    }
+]
