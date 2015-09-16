@@ -33,6 +33,7 @@ public abstract class FloatProvider implements StrictJson {
         BiMap<String, Type> types = HashBiMap.create();
         types.put("Random", FloatRandom.class);
         types.put("Constant", FloatConstant.class);
+        types.put("Scripted", FloatScripted.class);
         STRICT_ADAPTER = new StrictJsonSerializer<FloatProvider>(types,FloatProvider.class);
     }
 

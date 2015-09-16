@@ -6,6 +6,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
+/* This class almost works, unfortunately windows are still a problem
+   I think I should do an A* like search for a block that "can see sky"
+   we can say if one is within a 10 block radius the user is "exposed"
+   for the purpose of "outside" versus "inside" sounds.
+ */
 public class PlayerOutside extends Variable {
 
     public PlayerOutside(String name) {
@@ -27,7 +32,6 @@ public class PlayerOutside extends Variable {
         for(int cx = x; cx < x + 2; cx++) {
             for(int cy = y; cy < y + 2; cy++) {
                 for(int cz = z; cz < z + 2; cz++) {
-                    // Check the light levels of non-solid blocks
                     if(!world.isAirBlock(cx,cy,cz))
                         continue;
                     newValue += world.getSavedLightValue(EnumSkyBlock.Sky, cx, cy, cz);

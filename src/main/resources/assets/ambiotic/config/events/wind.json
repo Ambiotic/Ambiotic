@@ -3,6 +3,10 @@
         "Name" : "HighWind",
         "Type" : "Looping",
         "Sound" : "ambiotic:ambient.weather.whistle_wind",
-        "Conditions" : "PlayerY >= 150"
+        "Conditions" : "PlayerY >= 100",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "v = (PlayerY - 62)/193 - .20; v = (v > 1.0 ? 1.0 : v); v *= (IsOutside ? 1.0 : .05); v < 0 ? 0 : v;"
+        }
     }
 ]

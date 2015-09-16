@@ -56,7 +56,7 @@ public abstract class SoundEmitter implements StrictJson, IScriptedConditional {
         try {
             return (Boolean) Ambiotic.scripter().eval(mConditionCode);
         } catch (ScriptException ex) {
-            Ambiotic.logger().error("Script error in Sound Emitter '"+mName+"' : "+ex.getMessage());
+            Ambiotic.logger().debug("Script error in Sound Emitter '"+mName+"' : "+ex.getMessage());
         }
         return false;
     }
