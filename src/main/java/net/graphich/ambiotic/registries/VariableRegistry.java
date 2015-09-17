@@ -12,6 +12,7 @@ import net.graphich.ambiotic.scanners.BlockScanner;
 import net.graphich.ambiotic.util.StrictJsonException;
 import net.graphich.ambiotic.variables.BlockCounter;
 import net.graphich.ambiotic.variables.Variable;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.graphich.ambiotic.scanners.Scanner;
@@ -154,8 +155,12 @@ public class VariableRegistry {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent event) {
+    public void onTick(TickEvent.ClientTickEvent event) {
         if (mUpdates == null || !mFrozen)
+            return;
+        if(Minecraft.getMinecraft().theWorld == null)
+            return;
+        if(!Minecraft.getMinecraft().theWorld.isRemote)
             return;
         StringBuilder code = new StringBuilder();
         boolean updated = false;

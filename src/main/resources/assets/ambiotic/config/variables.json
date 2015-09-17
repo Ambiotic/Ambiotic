@@ -88,7 +88,21 @@
 
     {
         "Name" : "IsOutside",
-        "Type" : "PlayerOutside"
+        "Type" : "PlayerOutside",
+        "AirPermeableBlocks" : [
+            "minecraft:reeds",
+            "minecraft:air",
+            "minecraft:fence",
+            "minecraft:portal",
+            "minecraft:nether_brick_fence",
+            "minecraft:brewing_stand",
+            "minecraft:pumpkin_stem",
+            "minecraft:melon_stem",
+            "minecraft:vine",
+            "treeLeaves",
+            "minecraft:cobblestone_wall",
+            "minecraft:iron_bars"
+        ]
     },
 
     {

@@ -177,7 +177,7 @@ public class BlockScanner extends Scanner {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent event) {
+    public void onTick(TickEvent.ClientTickEvent event) {
         // No scan state
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if (player == null || player.worldObj == null || event.isCanceled()) {

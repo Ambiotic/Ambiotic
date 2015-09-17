@@ -91,7 +91,7 @@ public class SoundRegistry {
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent event) {
+    public void onTick(TickEvent.ClientTickEvent event) {
         if(event.isCanceled() || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
             return;
         SoundHandler handler = Minecraft.getMinecraft().getSoundHandler();

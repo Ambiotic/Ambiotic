@@ -8,5 +8,15 @@
             "Type" : "Scripted",
             "Code" : "v = (PlayerY - 62)/193 - .20; v = (v > 1.0 ? 1.0 : v); v *= (IsOutside ? 1.0 : .05); v < 0 ? 0 : v;"
         }
+    },
+    {
+        "Name" : "HighWind",
+        "Type" : "Skip",
+        "Sound" : "ambiotic:ambient.weather.whistle_wind",
+        "Conditions" : "PlayerY >= 100",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "v = 1.0; v *= (IsOutside ? 1.0 : .05);"
+        }
     }
 ]
