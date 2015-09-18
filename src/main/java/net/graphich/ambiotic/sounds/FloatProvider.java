@@ -4,14 +4,13 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sun.org.apache.bcel.internal.classfile.ConstantFloat;
-import net.graphich.ambiotic.util.StrictJson;
+import net.graphich.ambiotic.util.IStrictJson;
 import net.graphich.ambiotic.util.StrictJsonException;
 import net.graphich.ambiotic.util.StrictJsonSerializer;
 
 import java.lang.reflect.Type;
 
-public abstract class FloatProvider implements StrictJson {
+public abstract class FloatProvider implements IStrictJson {
 
     public abstract float value();
 

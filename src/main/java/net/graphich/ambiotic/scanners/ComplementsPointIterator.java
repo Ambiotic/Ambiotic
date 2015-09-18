@@ -11,7 +11,7 @@ import java.util.List;
  * cuboids as "segments" so that the space in c1 or c2 but not in i
  * can be iterated efficiently.
  */
-public class ComplementsPointIterator implements PointIterator {
+public class ComplementsPointIterator implements IPointIterator {
 
     protected List<CuboidPointIterator> mSegments;
 

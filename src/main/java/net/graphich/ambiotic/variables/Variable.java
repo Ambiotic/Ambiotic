@@ -3,11 +3,10 @@ package net.graphich.ambiotic.variables;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.main.Ambiotic;
-import net.graphich.ambiotic.util.StrictJson;
+import net.graphich.ambiotic.util.IStrictJson;
 import net.graphich.ambiotic.util.StrictJsonException;
 import net.graphich.ambiotic.util.StrictJsonSerializer;
 
@@ -18,7 +17,7 @@ import java.lang.reflect.Type;
  * some game value (player.posX, world.getInfo().isRaining(), ect...)
  * that is exposed by the API and to the python engine.
  */
-public abstract class Variable implements StrictJson {
+public abstract class Variable implements IStrictJson {
 
     @SerializedName("Name")
     protected String mName;

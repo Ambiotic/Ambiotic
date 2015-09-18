@@ -4,15 +4,14 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.annotations.SerializedName;
 import net.graphich.ambiotic.main.Ambiotic;
-import net.graphich.ambiotic.util.StrictJson;
+import net.graphich.ambiotic.util.IStrictJson;
 import net.graphich.ambiotic.util.StrictJsonException;
 import net.graphich.ambiotic.util.StrictJsonSerializer;
 import net.minecraft.client.audio.ISound;
 
-import javax.script.ScriptException;
 import java.lang.reflect.Type;
 
-public abstract class SoundEmitter implements StrictJson, IScriptedConditional {
+public abstract class SoundEmitter implements IStrictJson, IScriptedConditional {
     @SerializedName("Name")
     protected String mName = "";
     @SerializedName("Sound")

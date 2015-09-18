@@ -25,9 +25,9 @@ public class StrictJsonSerializer<T> implements JsonSerializer<T>, JsonDeseriali
             throw new StrictJsonException("No such " + rootName + " Type '"+type.getAsString()+"'");
         Type varClass = mTypeMap.get(type.getAsString());
         T result = context.deserialize(json,varClass);
-        if(result instanceof StrictJson) {
-            ((StrictJson) result).validate();
-            ((StrictJson) result).initialize();
+        if(result instanceof IStrictJson) {
+            ((IStrictJson) result).validate();
+            ((IStrictJson) result).initialize();
         }
         return result;
     }

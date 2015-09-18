@@ -1,6 +1,6 @@
 package net.graphich.ambiotic.scanners;
 
-public class CuboidPointIterator extends Cuboid implements PointIterator {
+public class CuboidPointIterator extends Cuboid implements IPointIterator {
 
     protected Point mCurrent;
 
