@@ -5,8 +5,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.main.Ambiotic;
-import net.graphich.ambiotic.sounds.LoopingEmitter;
-import net.graphich.ambiotic.sounds.LoopingSound;
 import net.graphich.ambiotic.sounds.SoundEmitter;
 import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.util.StrictJsonException;
@@ -22,13 +20,13 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 
-public class SoundRegistry {
-    public static SoundRegistry INSTANCE = new SoundRegistry();
+public class EmitterRegistry {
+    public static EmitterRegistry INSTANCE = new EmitterRegistry();
 
     protected HashMap<String, SoundEmitter> mRegistry;
     protected boolean mFrozen = false;
 
-    protected SoundRegistry() {
+    protected EmitterRegistry() {
         mRegistry = new LinkedHashMap<String, SoundEmitter>();
     }
 

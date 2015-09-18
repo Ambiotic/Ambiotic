@@ -8,8 +8,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.relauncher.Side;
-import net.graphich.ambiotic.registries.SoundRegistry;
+import net.graphich.ambiotic.registries.EmitterRegistry;
 import net.graphich.ambiotic.registries.ScannerRegistry;
 import net.graphich.ambiotic.registries.VariableRegistry;
 import net.graphich.ambiotic.scanners.Scanner;
@@ -72,7 +71,7 @@ public class Ambiotic {
         //Load all registry data from json
         ScannerRegistry.INSTANCE.load();
         VariableRegistry.INSTANCE.load();
-        SoundRegistry.INSTANCE.load();
+        EmitterRegistry.INSTANCE.load();
     }
 
 
@@ -85,7 +84,7 @@ public class Ambiotic {
         // Subscribe all event handling classes
         VariableRegistry.INSTANCE.subscribeAll();
         ScannerRegistry.INSTANCE.subscribeAll();
-        SoundRegistry.INSTANCE.subscribeAll();
+        EmitterRegistry.INSTANCE.subscribeAll();
 
         //Initialize the scripting environment
         ScriptEngineManager man = new ScriptEngineManager(null);
