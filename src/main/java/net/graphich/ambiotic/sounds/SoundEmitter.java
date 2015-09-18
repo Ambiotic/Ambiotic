@@ -53,11 +53,13 @@ public abstract class SoundEmitter implements StrictJson, IScriptedConditional {
     public String name() { return mName; }
 
     public boolean conditionsMet() {
-        try {
-            return (Boolean) Ambiotic.scripter().eval(mConditionCode);
-        } catch (ScriptException ex) {
-            Ambiotic.logger().debug("Script error in Sound Emitter '"+mName+"' : "+ex.getMessage());
-        }
+        Object rv = Ambiotic.evalJS(mConditionCode);
+        if(rv == null)
+            return false;
+        else if(rv instanceof Boolean)
+            return (Boolean)rv;
+        else if(rv instanceof Number)
+           return ((Number)rv).intValue() == 0;
         return false;
     }
 

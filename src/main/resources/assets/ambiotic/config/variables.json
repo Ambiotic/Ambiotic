@@ -101,7 +101,8 @@
             "minecraft:vine",
             "treeLeaves",
             "minecraft:cobblestone_wall",
-            "minecraft:iron_bars"
+            "minecraft:iron_bars",
+            "minecraft:ladder"
         ]
     },
 

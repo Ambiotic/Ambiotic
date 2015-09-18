@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -20,6 +21,7 @@ import net.graphich.ambiotic.variables.Variable;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 @Mod(modid = Ambiotic.MODID, version = Ambiotic.VERSION, name = Ambiotic.NAME, acceptableRemoteVersions="*")
 public class Ambiotic {
@@ -38,6 +40,15 @@ public class Ambiotic {
     public static ScriptEngine scripter() {
         return Ambiotic.scripter;
     }
+    public static Object evalJS(String js)
+    {
+        try {
+            return Ambiotic.scripter.eval(js);
+        }catch(ScriptException ex) {
+            Ambiotic.logger().error("Script failed\n"+js+"\n\n"+ex.getMessage());
+        }
+        return null;
+    }
 
     protected static final GsonBuilder gsonbuilder;
     public static Gson gson() {
@@ -52,13 +63,12 @@ public class Ambiotic {
         gsonbuilder.setPrettyPrinting();
     }
 
-
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        ScriptEngineManager man = new ScriptEngineManager();
         Ambiotic.logger = event.getModLog();
-        Ambiotic.scripter = man.getEngineByName("JavaScript");
-
+    }
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
         //Load all registry data from json
         ScannerRegistry.INSTANCE.load();
         VariableRegistry.INSTANCE.load();
@@ -78,6 +88,8 @@ public class Ambiotic {
         SoundRegistry.INSTANCE.subscribeAll();
 
         //Initialize the scripting environment
+        ScriptEngineManager man = new ScriptEngineManager(null);
+        Ambiotic.scripter = man.getEngineByName("JavaScript");
         VariableRegistry.INSTANCE.refreshScripter();
     }
 }

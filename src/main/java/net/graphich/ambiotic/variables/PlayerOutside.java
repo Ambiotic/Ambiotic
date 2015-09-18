@@ -5,6 +5,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.util.StrictJsonException;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.EnumSkyBlock;
@@ -103,7 +104,8 @@ public class PlayerOutside extends Variable {
 
     protected boolean goodSuccessor(Pos p) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        int id = Block.getIdFromBlock(Minecraft.getMinecraft().theWorld.getBlock(p.X,p.Y,p.Z));
+        Block block = Minecraft.getMinecraft().theWorld.getBlock(p.X,p.Y,p.Z);
+        int id = Block.getIdFromBlock(block);
         if(!mPermeableBlockIds.contains(id))
             return false;
         if(mOpen.contains(p))

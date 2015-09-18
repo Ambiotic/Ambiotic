@@ -12,12 +12,16 @@ public class FloatScripted extends FloatProvider {
 
     @Override
     public float value() {
-        try {
-            Double rv = (Double)Ambiotic.scripter().eval(mJSCode);
-            return rv.floatValue();
-        } catch(ScriptException ex) {
-            Ambiotic.logger().debug("Script error in Float Scripted : "+ex.getMessage());
-            return Float.NaN;
-        }
+        Object rv = Ambiotic.evalJS(mJSCode);
+        if(rv == null)
+            return 0.0f;
+        else if(rv instanceof Float)
+            return ((Float) rv).floatValue();
+        else if(rv instanceof Integer)
+            return ((Integer) rv).floatValue();
+        else if(rv instanceof Double)
+            return ((Double) rv).floatValue();
+        return 0.0f;
+
     }
 }

@@ -179,11 +179,7 @@ public class VariableRegistry {
         if(!updated)
             return;
 
-        try {
-            Ambiotic.scripter().eval(code.toString());
-        } catch(ScriptException ex) {
-            Ambiotic.logger().error("Script error when updating variables : "+ex.getMessage());
-        }
+        Ambiotic.evalJS(code.toString());
     }
 
     @SubscribeEvent
@@ -197,11 +193,7 @@ public class VariableRegistry {
         {
             code.append(v.jsAssignCode());
         }
-        try {
-            Ambiotic.scripter().eval(code.toString());
-        } catch (ScriptException ex) {
-            Ambiotic.logger().error("Script error when refreshing script environment : "+ex.getMessage());
-        }
+        Ambiotic.evalJS(code.toString());
     }
 
     protected class TickRate {
