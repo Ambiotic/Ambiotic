@@ -14,6 +14,8 @@ import net.graphich.ambiotic.registries.VariableRegistry;
 import net.graphich.ambiotic.scanners.Scanner;
 import net.graphich.ambiotic.sounds.SoundEmitter;
 import net.graphich.ambiotic.sounds.FloatProvider;
+import net.graphich.ambiotic.util.Helpers;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Logger;
 import net.graphich.ambiotic.variables.Variable;
@@ -21,6 +23,8 @@ import net.graphich.ambiotic.variables.Variable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 @Mod(modid = Ambiotic.MODID, version = Ambiotic.VERSION, name = Ambiotic.NAME, acceptableRemoteVersions="*")
 public class Ambiotic {
@@ -29,7 +33,6 @@ public class Ambiotic {
     public static final String NAME = "Ambiotic";
     public static final String VERSION = "0.0.2";
 
-    //Utilities : logger, script engine, json builder
     protected static Logger logger;
     public static Logger logger() {
         return Ambiotic.logger;
@@ -43,8 +46,8 @@ public class Ambiotic {
     {
         try {
             return Ambiotic.scripter.eval(js);
-        }catch(ScriptException ex) {
-            Ambiotic.logger().error("Script failed\n"+js+"\n\n"+ex.getMessage());
+        } catch(ScriptException ex) {
+            Ambiotic.logger().error("Script failed\n"+js+"\n"+ex.getMessage());
         }
         return null;
     }
@@ -66,6 +69,7 @@ public class Ambiotic {
     public void preInit(FMLPreInitializationEvent event) {
         Ambiotic.logger = event.getModLog();
     }
+
     @EventHandler
     public void init(FMLInitializationEvent event) {
         //Load all registry data from json
@@ -73,7 +77,6 @@ public class Ambiotic {
         VariableRegistry.INSTANCE.load();
         EmitterRegistry.INSTANCE.load();
     }
-
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
@@ -89,6 +92,17 @@ public class Ambiotic {
         //Initialize the scripting environment
         ScriptEngineManager man = new ScriptEngineManager(null);
         Ambiotic.scripter = man.getEngineByName("JavaScript");
+        String envjs = "ambiotic:config/env.js";
+        Ambiotic.logger().info("Evaluating javascript environment");
+        try {
+            ResourceLocation rl = new ResourceLocation(envjs);
+            InputStreamReader isr = Helpers.resourceAsStreamReader(rl);
+            Ambiotic.scripter.eval(isr);
+        } catch(IOException ex) {
+            Ambiotic.logger().error("Couldn't read env.js ("+envjs+")");
+        } catch(ScriptException ex) {
+            Ambiotic.logger().error("Error when executing env.js:\n"+ex.getMessage());
+        }
         VariableRegistry.INSTANCE.refreshScripter();
     }
 }
