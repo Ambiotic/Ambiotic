@@ -129,14 +129,13 @@ public class PlayerOutside extends Variable {
         Block block = Minecraft.getMinecraft().theWorld.getBlock(into.X,into.Y,into.Z);
         int id = Block.getIdFromBlock(block);
 
-        if(block instanceof BlockDoor && from != null)
-            return !doorIsBlocking(into, from);
-
-        if(!mPermeableBlockIds.contains(id))
-            return false;
         if(mOpen.contains(into))
             return false;
         if(mClosed.contains(into))
+            return false;
+        if(block instanceof BlockDoor && from != null)
+            return !doorIsBlocking(into, from);
+        if(!mPermeableBlockIds.contains(id))
             return false;
         if(into.X > player.posX+mDepth || into.X < player.posX-mDepth)
             return false;
@@ -147,8 +146,6 @@ public class PlayerOutside extends Variable {
 
         return true;
     }
-
-    protected enum Dir {X,Y};
 
     protected class Pos {
         public int X;
