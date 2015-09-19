@@ -87,8 +87,8 @@
     },
 
     {
-        "Name" : "IsOutside",
-        "Type" : "PlayerOutside",
+        "Name" : "IsExposed",
+        "Type" : "PlayerExposed",
         "AirPermeableBlocks" : [
             "minecraft:reeds",
             "minecraft:air",

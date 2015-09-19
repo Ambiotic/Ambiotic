@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 import java.util.*;
 
-public class PlayerOutside extends Variable {
+public class PlayerExposed extends Variable {
 
     @SerializedName("AirPermeableBlocks")
     protected String[] mPermeableBlockSpecs;
@@ -24,7 +24,7 @@ public class PlayerOutside extends Variable {
     protected transient Deque<Pos> mOpen;
     protected transient List<Pos> mClosed;
 
-    public PlayerOutside(String name) {
+    public PlayerExposed(String name) {
         super(name);
         initialize();
     }

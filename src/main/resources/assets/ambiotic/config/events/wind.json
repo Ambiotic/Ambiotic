@@ -6,7 +6,7 @@
         "Conditions" : "PlayerY >= 100",
         "Volume" : {
             "Type" : "Scripted",
-            "Code" : "vclmp((PlayerY - 62)/193 - .20) * (IsOutside ? 1.0 : .05);"
+            "Code" : "vclmp((PlayerY - 62)/193 - .20) * (IsExposed ? 1.0 : .05);"
         }
     }
 ]

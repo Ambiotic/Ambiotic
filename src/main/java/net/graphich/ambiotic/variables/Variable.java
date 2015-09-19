@@ -80,7 +80,7 @@ public abstract class Variable implements IStrictJson {
         types.put("PlayerCoordinate", PlayerCoordinate.class);
         types.put("RainStrength", RainStrength.class);
         types.put("ThunderStrength", ThunderStrength.class);
-        types.put("PlayerOutside", PlayerOutside.class);
+        types.put("PlayerExposed", PlayerExposed.class);
         STRICT_ADAPTER = new StrictJsonSerializer<Variable>(types, Variable.class);
     }
 }
