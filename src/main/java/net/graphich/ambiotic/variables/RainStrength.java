@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class RainStrength extends VariableInt {
 
     @SerializedName("Scalar")
-    protected int mScalar;
+    protected Integer mScalar;
 
     public RainStrength(String name, int scalar) {
         super(name);
@@ -23,7 +23,7 @@ public class RainStrength extends VariableInt {
     public void initialize() {
         super.initialize();
         //Default Scalar
-        if(mScalar == 0)
+        if(mScalar == null)
             mScalar = 1;
     }
 

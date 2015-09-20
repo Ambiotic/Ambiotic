@@ -15,13 +15,13 @@ import java.util.*;
 public class BlockScanner extends Scanner {
 
     @SerializedName("XSize")
-    protected int mXSize = 0;
+    protected Integer mXSize = 0;
     @SerializedName("YSize")
-    protected int mYSize = 0;
+    protected Integer mYSize = 0;
     @SerializedName("ZSize")
-    protected int mZSize = 0;
+    protected Integer mZSize = 0;
     @SerializedName("BlocksPerTick")
-    protected int mBlocksPerTick = 0;
+    protected Integer mBlocksPerTick = 0;
 
     protected transient HashMap<Integer, Integer> mCounts;
 
@@ -49,14 +49,14 @@ public class BlockScanner extends Scanner {
     @Override
     public void validate() throws StrictJsonException {
         super.validate();
-        if(mXSize <= 0)
-            throw new StrictJsonException("XSize must be defined and must be greater than 0");
-        if(mYSize <= 0)
-            throw new StrictJsonException("XSize must be defined and must be greater than 0");
-        if(mZSize <= 0)
-            throw new StrictJsonException("XSize must be defined and must be greater than 0");
-        if(mBlocksPerTick < 0)
-            throw new StrictJsonException("BlocksPerTick must be greater than 0");
+        if(mXSize == null || mXSize <= 0)
+            throw new StrictJsonException("XSize is required and must be greater than 0");
+        if(mYSize == null || mYSize <= 0)
+            throw new StrictJsonException("YSize is required and must be greater than 0");
+        if(mZSize == null || mZSize <= 0)
+            throw new StrictJsonException("ZSize is required and must be greater than 0");
+        if(mBlocksPerTick == null || mBlocksPerTick <= 0)
+            throw new StrictJsonException("BlocksPerTick is required and  must be greater than 0");
     }
 
     @Override

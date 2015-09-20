@@ -18,7 +18,7 @@ public class PlayerExposed extends VariableInt {
     @SerializedName("AirPermeableBlocks")
     protected String[] mPermeableBlockSpecs;
     @SerializedName("SearchDepth")
-    protected int mDepth;
+    protected Integer mDepth;
 
     protected transient List<Integer> mPermeableBlockIds;
     protected transient Deque<Pos> mOpen;
@@ -47,7 +47,7 @@ public class PlayerExposed extends VariableInt {
         }
         mClosed = new ArrayList<Pos>();
         mOpen = new ArrayDeque<Pos>();
-        if(mDepth == 0)
+        if(mDepth == null)
             mDepth = 10;
     }
 

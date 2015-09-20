@@ -12,6 +12,9 @@ import java.lang.reflect.Type;
 
 public abstract class FloatProvider implements IStrictJson {
 
+    //Used to make strict JSON errors a little more descriptive
+    public static String COMMON_NAMES = "Volume or Pitch";
+
     public abstract float value();
 
     @Override

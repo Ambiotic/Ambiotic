@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 public class GameTime extends VariableInt {
 
     @SerializedName("Modulus")
-    private int mModulus = 1;
+    private Integer mModulus = 1;
 
     public GameTime(String name) {
         super(name);
@@ -17,7 +17,7 @@ public class GameTime extends VariableInt {
     @Override
     public void initialize() {
         // Default modulus
-        if(mModulus == 0)
+        if(mModulus == null)
             mModulus = 1;
     }
 

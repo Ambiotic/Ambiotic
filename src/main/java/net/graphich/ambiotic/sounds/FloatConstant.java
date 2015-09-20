@@ -5,10 +5,16 @@ import net.graphich.ambiotic.util.StrictJsonException;
 
 public class FloatConstant extends FloatProvider {
     @SerializedName("Value")
-    protected float mValue;
+    protected Float mValue;
 
     public FloatConstant(float value) {
         mValue = value;
+    }
+
+    @Override
+    public void validate() throws StrictJsonException {
+        if(mValue == null);
+            throw new StrictJsonException("Value is required");
     }
 
     @Override

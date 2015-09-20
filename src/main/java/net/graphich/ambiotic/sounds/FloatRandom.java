@@ -6,9 +6,9 @@ import net.graphich.ambiotic.util.StrictJsonException;
 
 public class FloatRandom extends FloatProvider {
     @SerializedName("Min")
-    protected float mMin = 0.0f;
+    protected Float mMin = 0.0f;
     @SerializedName("Max")
-    protected float mMax = 1.0f;
+    protected Float mMax = 1.0f;
 
     public float value() {
         return Helpers.randomFloatInRange(mMin, mMax);
@@ -16,7 +16,11 @@ public class FloatRandom extends FloatProvider {
 
     @Override
     public void validate() throws StrictJsonException {
+        if(mMin == null)
+            throw new StrictJsonException(COMMON_NAMES+" : Min is required");
+        if(mMax == null)
+            throw new StrictJsonException(COMMON_NAMES+" : Max is required");
         if(mMax <= mMin)
-            throw new StrictJsonException("Max must be greater than Min");
+            throw new StrictJsonException(COMMON_NAMES+" : Max must be greater than Min");
     }
 }
