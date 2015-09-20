@@ -2,12 +2,15 @@ package net.graphich.ambiotic.variables;
 
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import net.graphich.ambiotic.main.Ambiotic;
 import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.util.StrictJsonException;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
@@ -48,7 +51,7 @@ public class PlayerExposed extends Variable {
         mClosed = new ArrayList<Pos>();
         mOpen = new ArrayDeque<Pos>();
         if(mDepth == 0)
-            mDepth = 5;
+            mDepth = 10;
     }
 
     @Override
@@ -103,25 +106,26 @@ public class PlayerExposed extends Variable {
     }
 
     protected boolean doorIsBlocking(Pos into, Pos from) {
-        BlockDoor door = (BlockDoor)Minecraft.getMinecraft().theWorld.getBlock(into.X,into.Y,into.Z);
-        double fromCoord, intoCoord, boundry;
-        if(into.X != from.X)
+        World world = Minecraft.getMinecraft().theWorld;
+        BlockDoor door = (BlockDoor)world.getBlock(into.X,into.Y,into.Z);
+        int dir = -1;
+        Vec3 fromVec, intoVec;
+        if(into.X != from.X) // Moving in X
         {
-            fromCoord = from.X + 0.5f;
-            intoCoord = into.X + 0.5f;
-            boundry = into.X+door.getBlockBoundsMaxX();
+            if(from.X < into.X)
+                dir = 1;
+            intoVec = Vec3.createVectorHelper((dir*1.75)+into.X,into.Y+.5,into.Z+.5);
+            fromVec = Vec3.createVectorHelper(from.X+(-dir*0.5),from.Y+.5,from.Z+.5);
         }
-        else
+        else // Moving in Z
         {
-            fromCoord = from.Z + 0.5f;
-            intoCoord = into.Z + 0.5f;
-            boundry = into.Z+door.getBlockBoundsMaxZ();
+            if(into.Z > from.Z)
+                dir = 1;
+            intoVec = Vec3.createVectorHelper(into.X+.5,into.Y+.5,into.Z+(dir*1.75));
+            fromVec = Vec3.createVectorHelper(from.X+.5,from.Y+.5,from.Z+(-dir*0.5));
         }
-        if(fromCoord > boundry && boundry > intoCoord)
-            return true;
-        if(fromCoord < boundry && boundry < intoCoord)
-            return true;
-        return false;
+
+        return (door.collisionRayTrace(world, into.X, into.Y, into.Z, fromVec, intoVec) != null);
     }
 
     protected boolean goodSuccessor(Pos into, Pos from) {
@@ -133,7 +137,7 @@ public class PlayerExposed extends Variable {
             return false;
         if(mClosed.contains(into))
             return false;
-        if(block instanceof BlockDoor && from != null)
+        if(block instanceof BlockDoor && from != null && into.Y == from.Y)
             return !doorIsBlocking(into, from);
         if(!mPermeableBlockIds.contains(id))
             return false;
@@ -160,7 +164,7 @@ public class PlayerExposed extends Variable {
 
         public boolean isExposed() {
             World world = Minecraft.getMinecraft().theWorld;
-            return world.canBlockSeeTheSky(X,Y,Z) && world.getSavedLightValue(EnumSkyBlock.Sky,X,Y,Z) > 10;
+            return world.canBlockSeeTheSky(X,Y,Z);
         }
 
         @Override
