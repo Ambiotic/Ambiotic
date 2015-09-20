@@ -14,7 +14,7 @@ public class FloatScripted extends FloatProvider {
     @Override
     public void validate() throws StrictJsonException {
         if(mJSCode == null)
-            throw new StrictJsonException(COMMON_NAMES+" : Code is required");
+            throw new StrictJsonException("Scripted "+COMMON_NAMES+" : Code is required");
     }
 
     @Override

@@ -16,11 +16,12 @@ public class FloatRandom extends FloatProvider {
 
     @Override
     public void validate() throws StrictJsonException {
+        String prefix = "Random "+COMMON_NAMES;
         if(mMin == null)
-            throw new StrictJsonException(COMMON_NAMES+" : Min is required");
+            throw new StrictJsonException(prefix+" : Min is required");
         if(mMax == null)
-            throw new StrictJsonException(COMMON_NAMES+" : Max is required");
+            throw new StrictJsonException(prefix+" : Max is required");
         if(mMax <= mMin)
-            throw new StrictJsonException(COMMON_NAMES+" : Max must be greater than Min");
+            throw new StrictJsonException(prefix+" : Max must be greater than Min");
     }
 }

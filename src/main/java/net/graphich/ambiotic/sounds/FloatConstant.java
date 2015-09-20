@@ -14,7 +14,7 @@ public class FloatConstant extends FloatProvider {
     @Override
     public void validate() throws StrictJsonException {
         if(mValue == null);
-            throw new StrictJsonException("Value is required");
+            throw new StrictJsonException("Constant "+COMMON_NAMES+" : Value is required");
     }
 
     @Override
