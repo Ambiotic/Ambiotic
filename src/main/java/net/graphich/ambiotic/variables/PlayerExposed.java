@@ -2,16 +2,13 @@ package net.graphich.ambiotic.variables;
 
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import net.graphich.ambiotic.main.Ambiotic;
 import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.util.StrictJsonException;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 import java.util.*;
