@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 import java.util.*;
 
-public class PlayerExposed extends Variable {
+public class PlayerExposed extends VariableInt {
 
     @SerializedName("AirPermeableBlocks")
     protected String[] mPermeableBlockSpecs;
@@ -52,7 +52,7 @@ public class PlayerExposed extends Variable {
     }
 
     @Override
-    public boolean update(TickEvent event) {
+    public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if(world == null || player == null)

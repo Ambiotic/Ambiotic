@@ -9,7 +9,7 @@ import net.graphich.ambiotic.util.StrictJsonException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockCounter extends Variable {
+public class BlockCounter extends VariableInt {
 
     @SerializedName("Blocks")
     protected String[] mBlockSpecifiers = null;
@@ -42,7 +42,7 @@ public class BlockCounter extends Variable {
     }
 
     @Override
-    public boolean update(TickEvent event) {
+    public boolean updateValue(TickEvent event) {
         int newValue = 0;
         if (mScanner == null)
             return false;

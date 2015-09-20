@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 /**
  * Light value at player coordinates in the world, 3 types
  */
-public class LightLevel extends Variable {
+public class LightLevel extends VariableInt {
 
     @SerializedName("SubType")
     LightTypes mType;
@@ -29,7 +29,7 @@ public class LightLevel extends Variable {
     }
 
     @Override
-    public boolean update(TickEvent event) {
+    public boolean updateValue(TickEvent event) {
         int x, y, z, newValue;
         World world = Minecraft.getMinecraft().theWorld;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;

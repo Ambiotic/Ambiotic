@@ -5,7 +5,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
 
-public class GameTime extends Variable {
+public class GameTime extends VariableInt {
 
     @SerializedName("Modulus")
     private int mModulus = 1;
@@ -22,7 +22,7 @@ public class GameTime extends Variable {
     }
 
     @Override
-    public boolean update(TickEvent event) {
+    public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
         if(world == null)
             return false;

@@ -9,7 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Related to player's coordinates in space.
  */
-public class PlayerCoordinate extends Variable {
+public class PlayerCoordinate extends VariableInt {
 
     @SerializedName("SubType")
     protected Coordinates mCoordinate;
@@ -27,7 +27,7 @@ public class PlayerCoordinate extends Variable {
     }
 
     @Override
-    public boolean update(TickEvent event) {
+    public boolean updateValue(TickEvent event) {
         int newValue = 0;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if(player == null)

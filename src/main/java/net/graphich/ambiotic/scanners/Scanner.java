@@ -28,4 +28,5 @@ public abstract class Scanner implements IStrictJson {
         types.put("BlockScanner", BlockScanner.class);
         STRICT_ADAPTER = new StrictJsonSerializer<Scanner>(types, Scanner.class);
     }
+
 }

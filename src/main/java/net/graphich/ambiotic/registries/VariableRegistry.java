@@ -11,13 +11,14 @@ import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.scanners.BlockScanner;
 import net.graphich.ambiotic.util.StrictJsonException;
 import net.graphich.ambiotic.variables.BlockCounter;
+import net.graphich.ambiotic.variables.IVariable;
 import net.graphich.ambiotic.variables.Variable;
+import net.graphich.ambiotic.variables.VariableInt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.graphich.ambiotic.scanners.Scanner;
 
-import javax.script.ScriptException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Collections;
@@ -32,13 +33,13 @@ public class VariableRegistry {
 
     public static VariableRegistry INSTANCE = new VariableRegistry();
 
-    protected HashMap<TickRate, List<Variable>> mUpdates;
-    protected HashMap<String, Variable> mVariableLookup;
+    protected HashMap<TickRate, List<IVariable>> mUpdates;
+    protected HashMap<String, IVariable> mVariableLookup;
     protected boolean mFrozen = false;
 
     protected VariableRegistry() {
-        mUpdates = new HashMap<TickRate, List<Variable>>();
-        mVariableLookup = new HashMap<String, Variable>();
+        mUpdates = new HashMap<TickRate, List<IVariable>>();
+        mVariableLookup = new HashMap<String, IVariable>();
     }
 
     public List<String> names() {
@@ -114,17 +115,17 @@ public class VariableRegistry {
         MinecraftForge.EVENT_BUS.register(VariableRegistry.INSTANCE);
     }
 
-    public int value(String name) {
-        Variable var = mVariableLookup.get(name);
+    public Object value(String name) {
+        IVariable var = mVariableLookup.get(name);
         if (var != null) {
             return var.value();
         } else {
             //Log? Exception?
-            return 0;
+            return null;
         }
     }
 
-    public void register(Variable variable) {
+    public void register(IVariable variable) {
         if (mFrozen) {
             //Log? Exception?
             return;
@@ -136,7 +137,7 @@ public class VariableRegistry {
         int ticksPerUpdate = variable.ticksPerUpdate();
         TickRate key = new TickRate(ticksPerUpdate);
         if (!mUpdates.containsKey(key)) {
-            mUpdates.put(key, new ArrayList<Variable>());
+            mUpdates.put(key, new ArrayList<IVariable>());
         }
         mUpdates.get(key).add(variable);
         mVariableLookup.put(variable.name(), variable);
@@ -167,11 +168,11 @@ public class VariableRegistry {
         for (TickRate rate : mUpdates.keySet()) {
             rate.tick();
             if (rate.trigger()) {
-                for (Variable var : mUpdates.get(rate)) {
-                    if(var.update(event))
+                for (IVariable var : mUpdates.get(rate)) {
+                    if(var.updateValue(event))
                     {
                         updated = true;
-                        code.append(var.jsAssignCode());
+                        code.append(var.updateJS());
                     }
                 }
             }
@@ -187,11 +188,20 @@ public class VariableRegistry {
         freeze();
     }
 
-    public void refreshScripter() {
+    public void updateJSAll() {
         StringBuilder code = new StringBuilder();
-        for (Variable v : mVariableLookup.values())
+        for (IVariable v : mVariableLookup.values())
         {
-            code.append(v.jsAssignCode());
+            code.append(v.updateJS());
+        }
+        Ambiotic.evalJS(code.toString());
+    }
+
+    public void initializeJSAll() {
+        StringBuilder code = new StringBuilder();
+        for (IVariable v : mVariableLookup.values())
+        {
+            code.append(v.initializeJS());
         }
         Ambiotic.evalJS(code.toString());
     }

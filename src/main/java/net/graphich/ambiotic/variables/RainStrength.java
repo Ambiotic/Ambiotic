@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 /**
  * Fractional rain strength multiplied by scalar, values will be [0,scalar)
  */
-public class RainStrength extends Variable {
+public class RainStrength extends VariableInt {
 
     @SerializedName("Scalar")
     protected int mScalar;
@@ -28,7 +28,7 @@ public class RainStrength extends Variable {
     }
 
     @Override
-    public boolean update(TickEvent event)
+    public boolean updateValue(TickEvent event)
     {
         World world = Minecraft.getMinecraft().theWorld;
         if(world == null)

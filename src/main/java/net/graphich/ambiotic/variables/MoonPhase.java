@@ -7,14 +7,14 @@ import net.minecraft.world.World;
 /**
  * What is the current moon phase?
  */
-public class MoonPhase extends Variable {
+public class MoonPhase extends VariableInt {
 
     public MoonPhase(String name) {
         super(name);
     }
 
     @Override
-    public boolean update(TickEvent event)
+    public boolean updateValue(TickEvent event)
     {
         World world = Minecraft.getMinecraft().theWorld;
         if(world == null)

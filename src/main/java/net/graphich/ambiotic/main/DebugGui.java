@@ -95,8 +95,11 @@ public class DebugGui extends GuiScreen {
         }
 
         for (String name : VariableRegistry.INSTANCE.names()) {
-            int v = VariableRegistry.INSTANCE.value(name);
-            name += " = " + v;
+            Object v = VariableRegistry.INSTANCE.value(name);
+            // Should never happen
+            if(v == null)
+                continue;
+            name += " = " + v.toString();
             mFontRenderer.drawString(name, x, y, TEXT_COLOR, true);
             y += Y_INC;
         }

@@ -8,14 +8,14 @@ import net.minecraft.world.World;
 /**
  * Block at player position can see the sky
  */
-public class CanSeeSky extends Variable {
+public class CanSeeSky extends VariableInt {
 
     public CanSeeSky(String name) {
         super(name);
     }
 
     @Override
-    public boolean update(TickEvent event) {
+    public boolean updateValue(TickEvent event) {
         int x, y, z;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         World world = Minecraft.getMinecraft().theWorld;

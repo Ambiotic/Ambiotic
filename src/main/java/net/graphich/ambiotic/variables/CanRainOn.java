@@ -8,14 +8,14 @@ import net.minecraft.world.World;
 /**
  * At the player's current coordinates in the world, can she be rained on?
  */
-public class CanRainOn extends Variable {
+public class CanRainOn extends VariableInt {
 
     public CanRainOn(String name) {
         super(name);
     }
 
     @Override
-    public boolean update(TickEvent event) {
+    public boolean updateValue(TickEvent event) {
         int x, y, z;
         EntityPlayer player =  Minecraft.getMinecraft().thePlayer;
         World world = Minecraft.getMinecraft().theWorld;

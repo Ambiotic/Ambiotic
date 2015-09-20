@@ -7,14 +7,14 @@ import net.minecraft.world.World;
 /**
  * Is it raining in the world
  */
-public class IsRaining extends Variable {
+public class IsRaining extends VariableInt {
 
     public IsRaining(String name) {
         super(name);
     }
 
     @Override
-    public boolean update(TickEvent event) {
+    public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
         if(world == null)
             return false;

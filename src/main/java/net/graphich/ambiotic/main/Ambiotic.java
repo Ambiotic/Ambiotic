@@ -15,10 +15,10 @@ import net.graphich.ambiotic.scanners.Scanner;
 import net.graphich.ambiotic.sounds.SoundEmitter;
 import net.graphich.ambiotic.sounds.FloatProvider;
 import net.graphich.ambiotic.util.Helpers;
+import net.graphich.ambiotic.variables.Variable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Logger;
-import net.graphich.ambiotic.variables.Variable;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -39,9 +39,6 @@ public class Ambiotic {
     }
 
     protected static ScriptEngine scripter;
-    public static ScriptEngine scripter() {
-        return Ambiotic.scripter;
-    }
     public static Object evalJS(String js)
     {
         try {
@@ -103,6 +100,6 @@ public class Ambiotic {
         } catch(ScriptException ex) {
             Ambiotic.logger().error("Error when executing env.js:\n"+ex.getMessage());
         }
-        VariableRegistry.INSTANCE.refreshScripter();
+        VariableRegistry.INSTANCE.initializeJSAll();
     }
 }
