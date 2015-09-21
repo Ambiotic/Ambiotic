@@ -1,43 +1,39 @@
-package net.graphich.ambiotic.variables;
+package net.graphich.ambiotic.variables.world;
 
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import net.graphich.ambiotic.variables.Variable;
+import net.graphich.ambiotic.variables.VariableInt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
 
-/**
- * Fractional thunder strength multiplied by scalar (can be negative), values will be [0,scalar)
- */
-public class ThunderStrength extends VariableInt {
+public class GameTime extends VariableInt {
 
-    @SerializedName("Scalar")
-    protected Integer mScalar;
+    @SerializedName("Modulus")
+    private Integer mModulus = 1;
 
-    public ThunderStrength(String name, int scalar) {
+    public GameTime(String name) {
         super(name);
-        mScalar = scalar;
         initialize();
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        //Default Scalar
         mNameSpace = Variable.WORLD_NAMESPACE;
-        if(mScalar == null)
-            mScalar = 1;
+        // Default modulus
+        if(mModulus == null)
+            mModulus = 1;
     }
 
     @Override
-    public boolean updateValue(TickEvent event)
-    {
+    public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
         if(world == null)
             return false;
-        int newValue = (int) world.getWeightedThunderStrength(0f) * mScalar;
+        int newValue = (int) (world.getWorldInfo().getWorldTime() % mModulus);
         boolean updated = (mValue != newValue);
         mValue = newValue;
         return updated;
     }
-
 }

@@ -1,32 +1,32 @@
-package net.graphich.ambiotic.variables;
+package net.graphich.ambiotic.variables.world;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
+import net.graphich.ambiotic.variables.Variable;
+import net.graphich.ambiotic.variables.VariableInt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
 
 /**
- * What is the current moon phase?
+ * Is it raining in the world
  */
-public class MoonPhase extends VariableInt {
-
-    public MoonPhase(String name) {
-        super(name);
-        initialize();
-    }
+public class IsRaining extends VariableInt {
 
     @Override //IStrictJson
     public void initialize() {
         super.initialize();
-        mNameSpace = Variable.PLAYER_NAMESPACE;
+        mNameSpace = Variable.WORLD_NAMESPACE;
+    }
+
+    public IsRaining(String name) {
+        super(name);
     }
 
     @Override
-    public boolean updateValue(TickEvent event)
-    {
+    public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
         if(world == null)
             return false;
-        int newValue = world.getMoonPhase();
+        int newValue = world.getWorldInfo().isRaining() ? 1 : 0;
         boolean updated = (newValue != mValue);
         mValue = newValue;
         return updated;

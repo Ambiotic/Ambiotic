@@ -1,0 +1,36 @@
+package net.graphich.ambiotic.variables.world;
+
+import cpw.mods.fml.common.gameevent.TickEvent;
+import net.graphich.ambiotic.variables.Variable;
+import net.graphich.ambiotic.variables.VariableInt;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.World;
+
+/**
+ * What is the current moon phase?
+ */
+public class MoonPhase extends VariableInt {
+
+    public MoonPhase(String name) {
+        super(name);
+        initialize();
+    }
+
+    @Override //IStrictJson
+    public void initialize() {
+        super.initialize();
+        mNameSpace = Variable.PLAYER_NAMESPACE;
+    }
+
+    @Override
+    public boolean updateValue(TickEvent event)
+    {
+        World world = Minecraft.getMinecraft().theWorld;
+        if(world == null)
+            return false;
+        int newValue = world.getMoonPhase();
+        boolean updated = (newValue != mValue);
+        mValue = newValue;
+        return updated;
+    }
+}

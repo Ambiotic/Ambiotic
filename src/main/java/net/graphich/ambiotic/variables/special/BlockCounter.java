@@ -1,10 +1,11 @@
-package net.graphich.ambiotic.variables;
+package net.graphich.ambiotic.variables.special;
 
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.scanners.BlockScanner;
 import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.util.StrictJsonException;
+import net.graphich.ambiotic.variables.VariableInt;
 
 import java.util.ArrayList;
 import java.util.List;

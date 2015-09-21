@@ -8,6 +8,9 @@ import net.graphich.ambiotic.main.Ambiotic;
 import net.graphich.ambiotic.util.IStrictJson;
 import net.graphich.ambiotic.util.StrictJsonException;
 import net.graphich.ambiotic.util.StrictJsonSerializer;
+import net.graphich.ambiotic.variables.player.*;
+import net.graphich.ambiotic.variables.special.BlockCounter;
+import net.graphich.ambiotic.variables.world.*;
 
 import java.lang.reflect.Type;
 

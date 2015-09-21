@@ -1,9 +1,11 @@
-package net.graphich.ambiotic.variables;
+package net.graphich.ambiotic.variables.player;
 
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.util.StrictJsonException;
+import net.graphich.ambiotic.variables.Variable;
+import net.graphich.ambiotic.variables.VariableInt;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.client.Minecraft;
