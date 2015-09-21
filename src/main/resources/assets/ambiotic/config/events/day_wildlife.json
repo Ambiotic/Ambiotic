@@ -6,8 +6,8 @@
         "Conditions" : "LS.Foliage >= 1500 && #DayAnimal#",
         "CoolDown" : {
             "Type" : "Random",
-            "Min" : 1500,
-            "Max" : 3500
+            "Min" : 100,
+            "Max" : 350
         },
         "Pitch" : {
             "Type" : "Random",
@@ -27,8 +27,8 @@
         "Conditions" : "#DayAnimal#",
         "CoolDown" : {
             "Type" : "Random",
-            "Min" : 1500,
-            "Max" : 3500
+            "Min" : 300,
+            "Max" : 450
         },
         "Pitch" : {
             "Type" : "Random",

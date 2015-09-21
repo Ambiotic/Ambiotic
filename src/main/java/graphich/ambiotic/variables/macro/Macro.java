@@ -18,8 +18,7 @@ public class Macro {
     }
 
     public String expand(String toMacro) {
-        toMacro.replaceAll("#"+mName+"#",mCode);
-        return toMacro;
+        return toMacro.replaceAll("#"+mName+"#",mCode);
     }
 
     public static final StrictJsonSerializer<Macro> STRICT_ADAPTER;

@@ -1,11 +1,13 @@
 package graphich.ambiotic.sounds;
 
 import com.google.gson.annotations.SerializedName;
+import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.variables.macro.Macro;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.entity.player.EntityPlayer;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -23,17 +25,28 @@ public class InstantEmitter extends SoundEmitter {
     }
 
     @Override
+    public void expandMacros(Collection<Macro> macros) {
+        super.expandMacros(macros);
+        if(mCoolDown instanceof IScripted)
+            ((IScripted) mCoolDown).expandMacros(macros);
+    }
+    @Override
     public void initialize() {
         //Default cooldown
         if(mCoolDown == null)
             mCoolDown = new FloatConstant(10000.0f);
-        mNextEmission = (int)mCoolDown.value();
+        mNextEmission = -1;
     }
 
     public ISound emit() {
         mSinceEmission += 1;
+        if(mNextEmission == -1)
+            mNextEmission = (int)mCoolDown.value();
+
         if(mSinceEmission < mNextEmission)
             return null;
+        Ambiotic.logger().info("Thing : "+mSinceEmission+" : "+mNextEmission);
+        Ambiotic.logger().info("Conds : "+mConditionCode);
         EntityPlayer ply = Minecraft.getMinecraft().thePlayer;
         //TODO: x/y/z dynamically calculated
         float x = (float)ply.posX;
