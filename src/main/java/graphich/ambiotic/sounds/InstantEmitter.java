@@ -1,9 +1,13 @@
 package graphich.ambiotic.sounds;
 
 import com.google.gson.annotations.SerializedName;
+import graphich.ambiotic.variables.macro.Macro;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.entity.player.EntityPlayer;
+
+import java.util.List;
+import java.util.Map;
 
 public class InstantEmitter extends SoundEmitter {
 
@@ -44,5 +48,4 @@ public class InstantEmitter extends SoundEmitter {
         }
         return null;
     }
-
 }

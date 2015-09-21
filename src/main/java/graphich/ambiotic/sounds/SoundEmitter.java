@@ -7,11 +7,14 @@ import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.IStrictJson;
 import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.util.StrictJsonSerializer;
+import graphich.ambiotic.variables.macro.Macro;
 import net.minecraft.client.audio.ISound;
 
 import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.List;
 
-public abstract class SoundEmitter implements IStrictJson, IScriptedConditional {
+public abstract class SoundEmitter implements IStrictJson, IConditional, IScripted {
     @SerializedName("Name")
     protected String mName = "";
     @SerializedName("Sound")
@@ -32,7 +35,18 @@ public abstract class SoundEmitter implements IStrictJson, IScriptedConditional 
 
     public abstract ISound emit();
 
-    @Override
+    @Override //IScripted
+    public void expandMacros(Collection<Macro> macros) {
+        for(Macro macro : macros) {
+            mConditionCode = macro.expand(mConditionCode);
+        }
+        if(mVolume instanceof IScripted)
+            ((IScripted)mVolume).expandMacros(macros);
+        if(mPitch instanceof IScripted)
+            ((IScripted)mPitch).expandMacros(macros);
+    }
+
+    @Override //IStrictJson
     public void validate() throws StrictJsonException {
         if(mName == null || mName.equals(""))
             throw new StrictJsonException("Name is required");
@@ -40,7 +54,7 @@ public abstract class SoundEmitter implements IStrictJson, IScriptedConditional 
             throw new StrictJsonException("Sound is required");
     }
 
-    @Override
+    @Override //IStrictJson
     public void initialize() {
         // Default pitch / volume calculators
         if(mVolume == null)
@@ -51,6 +65,7 @@ public abstract class SoundEmitter implements IStrictJson, IScriptedConditional 
 
     public String name() { return mName; }
 
+    @Override //IConditional
     public boolean conditionsMet() {
         Object rv = Ambiotic.evalJS(mConditionCode);
         if(rv == null)

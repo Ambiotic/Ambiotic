@@ -10,6 +10,7 @@ import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.scanners.BlockScanner;
 import graphich.ambiotic.util.StrictJsonException;
+import graphich.ambiotic.variables.macro.Macro;
 import graphich.ambiotic.variables.special.BlockCounter;
 import graphich.ambiotic.variables.IVariable;
 import graphich.ambiotic.variables.Variable;
@@ -19,11 +20,7 @@ import net.minecraftforge.common.MinecraftForge;
 import graphich.ambiotic.scanners.Scanner;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Collections;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Holds and updates instances of variables
@@ -34,11 +31,13 @@ public class VariableRegistry {
 
     protected HashMap<TickRate, List<IVariable>> mUpdates;
     protected HashMap<String, IVariable> mVariableLookup;
+    protected HashMap<String, Macro> mMacroLookup;
     protected boolean mFrozen = false;
 
     protected VariableRegistry() {
         mUpdates = new HashMap<TickRate, List<IVariable>>();
         mVariableLookup = new HashMap<String, IVariable>();
+        mMacroLookup = new HashMap<String, Macro>();
     }
 
     public List<String> names() {
@@ -47,7 +46,57 @@ public class VariableRegistry {
         return names;
     }
 
+    protected void loadMacros() {
+        ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/macros.json");
+        JsonArray macroList = null;
+        Ambiotic.logger().info("Reading macros file '"+rl+"'");
+        try {
+            macroList = Helpers.getRootJsonArray(rl);
+        } catch (IOException ex) {
+            Ambiotic.logger().error("Error reading '" + rl + "' : " + ex.getMessage());
+            return;
+        }
+
+        Gson gson = Ambiotic.gson();
+        int macroPos = 0;
+        for(JsonElement element : macroList) {
+            Macro macro = null;
+            String errPrefix = "Skipping macro # " + macroPos + " because ";
+            //Fails strict json
+            try {
+                macro = gson.fromJson(element, Macro.class);
+            } catch (StrictJsonException ex) {
+                Ambiotic.logger().error(errPrefix + " it's invalid : "+ex.getMessage());
+                continue;
+            }
+            if(mMacroLookup.containsKey(macro.name())) {
+                Ambiotic.logger().error(errPrefix + " another is already registered with name '"+macro.name()+"'");
+                continue;
+            }
+            registerMacro(macro);
+            Ambiotic.logger().debug("Loaded variable : \n" + macro);
+            macroPos += 1;
+        }
+    }
+
+    public void registerMacro(Macro macro) {
+        if (mFrozen) {
+            //TODO: throw exception
+            return;
+        }
+        if(mMacroLookup.containsKey(macro.name())) {
+            //TODO: throw exception
+            return;
+        }
+        mMacroLookup.put(macro.name(), macro);
+    }
+
     public void load() {
+        loadVariables();
+        loadMacros();
+    }
+
+    protected void loadVariables() {
         ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/variables.json");
         JsonArray variableList = null;
         Ambiotic.logger().info("Reading variables file '" + rl + "'");
@@ -58,7 +107,7 @@ public class VariableRegistry {
             return;
         }
 
-        //Deserialize and register each variable
+        //Deserialize and registerVariable each variable
         Gson gson = Ambiotic.gson();
         int variablePos = 0;
         for(JsonElement element : variableList) {
@@ -69,7 +118,7 @@ public class VariableRegistry {
             try {
                 variable = gson.fromJson(element, Variable.class);
             } catch (StrictJsonException ex) {
-                Ambiotic.logger().error(errPrefix + " because it's invalid : " + ex.getMessage());
+                Ambiotic.logger().error(errPrefix + " it's invalid : " + ex.getMessage());
                 continue;
             }
 
@@ -101,11 +150,15 @@ public class VariableRegistry {
                         continue;
                 }
             }
-            //Finally register variable
-            register(variable);
+            //Finally registerVariable variable
+            registerVariable(variable);
             Ambiotic.logger().debug("Loaded variable : \n" + variable);
             variablePos += 1;
         }
+    }
+
+    public Collection<Macro> macros() {
+        return mMacroLookup.values();
     }
 
     public void subscribeAll() {
@@ -124,7 +177,7 @@ public class VariableRegistry {
         }
     }
 
-    public void register(IVariable variable) {
+    public void registerVariable(IVariable variable) {
         if (mFrozen) {
             //Log? Exception?
             return;

@@ -8,6 +8,7 @@ import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.sounds.SoundEmitter;
 import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.util.StrictJsonException;
+import graphich.ambiotic.variables.macro.Macro;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SoundHandler;
@@ -16,6 +17,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -32,7 +34,7 @@ public class EmitterRegistry {
 
     public void register(SoundEmitter sound) {
         if(mFrozen) {
-            //Log? Exception?
+            //TODO: Exception
             return;
         }
 
@@ -64,6 +66,12 @@ public class EmitterRegistry {
             rl = new ResourceLocation(include);
             Ambiotic.logger().info("Loading event include '" + rl + "'");
             load(rl);
+        }
+
+        Ambiotic.logger().info("Expanding emitter macros");
+        Collection<Macro> macros = VariableRegistry.INSTANCE.macros();
+        for(SoundEmitter emitter : mRegistry.values()) {
+            emitter.expandMacros(macros);
         }
     }
 

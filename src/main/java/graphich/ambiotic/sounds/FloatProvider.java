@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 public abstract class FloatProvider implements IStrictJson {
 
     //Used to make strict JSON errors a little more descriptive
-    public static String COMMON_NAMES = "Volume or Pitch";
+    public static String COMMON_NAMES = "Volume, Pitch, or CoolDown";
 
     public abstract float value();
 
@@ -26,9 +26,7 @@ public abstract class FloatProvider implements IStrictJson {
     }
 
     @Override
-    public void validate() throws StrictJsonException {}
-    @Override
-    public void initialize() throws StrictJsonException {}
+    public void initialize() {}
 
     public static final StrictJsonSerializer<FloatProvider> STRICT_ADAPTER;
     static {

@@ -1,0 +1,7 @@
+[
+    {
+        "Name" : "DayAnimal",
+        "Type" : "Macro",
+        "Code" : "World.Time <= 11500 && World.Raining == 0 && Player.Y >= 62 && Player.Y <= 100"
+    }
+]

@@ -3,8 +3,12 @@ package graphich.ambiotic.sounds;
 import com.google.gson.annotations.SerializedName;
 import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.StrictJsonException;
+import graphich.ambiotic.variables.macro.Macro;
 
-public class FloatScripted extends FloatProvider {
+import java.util.Collection;
+import java.util.List;
+
+public class FloatScripted extends FloatProvider implements IScripted {
     @SerializedName("Code")
     protected String mJSCode;
 
@@ -27,5 +31,12 @@ public class FloatScripted extends FloatProvider {
             return ((Double) rv).floatValue();
         return 0.0f;
 
+    }
+
+    @Override
+    public void expandMacros(Collection<Macro> macros) {
+        for(Macro macro : macros) {
+            mJSCode = macro.expand(mJSCode);
+        }
     }
 }

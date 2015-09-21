@@ -44,7 +44,7 @@ public class ScannerRegistry {
             Ambiotic.logger().error("Error reading '" + rl + "' : " + ex.getMessage());
             return;
         }
-        //Deserialize and register each scanner
+        //Deserialize and registerVariable each scanner
         Gson gson = Ambiotic.gson();
         int scannerPos = 0;
         for(JsonElement scannerElm : scannerList) {

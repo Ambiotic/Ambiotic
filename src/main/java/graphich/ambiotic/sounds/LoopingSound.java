@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 public class LoopingSound extends MovingSound {
     protected FloatProvider mVolumeCalc;
     protected FloatProvider mPitchCalc;
-    protected IScriptedConditional mScripted;
+    protected IConditional mScripted;
 
     protected LoopingSound(String sound, FloatProvider vcalc, FloatProvider pcalc, LoopingEmitter scripted) {
         super(new ResourceLocation(sound));

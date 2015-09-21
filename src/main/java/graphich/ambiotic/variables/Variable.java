@@ -63,7 +63,7 @@ public abstract class Variable implements IVariable, IStrictJson {
         return gson.toJson(gson.toJsonTree(this));
     }
 
-    public static final StrictJsonSerializer<VariableInt> STRICT_ADAPTER;
+    public static final StrictJsonSerializer<Variable> STRICT_ADAPTER;
     static {
         BiMap<String, Type> types = HashBiMap.create();
         types.put("BlockCounter", BlockCounter.class);
@@ -77,7 +77,7 @@ public abstract class Variable implements IVariable, IStrictJson {
         types.put("RainStrength", RainStrength.class);
         types.put("ThunderStrength", ThunderStrength.class);
         types.put("PlayerExposed", PlayerExposed.class);
-        STRICT_ADAPTER = new StrictJsonSerializer<VariableInt>(types, VariableInt.class);
+        STRICT_ADAPTER = new StrictJsonSerializer<Variable>(types, Variable.class);
     }
 
     public static final String WORLD_NAMESPACE = "World";

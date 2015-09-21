@@ -1,5 +1,5 @@
 package graphich.ambiotic.sounds;
 
-public interface IScriptedConditional {
+public interface IConditional {
     public boolean conditionsMet();
 }
