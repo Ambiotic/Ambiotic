@@ -38,12 +38,11 @@ public class BlockScanner extends Scanner {
 
     public BlockScanner(String name, int blocksPerTick, int xsize, int ysize, int zsize) {
         mBlocksPerTick = blocksPerTick;
-        mCounts = new HashMap<Integer, Integer>();
-        mScanFinished = false;
         mXSize = xsize;
         mYSize = ysize;
         mZSize = zsize;
         mName = name;
+        initialize();
     }
 
     @Override
@@ -66,6 +65,7 @@ public class BlockScanner extends Scanner {
             mBlocksPerTick = (mXSize*mZSize*mYSize)/4;
         //Nonserialized stuff must be initialized
         mCounts = new HashMap<Integer, Integer>();
+        mScanFinished = false;
     }
 
 
