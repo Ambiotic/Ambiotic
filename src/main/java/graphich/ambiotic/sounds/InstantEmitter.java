@@ -40,13 +40,12 @@ public class InstantEmitter extends SoundEmitter {
 
     public ISound emit() {
         mSinceEmission += 1;
-        if(mNextEmission == -1)
+        if(mNextEmission == -1 || mSinceEmission/2.0 > mNextEmission)
             mNextEmission = (int)mCoolDown.value();
 
         if(mSinceEmission < mNextEmission)
             return null;
-        Ambiotic.logger().info("Thing : "+mSinceEmission+" : "+mNextEmission);
-        Ambiotic.logger().info("Conds : "+mConditionCode);
+
         EntityPlayer ply = Minecraft.getMinecraft().thePlayer;
         //TODO: x/y/z dynamically calculated
         float x = (float)ply.posX;
