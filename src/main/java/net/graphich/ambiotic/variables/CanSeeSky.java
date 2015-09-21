@@ -12,6 +12,13 @@ public class CanSeeSky extends VariableInt {
 
     public CanSeeSky(String name) {
         super(name);
+        initialize();
+    }
+
+    @Override //IStrictJson
+    public void initialize() {
+        super.initialize();
+        mNameSpace = Variable.PLAYER_NAMESPACE;
     }
 
     @Override

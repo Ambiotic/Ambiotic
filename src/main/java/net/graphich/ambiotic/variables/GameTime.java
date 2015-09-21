@@ -12,10 +12,13 @@ public class GameTime extends VariableInt {
 
     public GameTime(String name) {
         super(name);
+        initialize();
     }
 
     @Override
     public void initialize() {
+        super.initialize();
+        mNameSpace = Variable.WORLD_NAMESPACE;
         // Default modulus
         if(mModulus == null)
             mModulus = 1;

@@ -9,6 +9,12 @@ import net.minecraft.world.World;
  */
 public class IsRaining extends VariableInt {
 
+    @Override //IStrictJson
+    public void initialize() {
+        super.initialize();
+        mNameSpace = Variable.WORLD_NAMESPACE;
+    }
+
     public IsRaining(String name) {
         super(name);
     }

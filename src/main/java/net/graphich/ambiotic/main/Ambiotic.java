@@ -14,6 +14,7 @@ import net.graphich.ambiotic.registries.VariableRegistry;
 import net.graphich.ambiotic.scanners.Scanner;
 import net.graphich.ambiotic.sounds.SoundEmitter;
 import net.graphich.ambiotic.sounds.FloatProvider;
+import net.graphich.ambiotic.util.DebugGui;
 import net.graphich.ambiotic.util.Helpers;
 import net.graphich.ambiotic.variables.Variable;
 import net.minecraft.util.ResourceLocation;

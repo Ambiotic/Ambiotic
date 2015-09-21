@@ -21,6 +21,12 @@ public class LightLevel extends VariableInt {
         mType = type;
     }
 
+    @Override //IStrictJson
+    public void initialize() {
+        super.initialize();
+        mNameSpace = Variable.PLAYER_NAMESPACE;
+    }
+
     @Override
     public void validate() throws StrictJsonException {
         super.validate();

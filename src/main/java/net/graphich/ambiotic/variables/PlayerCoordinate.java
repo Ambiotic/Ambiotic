@@ -17,16 +17,23 @@ public class PlayerCoordinate extends VariableInt {
     public PlayerCoordinate(String name, Coordinates coordinate) {
         super(name);
         mCoordinate = coordinate;
+        initialize();
     }
 
-    @Override
+    @Override //IStrictJson
     public void validate() throws StrictJsonException {
         super.validate();
         if(mCoordinate == null)
             throw new  StrictJsonException("No SubType specified, valid subtypes are X, Y, Z or DIM");
     }
 
-    @Override
+    @Override //IStrictJson
+    public void initialize() {
+        super.initialize();
+        mNameSpace = Variable.PLAYER_NAMESPACE;
+    }
+
+    @Override //IVariable
     public boolean updateValue(TickEvent event) {
         int newValue = 0;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;

@@ -29,18 +29,18 @@ public class PlayerExposed extends VariableInt {
         initialize();
     }
 
-    @Override
+    @Override //IStrictJson
     public void validate() throws StrictJsonException {
         super.validate();
         if(mPermeableBlockSpecs == null)
             throw new StrictJsonException("AirPermeableBlocks must be defined");
     }
 
-    @Override
+    @Override //IStrictJson
     public void initialize() {
         super.initialize();
+        mNameSpace = Variable.PLAYER_NAMESPACE;
         mPermeableBlockIds = new ArrayList<Integer>();
-        //TODO: Log bad block specs?
         for(String spec : mPermeableBlockSpecs) {
             ArrayList<Integer> ids = Helpers.buildBlockIdList(spec);
             mPermeableBlockIds.addAll(ids);
@@ -51,7 +51,7 @@ public class PlayerExposed extends VariableInt {
             mDepth = 10;
     }
 
-    @Override
+    @Override //IVariable
     public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;

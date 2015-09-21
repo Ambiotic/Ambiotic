@@ -3,10 +3,10 @@
         "Name" : "HighWind",
         "Type" : "Looping",
         "Sound" : "ambiotic:ambient.weather.whistle_wind",
-        "Conditions" : "PlayerY >= 100",
+        "Conditions" : "Player.Y >= 100",
         "Volume" : {
             "Type" : "Scripted",
-            "Code" : "vclmp((PlayerY - 62)/193 - .20) * (IsExposed ? 1.0 : .05);"
+            "Code" : "vclmp((Player.Y - 62)/193 - .20) * (Player.IsExposed ? 1.0 : .05);"
         }
     }
 ]

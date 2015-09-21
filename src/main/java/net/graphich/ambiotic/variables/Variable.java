@@ -17,6 +17,8 @@ public abstract class Variable implements IVariable, IStrictJson {
     @SerializedName("TicksPerUpdate")
     protected int mTicksPerUpdate = 1;
 
+    protected transient String mNameSpace;
+
     public Variable(String name) {
         mName = name;
     }
@@ -36,7 +38,15 @@ public abstract class Variable implements IVariable, IStrictJson {
 
     @Override //IVariable
     public String name() {
-        return mName;
+        String fullName = mName;
+        if(!mNameSpace.isEmpty())
+            fullName = mNameSpace+"."+mName;
+        return fullName;
+    }
+
+    @Override //IVariable
+    public String namespace() {
+        return mNameSpace;
     }
 
     @Override //IVariable
@@ -66,4 +76,7 @@ public abstract class Variable implements IVariable, IStrictJson {
         types.put("PlayerExposed", PlayerExposed.class);
         STRICT_ADAPTER = new StrictJsonSerializer<VariableInt>(types, VariableInt.class);
     }
+
+    public static final String WORLD_NAMESPACE = "World";
+    public static final String PLAYER_NAMESPACE = "Player";
 }

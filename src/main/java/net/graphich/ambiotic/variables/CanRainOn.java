@@ -12,9 +12,16 @@ public class CanRainOn extends VariableInt {
 
     public CanRainOn(String name) {
         super(name);
+        initialize();
     }
 
-    @Override
+    @Override //IStrictJson
+    public void initialize() {
+        super.initialize();
+        mNameSpace = Variable.PLAYER_NAMESPACE;
+    }
+
+    @Override //IVariable
     public boolean updateValue(TickEvent event) {
         int x, y, z;
         EntityPlayer player =  Minecraft.getMinecraft().thePlayer;

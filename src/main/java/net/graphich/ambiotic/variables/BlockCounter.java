@@ -22,16 +22,16 @@ public class BlockCounter extends VariableInt {
     public BlockCounter(String name, BlockScanner scanner) {
         super(name);
         mScanner = scanner;
-        mBlockIds = new ArrayList<Integer>();
+        initialize();
     }
 
     @Override
     public void validate() throws StrictJsonException {
         super.validate();
-        if(mBlockSpecifiers == null)
-            throw new StrictJsonException("Blocks list must be defined and not empty for BlockCounter variable");
+        if(mBlockSpecifiers == null || mBlockSpecifiers.length == 0)
+            throw new StrictJsonException("Blocks list is required and must have at least one entry");
         if(mScannerName == null || mScannerName.equals(""))
-            throw new StrictJsonException("BlockCounter variable requires a Scanner to be defined");
+            throw new StrictJsonException("Scanner is required");
     }
 
     @Override
@@ -39,6 +39,7 @@ public class BlockCounter extends VariableInt {
         super.initialize();
         //Transients
         mBlockIds = new ArrayList<Integer>();
+        mNameSpace = mScannerName;
     }
 
     @Override

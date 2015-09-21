@@ -198,12 +198,19 @@ public class VariableRegistry {
     }
 
     public void initializeJSAll() {
-        StringBuilder code = new StringBuilder();
+        String nmsjs = "";
+        String varjs = "";
         for (IVariable v : mVariableLookup.values())
         {
-            code.append(v.initializeJS());
+            String nmsinit = v.namespace()+" = {};\n";
+            if(nmsjs.indexOf(nmsinit) == -1)
+                nmsjs += nmsinit;
+            varjs += v.initializeJS()+"\n";
         }
-        Ambiotic.evalJS(code.toString());
+        //Setup namespaces
+        Ambiotic.evalJS(nmsjs);
+        //Initialize all variables
+        Ambiotic.evalJS(varjs);
     }
 
     protected class TickRate {

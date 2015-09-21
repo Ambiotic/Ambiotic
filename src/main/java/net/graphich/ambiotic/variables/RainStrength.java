@@ -17,11 +17,13 @@ public class RainStrength extends VariableInt {
     public RainStrength(String name, int scalar) {
         super(name);
         mScalar = scalar;
+        initialize();
     }
 
     @Override
     public void initialize() {
         super.initialize();
+        mNameSpace = Variable.WORLD_NAMESPACE;
         //Default Scalar
         if(mScalar == null)
             mScalar = 1;

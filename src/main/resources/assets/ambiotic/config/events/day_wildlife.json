@@ -3,7 +3,7 @@
         "Name" : "RegularForestBirds",
         "Type" : "Instant",
         "Sound" : "ambiotic:ambient.forest.bird",
-        "Conditions" : "Foliage >= 1500 && TimeOfDay <= 11500 && Raining == 0",
+        "Conditions" : "LS.Foliage >= 1500 && World.Time <= 11500 && World.Raining == 0",
         "CoolDown" : {
             "Type" : "Random",
             "Min" : 1500,
@@ -24,7 +24,7 @@
         "Name" : "VariousGrassBugs",
         "Type" : "Skip",
         "Sound" : "ambiotic:ambient.grassland.daynightbug",
-        "Conditions" : "Raining == 0",
+        "Conditions" : "World.Raining == 0",
         "CoolDown" : {
             "Type" : "Random",
             "Min" : 1500,

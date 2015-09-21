@@ -11,6 +11,13 @@ public class MoonPhase extends VariableInt {
 
     public MoonPhase(String name) {
         super(name);
+        initialize();
+    }
+
+    @Override //IStrictJson
+    public void initialize() {
+        super.initialize();
+        mNameSpace = Variable.PLAYER_NAMESPACE;
     }
 
     @Override

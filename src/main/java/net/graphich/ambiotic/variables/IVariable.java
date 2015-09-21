@@ -9,4 +9,5 @@ public interface IVariable {
     public boolean updateValue(TickEvent event);
     public String name();
     public int ticksPerUpdate();
+    public String namespace();
 }

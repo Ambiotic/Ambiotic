@@ -1,4 +1,4 @@
-package net.graphich.ambiotic.main;
+package net.graphich.ambiotic.util;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -71,8 +71,8 @@ public class DebugGui extends GuiScreen {
     public void drawScanner() {
         int y = Y_OFFSET;
         int x = X_OFFSET;
-        BlockScanner blockScanner = (BlockScanner)ScannerRegistry.INSTANCE.scanner("Large");
-        mFontRenderer.drawString("Large", x, y, TEXT_COLOR, true);
+        BlockScanner blockScanner = (BlockScanner)ScannerRegistry.INSTANCE.scanner("LS");
+        mFontRenderer.drawString("LS", x, y, TEXT_COLOR, true);
         y += Y_INC;
         if (blockScanner == null || !blockScanner.scanFinished()) {
             return;

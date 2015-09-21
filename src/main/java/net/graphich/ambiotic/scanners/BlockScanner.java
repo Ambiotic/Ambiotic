@@ -55,14 +55,14 @@ public class BlockScanner extends Scanner {
             throw new StrictJsonException("YSize is required and must be greater than 0");
         if(mZSize == null || mZSize <= 0)
             throw new StrictJsonException("ZSize is required and must be greater than 0");
-        if(mBlocksPerTick == null || mBlocksPerTick <= 0)
-            throw new StrictJsonException("BlocksPerTick is required and  must be greater than 0");
+        if(mBlocksPerTick != null && mBlocksPerTick <= 0)
+            throw new StrictJsonException("BlocksPerTick must be greater than 0");
     }
 
     @Override
     public void initialize() {
         // BlocksPerTick is optional
-        if(mBlocksPerTick == 0)
+        if(mBlocksPerTick == null)
             mBlocksPerTick = (mXSize*mZSize*mYSize)/4;
         //Nonserialized stuff must be initialized
         mCounts = new HashMap<Integer, Integer>();

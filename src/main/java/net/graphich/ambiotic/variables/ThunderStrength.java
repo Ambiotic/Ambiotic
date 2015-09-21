@@ -16,12 +16,14 @@ public class ThunderStrength extends VariableInt {
     public ThunderStrength(String name, int scalar) {
         super(name);
         mScalar = scalar;
+        initialize();
     }
 
     @Override
     public void initialize() {
         super.initialize();
         //Default Scalar
+        mNameSpace = Variable.WORLD_NAMESPACE;
         if(mScalar == null)
             mScalar = 1;
     }

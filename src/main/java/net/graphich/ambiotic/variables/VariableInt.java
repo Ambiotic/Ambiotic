@@ -41,11 +41,11 @@ public abstract class VariableInt extends Variable {
 
     @Override //IVariable
     public String updateJS() {
-        return mName+" = "+mValue+";";
+        return name()+" = "+mValue+";";
     }
 
     @Override //IVariable
     public String initializeJS() {
-        return mName+" = "+mInitialValue+";";
+        return name()+" = "+mInitialValue+";";
     }
 }
