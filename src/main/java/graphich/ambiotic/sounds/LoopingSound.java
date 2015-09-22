@@ -17,6 +17,10 @@ public class LoopingSound extends MovingSound {
         mScripted = scripted;
         repeat = true;
         this.field_147666_i = AttenuationType.NONE;
+        this.volume = mVolumeCalc.value();
+        if(this.volume == 0.0f)
+            this.volume = 0.0000001f;
+        this.field_147663_c = mPitchCalc.value();
     }
 
     @Override
