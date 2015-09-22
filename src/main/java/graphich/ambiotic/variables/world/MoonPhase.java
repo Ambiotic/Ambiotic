@@ -13,7 +13,6 @@ public class MoonPhase extends VariableInt {
 
     public MoonPhase(String name) {
         super(name);
-        initialize();
     }
 
     @Override //IStrictJson
@@ -22,7 +21,7 @@ public class MoonPhase extends VariableInt {
         mNameSpace = Variable.PLAYER_NAMESPACE;
     }
 
-    @Override
+    @Override //IVariable
     public boolean updateValue(TickEvent event)
     {
         World world = Minecraft.getMinecraft().theWorld;

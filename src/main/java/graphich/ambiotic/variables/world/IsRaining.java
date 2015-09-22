@@ -11,17 +11,17 @@ import net.minecraft.world.World;
  */
 public class IsRaining extends VariableInt {
 
+    public IsRaining(String name) {
+        super(name);
+    }
+
     @Override //IStrictJson
     public void initialize() {
         super.initialize();
         mNameSpace = Variable.WORLD_NAMESPACE;
     }
 
-    public IsRaining(String name) {
-        super(name);
-    }
-
-    @Override
+    @Override //IVariable
     public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
         if(world == null)

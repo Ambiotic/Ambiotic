@@ -18,12 +18,13 @@ public abstract class Variable implements IVariable, IStrictJson {
     @SerializedName("Name")
     protected String mName;
     @SerializedName("TicksPerUpdate")
-    protected int mTicksPerUpdate = 1;
+    protected Integer mTicksPerUpdate = 1;
 
     protected transient String mNameSpace;
 
     public Variable(String name) {
         mName = name;
+        initialize(); //Call initialize function
     }
 
     @Override //IStrictJson
@@ -35,7 +36,7 @@ public abstract class Variable implements IVariable, IStrictJson {
     @Override //IStrictJson
     public void initialize() {
         //Default ticks per update
-        if(mTicksPerUpdate == 0)
+        if(mTicksPerUpdate == null)
             mTicksPerUpdate = 1;
     }
 

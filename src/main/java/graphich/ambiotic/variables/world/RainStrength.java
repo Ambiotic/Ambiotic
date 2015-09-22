@@ -19,10 +19,9 @@ public class RainStrength extends VariableInt {
     public RainStrength(String name, int scalar) {
         super(name);
         mScalar = scalar;
-        initialize();
     }
 
-    @Override
+    @Override //IStrictJson
     public void initialize() {
         super.initialize();
         mNameSpace = Variable.WORLD_NAMESPACE;
@@ -31,7 +30,7 @@ public class RainStrength extends VariableInt {
             mScalar = 1;
     }
 
-    @Override
+    @Override //IVariable
     public boolean updateValue(TickEvent event)
     {
         World world = Minecraft.getMinecraft().theWorld;

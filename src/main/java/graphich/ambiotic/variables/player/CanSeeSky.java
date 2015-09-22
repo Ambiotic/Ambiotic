@@ -14,7 +14,6 @@ public class CanSeeSky extends VariableInt {
 
     public CanSeeSky(String name) {
         super(name);
-        initialize();
     }
 
     @Override //IStrictJson
@@ -23,7 +22,7 @@ public class CanSeeSky extends VariableInt {
         mNameSpace = Variable.PLAYER_NAMESPACE;
     }
 
-    @Override
+    @Override //IVariable
     public boolean updateValue(TickEvent event) {
         int x, y, z;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;

@@ -14,10 +14,9 @@ public class GameTime extends VariableInt {
 
     public GameTime(String name) {
         super(name);
-        initialize();
     }
 
-    @Override
+    @Override //IStrictJson
     public void initialize() {
         super.initialize();
         mNameSpace = Variable.WORLD_NAMESPACE;
@@ -26,7 +25,7 @@ public class GameTime extends VariableInt {
             mModulus = 1;
     }
 
-    @Override
+    @Override //IVariable
     public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
         if(world == null)

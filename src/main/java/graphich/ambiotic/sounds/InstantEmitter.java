@@ -40,8 +40,12 @@ public class InstantEmitter extends SoundEmitter {
 
     public ISound emit() {
         mSinceEmission += 1;
-        if(mNextEmission == -1 || mSinceEmission/2.0 > mNextEmission)
-            mNextEmission = (int)mCoolDown.value();
+        // So instants don't fire automatically as soon as conditions
+        // are met after long periods of conditions not being met
+        if(mNextEmission == -1 || mSinceEmission/2.0 > mNextEmission) {
+            mSinceEmission = 0;
+            mNextEmission = (int) mCoolDown.value();
+        }
 
         if(mSinceEmission < mNextEmission)
             return null;

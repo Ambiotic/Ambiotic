@@ -29,14 +29,14 @@ public class LightLevel extends VariableInt {
         mNameSpace = Variable.PLAYER_NAMESPACE;
     }
 
-    @Override
+    @Override //IStrictJson
     public void validate() throws StrictJsonException {
         super.validate();
         if(mType == null)
             throw new StrictJsonException("No SubType specified, valid subtypes are SUN, LAMP, TOTAL, or MAXSUN");
     }
 
-    @Override
+    @Override //IVariable
     public boolean updateValue(TickEvent event) {
         int x, y, z, newValue;
         World world = Minecraft.getMinecraft().theWorld;

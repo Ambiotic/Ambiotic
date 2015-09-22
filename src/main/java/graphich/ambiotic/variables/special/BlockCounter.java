@@ -23,10 +23,9 @@ public class BlockCounter extends VariableInt {
     public BlockCounter(String name, BlockScanner scanner) {
         super(name);
         mScanner = scanner;
-        initialize();
     }
 
-    @Override
+    @Override //IStrictJson
     public void validate() throws StrictJsonException {
         super.validate();
         if(mBlockSpecifiers == null || mBlockSpecifiers.length == 0)
@@ -35,7 +34,7 @@ public class BlockCounter extends VariableInt {
             throw new StrictJsonException("Scanner is required");
     }
 
-    @Override
+    @Override //IStrictJson
     public void initialize() {
         super.initialize();
         //Transients
@@ -43,7 +42,7 @@ public class BlockCounter extends VariableInt {
         mNameSpace = mScannerName;
     }
 
-    @Override
+    @Override //IVariable
     public boolean updateValue(TickEvent event) {
         int newValue = 0;
         if (mScanner == null)

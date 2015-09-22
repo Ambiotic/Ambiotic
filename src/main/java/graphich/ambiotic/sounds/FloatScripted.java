@@ -12,7 +12,7 @@ public class FloatScripted extends FloatProvider implements IScripted {
     @SerializedName("Code")
     protected String mJSCode;
 
-    @Override
+    @Override //IStrictJson
     public void validate() throws StrictJsonException {
         if(mJSCode == null)
             throw new StrictJsonException("Scripted "+COMMON_NAMES+" : Code is required");
@@ -33,7 +33,7 @@ public class FloatScripted extends FloatProvider implements IScripted {
 
     }
 
-    @Override
+    @Override //IScripted
     public void expandMacros(Collection<Macro> macros) {
         for(Macro macro : macros) {
             mJSCode = macro.expand(mJSCode);

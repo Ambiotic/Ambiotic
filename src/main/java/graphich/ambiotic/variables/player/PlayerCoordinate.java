@@ -19,7 +19,6 @@ public class PlayerCoordinate extends VariableInt {
     public PlayerCoordinate(String name, Coordinates coordinate) {
         super(name);
         mCoordinate = coordinate;
-        initialize();
     }
 
     @Override //IStrictJson

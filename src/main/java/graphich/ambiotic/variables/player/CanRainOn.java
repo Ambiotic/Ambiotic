@@ -14,7 +14,6 @@ public class CanRainOn extends VariableInt {
 
     public CanRainOn(String name) {
         super(name);
-        initialize();
     }
 
     @Override //IStrictJson

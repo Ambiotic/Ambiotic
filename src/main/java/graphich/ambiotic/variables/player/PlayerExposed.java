@@ -28,7 +28,6 @@ public class PlayerExposed extends VariableInt {
 
     public PlayerExposed(String name) {
         super(name);
-        initialize();
     }
 
     @Override //IStrictJson

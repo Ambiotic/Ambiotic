@@ -18,10 +18,9 @@ public class ThunderStrength extends VariableInt {
     public ThunderStrength(String name, int scalar) {
         super(name);
         mScalar = scalar;
-        initialize();
     }
 
-    @Override
+    @Override //IStrictJson
     public void initialize() {
         super.initialize();
         //Default Scalar
@@ -30,7 +29,7 @@ public class ThunderStrength extends VariableInt {
             mScalar = 1;
     }
 
-    @Override
+    @Override //IVariable
     public boolean updateValue(TickEvent event)
     {
         World world = Minecraft.getMinecraft().theWorld;
