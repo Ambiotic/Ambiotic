@@ -5,6 +5,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.variables.Variable;
+import graphich.ambiotic.variables.VariableBool;
 import graphich.ambiotic.variables.VariableInt;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -15,7 +16,7 @@ import net.minecraft.world.World;
 
 import java.util.*;
 
-public class PlayerExposed extends VariableInt {
+public class PlayerExposed extends VariableBool {
 
     @SerializedName("AirPermeableBlocks")
     protected String[] mPermeableBlockSpecs;
@@ -60,14 +61,14 @@ public class PlayerExposed extends VariableInt {
             return false;
         mOpen.clear();
         mClosed.clear();
-        int newValue = 0;
+        boolean newValue = false;
         // Boundry problems because doubles to ints suck, always pick the "good position"
         Pos current = new Pos(Math.ceil(player.posX), Math.ceil(player.posY), Math.ceil(player.posZ));
         if(!goodSuccessor(current, null))
             current = new Pos(Math.floor(player.posX), Math.floor(player.posY), Math.floor(player.posZ));
-        while(current != null && newValue == 0) {
+        while(current != null && !newValue) {
             if(current.isExposed()) {
-                newValue = 1;
+                newValue = true;
                 break;
             }
             mOpen.addAll(successors(current));

@@ -2,6 +2,7 @@ package graphich.ambiotic.variables.player;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
 import graphich.ambiotic.variables.Variable;
+import graphich.ambiotic.variables.VariableBool;
 import graphich.ambiotic.variables.VariableInt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,7 +11,7 @@ import net.minecraft.world.World;
 /**
  * At the player's current coordinates in the world, can she be rained on?
  */
-public class CanRainOn extends VariableInt {
+public class CanRainOn extends VariableBool {
 
     public CanRainOn(String name) {
         super(name);
@@ -32,7 +33,7 @@ public class CanRainOn extends VariableInt {
         x = (int) player.posX;
         y = (int) player.posY + 2;
         z = (int) player.posZ;
-        int newValue = (world.canBlockSeeTheSky(x, y, z) && !(world.getTopSolidOrLiquidBlock(x, z) > y)) ? 1 : 0;
+        boolean newValue = (world.canBlockSeeTheSky(x, y, z) && !(world.getTopSolidOrLiquidBlock(x, z) > y)) ? true : false;
         boolean updated = (mValue != newValue);
         mValue = newValue;
         return updated;
