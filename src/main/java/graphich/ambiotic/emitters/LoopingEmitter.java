@@ -1,4 +1,4 @@
-package graphich.ambiotic.sounds;
+package graphich.ambiotic.emitters;
 
 import net.minecraft.client.audio.ISound;
 

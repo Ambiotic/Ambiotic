@@ -1,11 +1,10 @@
-package graphich.ambiotic.sounds;
+package graphich.ambiotic.emitters;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import graphich.ambiotic.util.IStrictJson;
-import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.util.StrictJsonSerializer;
 
 import java.lang.reflect.Type;

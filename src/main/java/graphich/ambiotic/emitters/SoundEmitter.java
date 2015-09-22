@@ -1,4 +1,4 @@
-package graphich.ambiotic.sounds;
+package graphich.ambiotic.emitters;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -12,7 +12,6 @@ import net.minecraft.client.audio.ISound;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
-import java.util.List;
 
 public abstract class SoundEmitter implements IStrictJson, IConditional, IScripted {
     @SerializedName("Name")

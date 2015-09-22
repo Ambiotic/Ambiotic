@@ -1,4 +1,4 @@
-package graphich.ambiotic.sounds;
+package graphich.ambiotic.emitters;
 
 import com.google.gson.annotations.SerializedName;
 import graphich.ambiotic.main.Ambiotic;
@@ -6,7 +6,6 @@ import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.variables.macro.Macro;
 
 import java.util.Collection;
-import java.util.List;
 
 public class FloatScripted extends FloatProvider implements IScripted {
     @SerializedName("Code")

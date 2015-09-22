@@ -124,7 +124,8 @@
         "Blocks" : [
             "minecraft:snow",
             "minecraft:ice",
-            "minecraft:snow_layer"
+            "minecraft:snow_layer",
+            "minecraft:packed_ice"
         ]
     }
 ]
