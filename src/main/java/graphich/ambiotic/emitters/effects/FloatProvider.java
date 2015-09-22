@@ -1,4 +1,4 @@
-package graphich.ambiotic.emitters;
+package graphich.ambiotic.emitters.effects;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;

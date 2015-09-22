@@ -13,7 +13,7 @@ import graphich.ambiotic.registries.ScannerRegistry;
 import graphich.ambiotic.registries.VariableRegistry;
 import graphich.ambiotic.scanners.Scanner;
 import graphich.ambiotic.emitters.SoundEmitter;
-import graphich.ambiotic.emitters.FloatProvider;
+import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.util.DebugGui;
 import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.variables.Variable;

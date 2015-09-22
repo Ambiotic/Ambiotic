@@ -1,4 +1,4 @@
-package graphich.ambiotic.emitters;
+package graphich.ambiotic.emitters.effects;
 
 import com.google.gson.annotations.SerializedName;
 import graphich.ambiotic.util.StrictJsonException;

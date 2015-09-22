@@ -1,6 +1,8 @@
 package graphich.ambiotic.emitters;
 
 import com.google.gson.annotations.SerializedName;
+import graphich.ambiotic.emitters.effects.FloatConstant;
+import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.variables.macro.Macro;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;

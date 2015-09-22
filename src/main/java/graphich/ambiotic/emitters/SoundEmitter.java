@@ -3,6 +3,8 @@ package graphich.ambiotic.emitters;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.annotations.SerializedName;
+import graphich.ambiotic.emitters.effects.FloatConstant;
+import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.IStrictJson;
 import graphich.ambiotic.util.StrictJsonException;
