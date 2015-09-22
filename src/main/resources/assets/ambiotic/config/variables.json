@@ -118,11 +118,13 @@
     },
 
     {
-        "Name" : "TestCounter",
+        "Name" : "ColdBlocks",
         "Type" : "BlockCounter",
         "Scanner" : "LS",
         "Blocks" : [
-            "minecraft:stone"
+            "minecraft:snow",
+            "minecraft:ice",
+            "minecraft:snow_layer"
         ]
     }
 ]

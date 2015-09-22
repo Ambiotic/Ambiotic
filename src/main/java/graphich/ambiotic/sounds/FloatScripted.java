@@ -30,7 +30,6 @@ public class FloatScripted extends FloatProvider implements IScripted {
         else if(rv instanceof Double)
             return ((Double) rv).floatValue();
         return 0.0f;
-
     }
 
     @Override //IScripted
