@@ -75,11 +75,12 @@ public abstract class Variable implements IVariable, IStrictJson {
         types.put("IsRaining", IsRaining.class);
         types.put("LightLevel", LightLevel.class);
         types.put("MoonPhase", MoonPhase.class);
-        types.put("PlayerCoordinate", PlayerCoordinate.class);
+        types.put("PlayerCoordinate", Coordinate.class);
         types.put("RainStrength", RainStrength.class);
         types.put("ThunderStrength", ThunderStrength.class);
-        types.put("PlayerExposed", PlayerExposed.class);
-        types.put("UnderWater", PlayerUnderWater.class);
+        types.put("PlayerExposed", Exposed.class);
+        types.put("UnderWater", UnderWater.class);
+        types.put("VerticalVelocity",VerticalVelocity.class);
         STRICT_ADAPTER = new StrictJsonSerializer<Variable>(types, Variable.class);
     }
 

@@ -11,12 +11,12 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Related to player's coordinates in space.
  */
-public class PlayerCoordinate extends VariableInt {
+public class Coordinate extends VariableInt {
 
     @SerializedName("SubType")
     protected Coordinates mCoordinate;
 
-    public PlayerCoordinate(String name, Coordinates coordinate) {
+    public Coordinate(String name, Coordinates coordinate) {
         super(name);
         mCoordinate = coordinate;
     }

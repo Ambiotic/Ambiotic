@@ -92,6 +92,12 @@
     },
 
     {
+        "Name" : "YVelocity",
+        "Type" : "VerticalVelocity",
+        "TicksPerUpdate" : 5
+    },
+
+    {
         "Name" : "IsExposed",
         "Type" : "PlayerExposed",
         "AirPermeableBlocks" : [

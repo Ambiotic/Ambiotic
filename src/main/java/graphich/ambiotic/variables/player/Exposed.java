@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 import java.util.*;
 
-public class PlayerExposed extends VariableBool {
+public class Exposed extends VariableBool {
 
     @SerializedName("AirPermeableBlocks")
     protected String[] mPermeableBlockSpecs;
@@ -27,7 +27,7 @@ public class PlayerExposed extends VariableBool {
     protected transient Deque<Pos> mOpen;
     protected transient List<Pos> mClosed;
 
-    public PlayerExposed(String name) {
+    public Exposed(String name) {
         super(name);
     }
 

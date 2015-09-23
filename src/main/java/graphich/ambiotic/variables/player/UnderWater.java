@@ -8,9 +8,9 @@ import net.minecraft.block.BlockLiquid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class PlayerUnderWater extends VariableBool {
+public class UnderWater extends VariableBool {
 
-    public PlayerUnderWater(String name) {
+    public UnderWater(String name) {
         super(name);
     }
 
