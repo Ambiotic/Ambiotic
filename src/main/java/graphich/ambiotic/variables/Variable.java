@@ -35,6 +35,7 @@ public abstract class Variable implements IVariable, IStrictJson {
 
     @Override //IStrictJson
     public void initialize() {
+        mNameSpace = "";
         //Default ticks per update
         if(mTicksPerUpdate == null)
             mTicksPerUpdate = 1;
@@ -78,6 +79,7 @@ public abstract class Variable implements IVariable, IStrictJson {
         types.put("RainStrength", RainStrength.class);
         types.put("ThunderStrength", ThunderStrength.class);
         types.put("PlayerExposed", PlayerExposed.class);
+        types.put("UnderWater", PlayerUnderWater.class);
         STRICT_ADAPTER = new StrictJsonSerializer<Variable>(types, Variable.class);
     }
 

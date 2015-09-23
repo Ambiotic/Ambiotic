@@ -87,6 +87,11 @@
     },
 
     {
+        "Name" : "Submerged",
+        "Type" : "UnderWater"
+    },
+
+    {
         "Name" : "IsExposed",
         "Type" : "PlayerExposed",
         "AirPermeableBlocks" : [
