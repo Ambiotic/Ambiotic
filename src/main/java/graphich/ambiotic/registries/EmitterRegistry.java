@@ -47,7 +47,7 @@ public class EmitterRegistry {
     }
 
     public void load() {
-        ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/events.json");
+        ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/emitterlist.json");
 
         Ambiotic.logger().info("Loading event include list file '" + rl + "'");
         String[] includeList = null;
