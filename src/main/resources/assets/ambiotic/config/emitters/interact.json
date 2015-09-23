@@ -1,0 +1,12 @@
+[
+    {
+        "Name" : "SwimmingUnderWater",
+        "Type" : "Looping",
+        "Sound" : "ambiotic:ambient.interact.under_water",
+        "Conditions" : "Player.Submerged",
+        "Volume" : {
+            "Type" : "Constant",
+            "Value" : 0.5
+        }
+    }
+]

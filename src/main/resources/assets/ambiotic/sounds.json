@@ -37,5 +37,13 @@
         "sounds" : [
             "weather/wind/whistle_wind_loop1"
         ]
+    },
+
+    "ambient.interact.under_water" : {
+        "category" : "master",
+        "streaming" : true,
+        "sounds" : [
+            "interact/water_underwater_loop"
+        ]
     }
 }

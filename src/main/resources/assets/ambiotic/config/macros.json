@@ -2,12 +2,12 @@
     {
         "Name" : "DayAnimal",
         "Type" : "Macro",
-        "Code" : "World.Time <= 11500 && World.IsRaining == 0 && Player.Y >= 62 && Player.Y <= 150 && Player.IsExposed == 1"
+        "Code" : "World.Time <= 11500 && !World.IsRaining && Player.Y >= 62 && Player.Y <= 150 && Player.IsExposed"
     },
 
     {
         "Name" : "ColdArea",
         "Type" : "Macro",
-        "Code" : "LS.ColdBlocks >= 300"
+        "Code" : "LS.ColdBlocks >= 200"
     }
 ]
