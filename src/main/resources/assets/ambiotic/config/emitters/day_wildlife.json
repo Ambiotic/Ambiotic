@@ -24,7 +24,7 @@
         "Name" : "VariousGrassBugs",
         "Type" : "Instant",
         "Sound" : "ambiotic:ambient.grassland.daynightbug",
-        "Conditions" : "#DayAnimal# && !(#ColdArea#)",
+        "Conditions" : "#DayAnimal# && !(#ColdArea#) && LS.Grass >= 300",
         "CoolDown" : {
             "Type" : "Random",
             "Min" : 300,

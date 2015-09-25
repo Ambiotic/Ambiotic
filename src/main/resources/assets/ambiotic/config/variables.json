@@ -115,7 +115,8 @@
             "minecraft:cobblestone_wall",
             "minecraft:iron_bars",
             "minecraft:ladder"
-        ]
+        ],
+        "TicksPerUpdate" : 10
     },
 
     {
@@ -125,6 +126,18 @@
         "Blocks" : [
             "treeLeaves",
             "logWood"
+        ]
+    },
+
+    {
+        "Name" : "Grass",
+        "Type" : "BlockCounter",
+        "Scanner" : "LS",
+        "Blocks" : [
+            "minecraft:grass",
+            "minecraft:tallgrass",
+            "minecraft:yellow_flower",
+            "minecraft:red_flower"
         ]
     },
 

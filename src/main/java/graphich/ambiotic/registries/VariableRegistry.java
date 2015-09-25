@@ -18,6 +18,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import graphich.ambiotic.scanners.Scanner;
+import net.minecraftforge.event.world.WorldEvent;
 
 import java.io.IOException;
 import java.util.*;
@@ -236,7 +237,7 @@ public class VariableRegistry {
     }
 
     @SubscribeEvent
-    public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
+    public void onWorldLoad(WorldEvent.Load event) {
         freeze();
     }
 
