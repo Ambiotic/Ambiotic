@@ -59,6 +59,15 @@ public class Exposed extends VariableBool {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if(world == null || player == null)
             return false;
+        //You're never "outside" in the nether
+        if(player.dimension == -1) {
+            if(mValue) {
+                mValue = false;
+                return true;
+            } else {
+                return false;
+            }
+        }
         mOpen.clear();
         mClosed.clear();
         boolean newValue = false;
