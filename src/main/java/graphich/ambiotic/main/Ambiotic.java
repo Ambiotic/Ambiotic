@@ -102,5 +102,6 @@ public class Ambiotic {
             Ambiotic.logger().error("Error when executing env.js:\n"+ex.getMessage());
         }
         VariableRegistry.INSTANCE.initializeJSAll();
+        ScannerRegistry.INSTANCE.initializeConstantJSAll();
     }
 }

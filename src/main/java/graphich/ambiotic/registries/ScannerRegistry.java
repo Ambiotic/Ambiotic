@@ -33,6 +33,12 @@ public class ScannerRegistry {
         }
         mScanners.put(name, scanner);
     }
+    public void initializeConstantJSAll()
+    {
+        for(Scanner scanner : mScanners.values()) {
+            Ambiotic.evalJS(scanner.constantsJS());
+        }
+    }
 
     public void load() {
         ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/scanners.json");

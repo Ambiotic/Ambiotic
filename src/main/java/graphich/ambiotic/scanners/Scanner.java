@@ -29,4 +29,7 @@ public abstract class Scanner implements IStrictJson {
         STRICT_ADAPTER = new StrictJsonSerializer<Scanner>(types, Scanner.class);
     }
 
+    public String constantsJS() {
+        return "";
+    }
 }

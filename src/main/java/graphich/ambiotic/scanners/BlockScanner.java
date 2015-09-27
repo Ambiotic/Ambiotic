@@ -117,6 +117,16 @@ public class BlockScanner extends Scanner {
         mScanFinished = true;
     }
 
+    @Override
+    public String constantsJS() {
+        String js = "";
+        js += mName +".XSize = "+mXSize+";\n";
+        js += mName +".YSize = "+mYSize+";\n";
+        js += mName +".ZSize = "+mZSize+";\n";
+        js += mName +".Size = "+mXSize*mYSize*mZSize+";\n";
+        return js;
+    }
+
     protected void continueFullScan() {
         Point point = mFullRange.next();
         int checked = 0;
