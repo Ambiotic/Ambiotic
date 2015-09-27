@@ -12,6 +12,7 @@ import net.minecraft.block.BlockDoor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 import java.util.*;
@@ -53,21 +54,51 @@ public class Exposed extends VariableBool {
             mDepth = 10;
     }
 
+
     @Override //IVariable
     public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if(world == null || player == null)
             return false;
-        //You're never "outside" in the nether
-        if(player.dimension == -1) {
-            if(mValue) {
-                mValue = false;
-                return true;
-            } else {
-                return false;
+
+        boolean newValue = quickCheck();
+        if(newValue)
+            newValue = slowCheck();
+
+        if(mValue == newValue)
+            return false;
+        mValue = newValue;
+        return true;
+    }
+
+    protected boolean quickCheck() {
+        World world = Minecraft.getMinecraft().theWorld;
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        //When in the nether, you're never "exposed"
+        if(player.dimension == -1)
+            return false;
+        int mx,my,mz;
+        mx = (int)player.posX + 1;
+        my = (int)player.posY + 1;
+        mz = (int)player.posZ + 1;
+        //float aircount = 0;
+        //float sltotal = 0;
+        for(int cx = mx-2; cx <= mx; cx++) {
+            for(int cy = my-2; cy <= my; cy++) {
+                for(int cz = mz-2; cz <= mz; cz++) {
+                    if(!world.isAirBlock(cx,cy,cz))
+                        continue;
+                    if(world.getSavedLightValue(EnumSkyBlock.Sky, cx,cy,cz) > 0)
+                        return true;
+                }
             }
         }
+        return false;
+    }
+
+    protected boolean slowCheck() {
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         mOpen.clear();
         mClosed.clear();
         boolean newValue = false;
@@ -84,10 +115,7 @@ public class Exposed extends VariableBool {
             mClosed.add(current);
             current = mOpen.poll();
         }
-        if(mValue == newValue)
-            return false;
-        mValue = newValue;
-        return true;
+        return newValue;
     }
 
     public List<Pos> successors(Pos p) {
