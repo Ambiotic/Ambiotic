@@ -17,13 +17,15 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.0.3"
+version = "0.0.4"
 group = "graphich.ambiotic"
 archivesBaseName = "ambiotic"
 
 minecraft {
-    version = "1.7.10-10.13.4.1492-1.7.10"
+    version = "1.7.10-10.13.4.1517-1.7.10"
     assetDir = "assets"
+
+    replace "@VERSION@", project.version
 }
 
 processResources
