@@ -26,7 +26,7 @@ public class BlockScanner extends Scanner {
     protected transient HashMap<Integer, Integer> mCounts;
 
     protected transient boolean mScanFinished = false;
-    protected transient int mTicksSinceFull = 0;
+    protected transient int mTicksSinceFull = -1;
 
     protected transient CuboidPointIterator mFullRange;
 
@@ -66,6 +66,11 @@ public class BlockScanner extends Scanner {
         //Nonserialized stuff must be initialized
         mCounts = new HashMap<Integer, Integer>();
         mScanFinished = false;
+        mLastDimension = 0;
+        mLastX = 0;
+        mLastY = 0;
+        mLastZ = 0;
+        mTicksSinceFull = -1;
     }
 
 
@@ -209,7 +214,7 @@ public class BlockScanner extends Scanner {
         mLastZ = z;
         mLastDimension = player.dimension;
 
-        if (fullScanReset) {
+        if (fullScanReset || mTicksSinceFull == 0) {
             resetFullScan();
             continueFullScan();
         } else if (!mScanFinished) {
