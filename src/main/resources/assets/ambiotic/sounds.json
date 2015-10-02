@@ -1,6 +1,12 @@
 {
+    "ambient.weather.betterain" : {
+        "category" : "ambient",
+        "sounds" : [
+            "weather/rain/rainloop1"
+        ]
+    },
     "ambient.forest.bird" : {
-        "category" : "master",
+        "category" : "ambient",
         "sounds" : [
             "animals/birds/bird_chatter1",
             "animals/birds/bird_chatter2",
@@ -15,7 +21,7 @@
     },
 
     "ambient.grassland.daynightbug" : {
-        "category" : "master",
+        "category" : "ambient",
         "sounds" : [
             "animals/bugs/cricket_click1",
             "animals/bugs/cricket_click2",
@@ -24,7 +30,7 @@
     },
 
     "ambient.animal.wolf_howl" : {
-        "category" : "master",
+        "category" : "ambient",
         "streaming" : true,
         "sounds" : [
             "animals/wolf/wolf_howl1"
@@ -32,7 +38,7 @@
     },
 
     "ambient.weather.whistle_wind" : {
-        "category" : "master",
+        "category" : "ambient",
         "streaming" : true,
         "sounds" : [
             "weather/wind/whistle_wind_loop1"
@@ -40,7 +46,7 @@
     },
 
     "ambient.interact.under_water" : {
-        "category" : "master",
+        "category" : "ambient",
         "streaming" : true,
         "sounds" : [
             "interact/water_underwater_loop"
