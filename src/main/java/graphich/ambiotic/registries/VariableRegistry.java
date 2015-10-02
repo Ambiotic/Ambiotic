@@ -80,6 +80,19 @@ public class VariableRegistry {
         }
     }
 
+    public void expandMacroMacros() {
+        List<String> broken = new ArrayList<String>();
+        for(Macro macro : mMacroLookup.values()) {
+            macro.expandMacros(mMacroLookup);
+            if(macro.code().contains("#")) {
+                Ambiotic.logger().warn("Macro '"+macro.name()+"' could not be expanded.");
+                broken.add(macro.name());
+            }
+        }
+        for(String bad : broken)
+            mMacroLookup.remove(bad);
+    }
+
     public void registerMacro(Macro macro) {
         if (mFrozen) {
             //TODO: throw exception
@@ -95,6 +108,7 @@ public class VariableRegistry {
     public void load() {
         loadVariables();
         loadMacros();
+        expandMacroMacros();
     }
 
     protected void loadVariables() {
@@ -158,8 +172,8 @@ public class VariableRegistry {
         }
     }
 
-    public Collection<Macro> macros() {
-        return mMacroLookup.values();
+    public Map<String, Macro> macros() {
+        return mMacroLookup;
     }
 
     public void subscribeAll() {

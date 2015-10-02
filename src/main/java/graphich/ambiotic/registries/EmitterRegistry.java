@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 public class EmitterRegistry {
@@ -69,7 +70,7 @@ public class EmitterRegistry {
         }
 
         Ambiotic.logger().info("Expanding emitter macros");
-        Collection<Macro> macros = VariableRegistry.INSTANCE.macros();
+        Map<String, Macro> macros = VariableRegistry.INSTANCE.macros();
         for(SoundEmitter emitter : mRegistry.values()) {
             emitter.expandMacros(macros);
         }

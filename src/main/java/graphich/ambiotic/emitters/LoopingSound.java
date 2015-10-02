@@ -1,6 +1,7 @@
 package graphich.ambiotic.emitters;
 
 import graphich.ambiotic.emitters.effects.FloatProvider;
+import graphich.ambiotic.util.IConditional;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.player.EntityPlayer;

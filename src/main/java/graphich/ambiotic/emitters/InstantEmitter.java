@@ -3,12 +3,14 @@ package graphich.ambiotic.emitters;
 import com.google.gson.annotations.SerializedName;
 import graphich.ambiotic.emitters.effects.FloatConstant;
 import graphich.ambiotic.emitters.effects.FloatProvider;
+import graphich.ambiotic.util.IScripted;
 import graphich.ambiotic.variables.macro.Macro;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.Collection;
+import java.util.Map;
 
 public class InstantEmitter extends SoundEmitter {
 
@@ -24,7 +26,7 @@ public class InstantEmitter extends SoundEmitter {
     }
 
     @Override
-    public void expandMacros(Collection<Macro> macros) {
+    public void expandMacros(Map<String,Macro> macros) {
         super.expandMacros(macros);
         if(mCoolDown instanceof IScripted)
             ((IScripted) mCoolDown).expandMacros(macros);

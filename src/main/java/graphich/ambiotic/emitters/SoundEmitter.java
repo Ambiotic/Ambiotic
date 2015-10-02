@@ -6,14 +6,13 @@ import com.google.gson.annotations.SerializedName;
 import graphich.ambiotic.emitters.effects.FloatConstant;
 import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.main.Ambiotic;
-import graphich.ambiotic.util.IStrictJson;
-import graphich.ambiotic.util.StrictJsonException;
-import graphich.ambiotic.util.StrictJsonSerializer;
+import graphich.ambiotic.util.*;
 import graphich.ambiotic.variables.macro.Macro;
 import net.minecraft.client.audio.ISound;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.Map;
 
 public abstract class SoundEmitter implements IStrictJson, IConditional, IScripted {
     @SerializedName("Name")
@@ -37,8 +36,8 @@ public abstract class SoundEmitter implements IStrictJson, IConditional, IScript
     public abstract ISound emit();
 
     @Override //IScripted
-    public void expandMacros(Collection<Macro> macros) {
-        for(Macro macro : macros) {
+    public void expandMacros(Map<String, Macro> macros) {
+        for(Macro macro : macros.values()) {
             mConditionCode = macro.expand(mConditionCode);
         }
         if(mVolume instanceof IScripted)

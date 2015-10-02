@@ -1,13 +1,13 @@
 package graphich.ambiotic.emitters.effects;
 
 import com.google.gson.annotations.SerializedName;
-import graphich.ambiotic.emitters.IScripted;
-import graphich.ambiotic.emitters.effects.FloatProvider;
+import graphich.ambiotic.util.IScripted;
 import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.variables.macro.Macro;
 
 import java.util.Collection;
+import java.util.Map;
 
 public class FloatScripted extends FloatProvider implements IScripted {
     @SerializedName("Code")
@@ -34,8 +34,8 @@ public class FloatScripted extends FloatProvider implements IScripted {
     }
 
     @Override //IScripted
-    public void expandMacros(Collection<Macro> macros) {
-        for(Macro macro : macros) {
+    public void expandMacros(Map<String, Macro> macros) {
+        for(Macro macro : macros.values()) {
             mJSCode = macro.expand(mJSCode);
         }
     }
