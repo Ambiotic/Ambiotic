@@ -188,7 +188,9 @@ public class BlockScanner extends Scanner {
     public void onTick(TickEvent.ClientTickEvent event) {
         // No scan state
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        if (player == null || player.worldObj == null || event.isCanceled()) {
+        World world = Minecraft.getMinecraft().theWorld;
+        if (player == null || world == null || event.isCanceled()) {
+            mFullRange = null;
             return;
         }
         mTicksSinceFull += 1;
@@ -214,10 +216,11 @@ public class BlockScanner extends Scanner {
         mLastZ = z;
         mLastDimension = player.dimension;
 
-        if (fullScanReset || mTicksSinceFull == 0) {
+        // First scan or full scan reset conditions detected
+        if(fullScanReset || mFullRange == null)
             resetFullScan();
-            continueFullScan();
-        } else if (!mScanFinished) {
+
+        if (!mScanFinished) {
             continueFullScan();
         } else if (playerMoved) {
             updateScan(newVolume,oldVolume,intersect);
