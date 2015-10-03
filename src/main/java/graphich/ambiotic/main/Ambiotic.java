@@ -7,6 +7,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import graphich.ambiotic.registries.EmitterRegistry;
 import graphich.ambiotic.registries.ScannerRegistry;
 import graphich.ambiotic.registries.VariableRegistry;
@@ -14,13 +15,16 @@ import graphich.ambiotic.scanners.Scanner;
 import graphich.ambiotic.emitters.SoundEmitter;
 import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.util.DebugGui;
+import graphich.ambiotic.util.EvalCommand;
 import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.variables.Variable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
+import net.minecraft.command.CommandHandler;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Logger;
 
@@ -68,13 +72,11 @@ public class Ambiotic implements IResourceManagerReloadListener {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        //We need to watch for when resources have been reloaded / refreshed
         Ambiotic.logger = event.getModLog();
+        //We need to watch for when resources have been reloaded / refreshed
         ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(this);
+        ClientCommandHandler.instance.registerCommand(new EvalCommand());
     }
-
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event) { loadAll(); }
 
     protected boolean passesPackCheck() {
         String pack = "ambiotic:ambiotic.json";
