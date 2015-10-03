@@ -5,6 +5,8 @@ import com.google.common.collect.HashBiMap;
 import com.google.gson.annotations.SerializedName;
 import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.IScripted;
+import graphich.ambiotic.util.IStrictJson;
+import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.util.StrictJsonSerializer;
 
 import java.lang.reflect.Type;
@@ -14,7 +16,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Macro implements IScripted {
+public class Macro implements IScripted, IStrictJson {
     @SerializedName("Code")
     protected String mCode;
     @SerializedName("Name")
@@ -67,4 +69,15 @@ public class Macro implements IScripted {
             }
         }
     }
+
+    @Override
+    public void validate() throws StrictJsonException {
+        if(mName == null || mName.equals(""))
+            throw new StrictJsonException("Name is required");
+        if(mCode == null || mCode.equals(""))
+            throw new StrictJsonException("Code is required");
+    }
+
+    @Override
+    public void initialize() {;}
 }

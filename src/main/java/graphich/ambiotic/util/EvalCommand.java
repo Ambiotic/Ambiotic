@@ -58,7 +58,9 @@ public class EvalCommand implements ICommand {
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_) {
+    public List addTabCompletionOptions(ICommandSender sender, String[] args) {
+
+        Ambiotic.logger().info(args[args.length-1]);
         return new ArrayList();
     }
 
