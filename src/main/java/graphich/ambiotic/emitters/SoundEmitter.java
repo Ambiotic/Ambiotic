@@ -25,6 +25,8 @@ public abstract class SoundEmitter implements IStrictJson, IConditional, IScript
     protected FloatProvider mPitch;
     @SerializedName("Conditions")
     protected String mConditionCode = "";
+    @SerializedName("Restrict")
+    protected String mRestrictCode = "";
 
 
     public SoundEmitter(String name, String sound) {
@@ -52,6 +54,8 @@ public abstract class SoundEmitter implements IStrictJson, IConditional, IScript
             throw new StrictJsonException("Name is required");
         if(mSound == null || mSound.equals(""))
             throw new StrictJsonException("Sound is required");
+        if(mConditionCode == null || mConditionCode.equals(""))
+            throw new StrictJsonException("Conditions is required");
     }
 
     @Override //IStrictJson
@@ -61,19 +65,28 @@ public abstract class SoundEmitter implements IStrictJson, IConditional, IScript
             mVolume = new FloatConstant(1.0f);
         if(mPitch == null)
             mPitch = new FloatConstant(1.0f);
+        if(mRestrictCode == null)
+            mRestrictCode = "";
     }
 
     public String name() { return mName; }
 
     @Override //IConditional
     public boolean conditionsMet() {
-        Object rv = Ambiotic.evalJS(mConditionCode);
+        boolean rv = getResult(mConditionCode);
+        if(rv && !mRestrictCode.equals(""))
+            rv = (rv && !getResult(mRestrictCode));
+        return rv;
+    }
+
+    protected boolean getResult(String js) {
+        Object rv = Ambiotic.evalJS(js);
         if(rv == null)
             return false;
         else if(rv instanceof Boolean)
             return (Boolean)rv;
         else if(rv instanceof Number)
-           return ((Number)rv).intValue() == 0;
+            return ((Number)rv).intValue() == 0;
         return false;
     }
 
