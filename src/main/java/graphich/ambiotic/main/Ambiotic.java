@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import graphich.ambiotic.registries.EmitterRegistry;
@@ -17,6 +16,10 @@ import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.util.DebugGui;
 import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.variables.Variable;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +31,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 @Mod(modid = Ambiotic.MODID, version = Ambiotic.VERSION, name = Ambiotic.NAME, acceptableRemoteVersions="*")
-public class Ambiotic {
+public class Ambiotic implements IResourceManagerReloadListener {
 
     public static final String MODID = "ambiotic";
     public static final String NAME = "Ambiotic";
@@ -65,19 +68,42 @@ public class Ambiotic {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        //We need to watch for when resources have been reloaded / refreshed
         Ambiotic.logger = event.getModLog();
+        ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(this);
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event) {
+    public void postInit(FMLPostInitializationEvent event) { loadAll(); }
+
+    protected boolean passesPackCheck() {
+        String pack = "ambiotic:ambiotic.json";
+        try {
+            ResourceLocation rl = new ResourceLocation(pack);
+            InputStreamReader isr = Helpers.resourceAsStreamReader(rl);
+        } catch(IOException ex) {
+            Ambiotic.logger().warn("Cannot read ambiotic.json: no ambiotic information will be loaded.");
+            return false;
+        }
+        //TODO: Actually check min_version / max_version
+        return true;
+    }
+
+    protected void loadAll() {
+        // Only contiune with load if we pass the pack check
+        if(!passesPackCheck())
+            return;
+
+        //Reset all registries
+        ScannerRegistry.INSTANCE.reset();
+        VariableRegistry.INSTANCE.reset();
+        EmitterRegistry.INSTANCE.reset();
+
         //Load all registry data from json
         ScannerRegistry.INSTANCE.load();
         VariableRegistry.INSTANCE.load();
         EmitterRegistry.INSTANCE.load();
-    }
 
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
         DebugGui gui = new DebugGui();
         FMLCommonHandler.instance().bus().register(gui);
         MinecraftForge.EVENT_BUS.register(gui);
@@ -103,5 +129,10 @@ public class Ambiotic {
         }
         VariableRegistry.INSTANCE.initializeJSAll();
         ScannerRegistry.INSTANCE.initializeConstantJSAll();
+    }
+
+    @Override
+    public void onResourceManagerReload(IResourceManager resman) {
+        loadAll();
     }
 }

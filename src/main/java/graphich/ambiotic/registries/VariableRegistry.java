@@ -47,6 +47,14 @@ public class VariableRegistry {
         return names;
     }
 
+    public void reset() {
+        mFrozen = false;
+        mUpdates.clear();
+        mVariableLookup.clear();
+        mMacroLookup.clear();
+    }
+
+
     protected void loadMacros() {
         ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/macros.json");
         JsonArray macroList = null;
@@ -180,6 +188,7 @@ public class VariableRegistry {
         //To reduce congestion, variables only have update() called from this classes onTick()
         FMLCommonHandler.instance().bus().register(VariableRegistry.INSTANCE);
         MinecraftForge.EVENT_BUS.register(VariableRegistry.INSTANCE);
+        mFrozen = true;
     }
 
     public Object value(String name) {

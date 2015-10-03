@@ -20,6 +20,7 @@ public class ScannerRegistry {
 
     protected HashMap<String, Scanner> mScanners;
     protected Logger mLogger;
+    protected boolean mFrozen = false;
 
     protected ScannerRegistry() {
         mScanners = new HashMap<String, Scanner>();
@@ -38,6 +39,11 @@ public class ScannerRegistry {
         for(Scanner scanner : mScanners.values()) {
             Ambiotic.evalJS(scanner.constantsJS());
         }
+    }
+
+    public void reset() {
+        mFrozen = false;
+        mScanners.clear();
     }
 
     public void load() {
@@ -72,6 +78,7 @@ public class ScannerRegistry {
             FMLCommonHandler.instance().bus().register(scanner);
             MinecraftForge.EVENT_BUS.register(scanner);
         }
+        mFrozen = true;
     }
 
     public List<String> names() {

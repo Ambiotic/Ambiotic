@@ -47,6 +47,11 @@ public class EmitterRegistry {
         mRegistry.put(sound.name(),sound);
     }
 
+    public void reset() {
+        mFrozen = false;
+        mRegistry.clear();
+    }
+
     public void load() {
         ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/emitterlist.json");
 
