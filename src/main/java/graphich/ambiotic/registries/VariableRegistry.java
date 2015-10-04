@@ -16,6 +16,7 @@ import graphich.ambiotic.variables.IVariable;
 import graphich.ambiotic.variables.Variable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import graphich.ambiotic.scanners.Scanner;
 import net.minecraftforge.event.world.WorldEvent;

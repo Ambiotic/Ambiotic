@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 
@@ -28,6 +29,7 @@ public class EmitterRegistry {
 
     protected HashMap<String, SoundEmitter> mRegistry;
     protected boolean mFrozen = false;
+    protected boolean mGamePaused = false;
 
     protected EmitterRegistry() {
         mRegistry = new LinkedHashMap<String, SoundEmitter>();
@@ -106,6 +108,8 @@ public class EmitterRegistry {
     public void onTick(TickEvent.ClientTickEvent event) {
         if(event.isCanceled() || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
             return;
+        if(mGamePaused)
+            return;
         SoundHandler handler = Minecraft.getMinecraft().getSoundHandler();
         for(SoundEmitter emitter : mRegistry.values()) {
             ISound emitted = emitter.emit();
@@ -114,6 +118,17 @@ public class EmitterRegistry {
                 handler.playSound(emitted);
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onGuiOpen(GuiOpenEvent event) {
+        // gui being null means the last gui opened was closed
+        if(event.gui == null) {
+            mGamePaused = false;
+            return;
+        }
+        if(event.gui.doesGuiPauseGame())
+            mGamePaused = true;
     }
 
     public void subscribeAll() {

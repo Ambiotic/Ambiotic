@@ -17,6 +17,7 @@ import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.util.DebugGui;
 import graphich.ambiotic.util.EvalCommand;
 import graphich.ambiotic.util.Helpers;
+import graphich.ambiotic.util.ShowOreDictCommand;
 import graphich.ambiotic.variables.Variable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IReloadableResourceManager;
@@ -26,6 +27,7 @@ import net.minecraft.command.CommandHandler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 
 import javax.script.ScriptEngine;
@@ -73,9 +75,6 @@ public class Ambiotic implements IResourceManagerReloadListener {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         Ambiotic.logger = event.getModLog();
-        //We need to watch for when resources have been reloaded / refreshed
-        ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(this);
-        ClientCommandHandler.instance.registerCommand(new EvalCommand());
     }
 
     protected boolean passesPackCheck() {
@@ -89,6 +88,14 @@ public class Ambiotic implements IResourceManagerReloadListener {
         }
         //TODO: Actually check min_version / max_version
         return true;
+    }
+
+    @EventHandler
+    protected void postInit(FMLPostInitializationEvent event) {
+        //We need to watch for when resources have been reloaded / refreshed
+        ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(this);
+        ClientCommandHandler.instance.registerCommand(new EvalCommand());
+        ClientCommandHandler.instance.registerCommand(new ShowOreDictCommand());
     }
 
     protected void loadAll() {
