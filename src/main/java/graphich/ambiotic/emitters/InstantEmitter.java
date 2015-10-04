@@ -33,6 +33,7 @@ public class InstantEmitter extends SoundEmitter {
     }
     @Override
     public void initialize() {
+        super.initialize();
         //Default cooldown
         if(mCoolDown == null)
             mCoolDown = new FloatConstant(10000.0f);
