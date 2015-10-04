@@ -39,9 +39,11 @@ public abstract class SoundEmitter implements IStrictJson, IConditional, IScript
 
     @Override //IScripted
     public void expandMacros(Map<String, Macro> macros) {
+        if(mRestrictCode == null)
+            mRestrictCode = "";
         for(Macro macro : macros.values()) {
             mConditionCode = macro.expand(mConditionCode);
-            if(mRestrictCode != null && !mRestrictCode.equals(""))
+            if(!mRestrictCode.equals(""))
                 mRestrictCode = macro.expand(mRestrictCode);
         }
         if(mVolume instanceof IScripted)

@@ -1,6 +1,7 @@
 package graphich.ambiotic.util;
 
 import graphich.ambiotic.main.Ambiotic;
+import graphich.ambiotic.registries.VariableRegistry;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -59,9 +60,20 @@ public class EvalCommand implements ICommand {
 
     @Override
     public List addTabCompletionOptions(ICommandSender sender, String[] args) {
-
-        Ambiotic.logger().info(args[args.length-1]);
-        return new ArrayList();
+        String last = args[args.length-1];
+        List<String> rv = new ArrayList<String>();
+        if(last.equals("&")) {
+            rv.add("&&");
+        } else if(last.equals("|")) {
+            rv.add("||");
+        } else {
+            List<String> names = VariableRegistry.INSTANCE.fullVariableNames();
+            for(String name : names) {
+                if(name.startsWith(last))
+                    rv.add(name);
+            }
+        }
+        return rv;
     }
 
     @Override

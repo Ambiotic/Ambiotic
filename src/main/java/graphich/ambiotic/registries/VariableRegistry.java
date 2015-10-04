@@ -54,6 +54,12 @@ public class VariableRegistry {
         mMacroLookup.clear();
     }
 
+    public List<String> fullVariableNames() {
+        List<String> names = new ArrayList<String>();
+        for(IVariable var : mVariableLookup.values())
+            names.add(var.name());
+        return names;
+    }
 
     protected void loadMacros() {
         ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/macros.json");
