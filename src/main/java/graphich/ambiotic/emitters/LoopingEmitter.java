@@ -5,7 +5,6 @@ import net.minecraft.client.audio.ISound;
 public class LoopingEmitter extends SoundEmitter {
 
     protected transient LoopingSound mEmitted = null;
-    protected transient boolean mActive;
 
     public LoopingEmitter(String name, String sound) {
         super(name, sound);
