@@ -54,6 +54,14 @@ public class VariableRegistry {
         mMacroLookup.clear();
     }
 
+    public List<String> macroSymbols() {
+        List<String> macros = new ArrayList<String>();
+        for(Macro macro : mMacroLookup.values()) {
+            macros.add(macro.symbol());
+        }
+        return macros;
+    }
+
     public List<String> fullVariableNames() {
         List<String> names = new ArrayList<String>();
         for(IVariable var : mVariableLookup.values())

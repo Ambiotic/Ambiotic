@@ -2,6 +2,7 @@ package graphich.ambiotic.util;
 
 import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.registries.VariableRegistry;
+import graphich.ambiotic.variables.macro.Macro;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,6 +10,7 @@ import net.minecraft.util.ChatComponentText;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class EvalCommand implements ICommand {
 
@@ -44,6 +46,9 @@ public class EvalCommand implements ICommand {
         String js = "";
         for(String arg : args)
             js += " "+arg;
+        Map<String,Macro> macros = VariableRegistry.INSTANCE.macros();
+        for(Macro macro : macros.values())
+            js = macro.expand(js);
         Object res = Ambiotic.evalJS(js);
         if(res != null)
             sender.addChatMessage(new ChatComponentText("Result : "+res.toString()));
@@ -66,6 +71,12 @@ public class EvalCommand implements ICommand {
             rv.add("&&");
         } else if(last.equals("|")) {
             rv.add("||");
+        } else if(last.startsWith("#")) {
+            List<String> macros = VariableRegistry.INSTANCE.macroSymbols();
+            for(String symbol : macros) {
+                if(symbol.startsWith(last))
+                    rv.add(symbol);
+            }
         } else {
             List<String> names = VariableRegistry.INSTANCE.fullVariableNames();
             for(String name : names) {
