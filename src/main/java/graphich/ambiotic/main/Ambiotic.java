@@ -8,6 +8,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.relauncher.Side;
 import graphich.ambiotic.registries.EmitterRegistry;
 import graphich.ambiotic.registries.ScannerRegistry;
 import graphich.ambiotic.registries.VariableRegistry;
@@ -92,6 +93,8 @@ public class Ambiotic implements IResourceManagerReloadListener {
 
     @EventHandler
     protected void postInit(FMLPostInitializationEvent event) {
+        if(event.getSide() != Side.CLIENT)
+            return;
         //We need to watch for when resources have been reloaded / refreshed
         ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(this);
         ClientCommandHandler.instance.registerCommand(new EvalCommand());
