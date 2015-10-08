@@ -99,6 +99,9 @@ public class Ambiotic implements IResourceManagerReloadListener {
         ((IReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(this);
         ClientCommandHandler.instance.registerCommand(new EvalCommand());
         ClientCommandHandler.instance.registerCommand(new ShowOreDictCommand());
+        DebugGui gui = new DebugGui();
+        FMLCommonHandler.instance().bus().register(gui);
+        MinecraftForge.EVENT_BUS.register(gui);
     }
 
     protected void loadAll() {
@@ -115,10 +118,6 @@ public class Ambiotic implements IResourceManagerReloadListener {
         ScannerRegistry.INSTANCE.load();
         VariableRegistry.INSTANCE.load();
         EmitterRegistry.INSTANCE.load();
-
-        DebugGui gui = new DebugGui();
-        FMLCommonHandler.instance().bus().register(gui);
-        MinecraftForge.EVENT_BUS.register(gui);
 
         // Subscribe all event handling classes
         VariableRegistry.INSTANCE.subscribeAll();
