@@ -82,7 +82,8 @@ public class BlockCounter extends VariableInt {
         if(mBlockIds == null)
             mBlockIds = new ArrayList<Integer>();
         for (Integer id : blockIds) {
-            mBlockIds.add(id);
+            if(!mBlockIds.contains(id))
+                mBlockIds.add(id);
         }
     }
 }

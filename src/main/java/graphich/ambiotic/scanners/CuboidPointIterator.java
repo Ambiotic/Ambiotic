@@ -4,6 +4,11 @@ public class CuboidPointIterator extends Cuboid implements IPointIterator {
 
     protected Point mCurrent;
 
+    public CuboidPointIterator(Cuboid other) {
+        super(other.minimum(), other.maximum());
+        reset();
+    }
+
     public CuboidPointIterator(Point p1, Point p2) {
         super(p1, p2);
         reset();
