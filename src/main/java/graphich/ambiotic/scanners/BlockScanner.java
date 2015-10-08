@@ -3,6 +3,7 @@ package graphich.ambiotic.scanners;
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.StrictJsonException;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -22,6 +23,8 @@ public class BlockScanner extends Scanner {
     protected Integer mZSize = 0;
     @SerializedName("BlocksPerTick")
     protected Integer mBlocksPerTick = 0;
+    @SerializedName("YStartsAtPlayer")
+    protected Boolean mYStartsAtPlayer = false;
 
     protected transient HashMap<Integer, Integer> mCounts;
 
@@ -61,6 +64,8 @@ public class BlockScanner extends Scanner {
     @Override
     public void initialize() {
         // BlocksPerTick is optional
+        if(mYStartsAtPlayer == null)
+            mYStartsAtPlayer = false;
         if(mBlocksPerTick == null)
             mBlocksPerTick = (mXSize*mZSize*mYSize)/4;
         //Nonserialized stuff must be initialized
@@ -171,7 +176,7 @@ public class BlockScanner extends Scanner {
         mLastZ = (int) player.posZ;
         mLastDimension = player.dimension;
         mScanFinished = false;
-        mFullRange = new CuboidPointIterator(mLastX, mLastY, mLastZ, mXSize, mYSize, mZSize);
+        mFullRange = new CuboidPointIterator(getVolumeFor(mLastX, mLastY, mLastZ));
         resetBlockCounts();
     }
 
@@ -182,6 +187,23 @@ public class BlockScanner extends Scanner {
             if(c < 0) mCounts.put(blockId,0);
             else mCounts.put(blockId,c);
         }
+    }
+
+    protected Cuboid getVolumeFor(int x, int y, int z) {
+        int minX,maxX,minY,maxY,minZ,maxZ;
+        Point min, max;
+        if(mYStartsAtPlayer) {
+            minY = y;
+            maxY = y+mYSize;
+        } else {
+            minY = y - mYSize / 2;
+            maxY = y + mYSize / 2;
+        }
+        minX = x - mXSize / 2;
+        maxX = x + mXSize / 2;
+        minZ = z - mZSize / 2;
+        maxZ = z + mZSize / 2;
+        return new Cuboid(new Point(minX,minY,minZ), new Point(maxX,maxY,maxZ));
     }
 
     @SubscribeEvent
@@ -198,8 +220,8 @@ public class BlockScanner extends Scanner {
         x = (int) player.posX;
         y = (int) player.posY;
         z = (int) player.posZ;
-        Cuboid oldVolume = new Cuboid(mLastX, mLastY, mLastZ, mXSize, mYSize, mZSize);
-        Cuboid newVolume = new Cuboid(x, y, z, mXSize, mYSize, mZSize);
+        Cuboid oldVolume = getVolumeFor(mLastX, mLastY, mLastZ);
+        Cuboid newVolume = getVolumeFor(x, y, z);
         Cuboid intersect = oldVolume.intersection(newVolume);
         boolean playerMoved = (x != mLastX || y != mLastY || z != mLastZ);
 
@@ -234,6 +256,7 @@ public class BlockScanner extends Scanner {
         }
         int blockId = Block.getIdFromBlock(event.block);
         addToCount(blockId,-1);
+        addToCount(0,1);
     }
 
     @SubscribeEvent
@@ -241,8 +264,9 @@ public class BlockScanner extends Scanner {
         if (event.isCanceled()) {
             return;
         }
-        int placedBlockId = Block.getIdFromBlock(event.block);
-        addToCount(placedBlockId,1);
+        int blockId = Block.getIdFromBlock(event.block);
+        addToCount(blockId,1);
+        addToCount(0,-1);
     }
 
     @SubscribeEvent
@@ -254,6 +278,7 @@ public class BlockScanner extends Scanner {
         if(event.harvester != Minecraft.getMinecraft().thePlayer) {
             int blockId = Block.getIdFromBlock(event.block);
             addToCount(blockId,-1);
+            addToCount(0, 1);
         }
     }
 }

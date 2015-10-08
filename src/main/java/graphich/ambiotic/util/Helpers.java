@@ -2,6 +2,7 @@ package graphich.ambiotic.util;
 
 import com.google.gson.*;
 import cpw.mods.fml.common.registry.GameData;
+import graphich.ambiotic.main.Ambiotic;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Helpers {
@@ -49,14 +51,26 @@ public class Helpers {
     public static ArrayList<Integer> buildBlockIdList(String specifier) {
         ArrayList<ItemStack> items = OreDictionary.getOres(specifier);
         ArrayList<Integer> blockIds = new ArrayList<Integer>();
+        int blockId;
         if (items.size() > 0) {
             for (ItemStack is : items) {
-                int blockId = Block.getIdFromBlock(Block.getBlockFromItem(is.getItem()));
-                blockIds.add(blockId);
+                Block block = Block.getBlockFromItem(is.getItem());
+                blockId = Block.getIdFromBlock(block);
+                if(!blockIds.contains(blockId))
+                    blockIds.add(blockId);
+                List<ItemStack> subblockitems = new ArrayList<ItemStack>();
+                block.getSubBlocks(is.getItem(),null, subblockitems);
+                for(ItemStack sis : subblockitems) {
+                    block = Block.getBlockFromItem(sis.getItem());
+                    blockId = Block.getIdFromBlock(block);
+                    if(!blockIds.contains(blockId))
+                        blockIds.add(blockId);
+                }
             }
         } else if (GameData.getBlockRegistry().containsKey(specifier)) {
-            int blockId = GameData.getBlockRegistry().getId(specifier);
-            blockIds.add(blockId);
+            blockId = GameData.getBlockRegistry().getId(specifier);
+            if(!blockIds.contains(blockId))
+                blockIds.add(blockId);
         }
         return blockIds;
     }
