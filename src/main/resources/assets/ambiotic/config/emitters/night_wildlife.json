@@ -1,0 +1,13 @@
+[
+    {
+        "Name" : "FullMoonWolfHowls",
+        "Type" : "Skip",
+        "Sound" : "ambiotic:ambient.animal.wolf_howl",
+        "Conditions" : "Foliage >= 1500 && TimeOfDay >= 16000 && TimeOfDay <= 20000 && MoonPhase == 0 && Raining == 0",
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min" : 1500,
+            "Max" : 2500
+        }
+    }
+]

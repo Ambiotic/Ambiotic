@@ -1,0 +1,45 @@
+[
+    {
+        "Name" : "RegularForestBirds",
+        "Type" : "Instant",
+        "Sound" : "ambiotic:ambient.forest.bird",
+        "Conditions" : "LS.Foliage >= 1500 && #DayAnimal#",
+        "Restrict" : "Player.Submerged || #UnderGround#",
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min" : 100,
+            "Max" : 350
+        },
+        "Pitch" : {
+            "Type" : "Random",
+            "Min" : 0.80,
+            "Max" : 1.10
+        },
+        "Volume" : {
+            "Type" : "Constant",
+            "Value" : 0.40
+        }
+    },
+
+    {
+        "Name" : "VariousGrassBugs",
+        "Type" : "Instant",
+        "Sound" : "ambiotic:ambient.grassland.daynightbug",
+        "Conditions" : "#DayAnimal# && LS.Grass >= 300",
+        "Restrict" : "Player.Submerged || #ColdArea# || #UnderGround#",
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min" : 300,
+            "Max" : 450
+        },
+        "Pitch" : {
+            "Type" : "Random",
+            "Min" : 0.80,
+            "Max" : 1.10
+        },
+        "Volume" : {
+            "Type" : "Constant",
+            "Value" : 0.40
+        }
+    }
+]

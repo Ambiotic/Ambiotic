@@ -1,0 +1,25 @@
+[
+    {
+        "Name" : "IsDay",
+        "Type" : "Macro",
+        "Code" : "(World.Time <= 14000)"
+    },
+
+    {
+        "Name" : "DayAnimal",
+        "Type" : "Macro",
+        "Code" : "#IsDay# && !World.IsRaining && Player.Y >= 62 && Player.Y <= 150 && Player.IsExposed"
+    },
+
+    {
+        "Name" : "ColdArea",
+        "Type" : "Macro",
+        "Code" : "LS.ColdBlocks >= 200"
+    },
+
+    {
+        "Name" : "UnderGround",
+        "Type" : "Macro",
+        "Code" : "(LS.Air*1.0) / LS.Size < 0.25"
+    }
+]

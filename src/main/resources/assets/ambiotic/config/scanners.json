@@ -1,0 +1,19 @@
+[
+  {
+    "Type" : "BlockScanner",
+    "Name" : "LS",
+    "XSize" : 64,
+    "YSize" : 16,
+    "ZSize" : 64,
+    "YStartsAtPlayer" : true
+  },
+
+  {
+    "Type" : "BlockScanner",
+    "Name" : "Column",
+    "XSize" : 3,
+    "YSize" : 100,
+    "ZSize" : 3,
+    "YStartsAtPlayer" : true
+  }
+]

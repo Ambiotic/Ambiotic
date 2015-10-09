@@ -1,0 +1,6 @@
+[
+    "ambiotic:config/emitters/day_wildlife.json",
+    "ambiotic:config/emitters/night_wildlife.json",
+    "ambiotic:config/emitters/weather.json",
+    "ambiotic:config/emitters/interact.json"
+]
