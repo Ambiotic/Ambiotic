@@ -81,6 +81,7 @@ public abstract class Variable implements IVariable, IStrictJson {
         types.put("PlayerExposed", Exposed.class);
         types.put("UnderWater", UnderWater.class);
         types.put("VerticalVelocity",VerticalVelocity.class);
+        types.put("BiomeName", BiomeName.class);
         STRICT_ADAPTER = new StrictJsonSerializer<Variable>(types, Variable.class);
     }
 

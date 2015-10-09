@@ -102,6 +102,7 @@ public class Ambiotic implements IResourceManagerReloadListener {
         DebugGui gui = new DebugGui();
         FMLCommonHandler.instance().bus().register(gui);
         MinecraftForge.EVENT_BUS.register(gui);
+
     }
 
     protected void loadAll() {
