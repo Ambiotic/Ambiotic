@@ -98,6 +98,16 @@
     },
 
     {
+        "Name" : "BiomeTemp",
+        "Type" : "BiomeTemperature"
+    },
+
+    {
+        "Name" : "BiomeRain",
+        "Type" : "BiomeRainFall"
+    },
+
+    {
         "Name" : "Biome",
         "Type" : "BiomeName"
     },

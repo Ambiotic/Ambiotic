@@ -6,3 +6,12 @@ function vclmp(volume) {
     return volume;
 }
 
+function inlist(haystack, needle) {
+    for(i = 0; i < haystack.length; i++) {
+        if(haystack[i] === needle) {
+            return true;
+        }
+    }
+    return false;
+}
+
