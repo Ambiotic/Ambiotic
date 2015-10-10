@@ -12,7 +12,7 @@ public class FloatFadeIn extends FloatProvider {
 
     protected transient float mValue;
 
-    @Override
+    @Override //FloatProvider
     public float value() {
         mValue += mFadeFactor;
         if(mValue > 1.0f)
@@ -20,7 +20,7 @@ public class FloatFadeIn extends FloatProvider {
         return mValue;
     }
 
-    @Override
+    @Override //IStrictJson
     public void validate() throws StrictJsonException {
         if(mFadeFactor == null)
             throw new StrictJsonException("FadeFactor is required");
@@ -30,7 +30,7 @@ public class FloatFadeIn extends FloatProvider {
             throw new StrictJsonException("InitialValue must be greater than 0 and smaller than or equal to 1.0");
     }
 
-    @Override
+    @Override //IStrictJson
     public void initialize() {
         super.initialize();
         if(mInitialValue == null)
