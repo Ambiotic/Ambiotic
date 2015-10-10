@@ -30,7 +30,7 @@ public class BiomeTemperature extends VariableNumber {
         y = (int)player.posY;
         z = (int)player.posZ;
         float newValue = world.getBiomeGenForCoords(x,z).getFloatTemperature(x, y, z);
-        boolean changed = (Math.abs(mValue-newValue) < EQUALITY_LIMIT);
+        boolean changed = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
         mValue = newValue;
         return changed;
     }

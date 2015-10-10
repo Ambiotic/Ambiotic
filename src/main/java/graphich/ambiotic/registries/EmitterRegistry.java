@@ -18,6 +18,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -51,6 +52,14 @@ public class EmitterRegistry {
     public void reset() {
         mFrozen = false;
         mRegistry.clear();
+    }
+
+    public ArrayList<String> sounds()
+    {
+        ArrayList<String> soundlist = new ArrayList<String>();
+        for(SoundEmitter emitter : mRegistry.values())
+            soundlist.add(emitter.sound());
+        return soundlist;
     }
 
     public void load() {
@@ -111,6 +120,10 @@ public class EmitterRegistry {
             return;
         SoundHandler handler = Minecraft.getMinecraft().getSoundHandler();
         for(SoundEmitter emitter : mRegistry.values()) {
+            // Skip sounds not loaded yet
+            if(!Ambiotic.soundLoaded(emitter.sound())) {
+                continue;
+            }
             ISound emitted = emitter.emit();
             if(emitted != null && !handler.isSoundPlaying(emitted)) {
                 Ambiotic.logger().info("Playing "+emitter.name());

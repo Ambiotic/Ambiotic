@@ -36,6 +36,11 @@ public abstract class SoundEmitter implements IStrictJson, IConditional, IScript
 
     public abstract ISound emit();
 
+    public String sound()
+    {
+        return mSound;
+    }
+
     @Override //IScripted
     public void expandMacros(Map<String, Macro> macros) {
         for(Macro macro : macros.values()) {

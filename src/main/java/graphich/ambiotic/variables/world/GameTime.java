@@ -2,6 +2,7 @@ package graphich.ambiotic.variables.world;
 
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.variables.Variable;
 import graphich.ambiotic.variables.VariableNumber;
 import net.minecraft.client.Minecraft;
@@ -31,7 +32,7 @@ public class GameTime extends VariableNumber {
         if(world == null)
             return false;
         float newValue = (world.getWorldInfo().getWorldTime() % mModulus);
-        boolean updated = (Math.abs(mValue-newValue) < EQUALITY_LIMIT);
+        boolean updated = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
         mValue = newValue;
         return updated;
     }

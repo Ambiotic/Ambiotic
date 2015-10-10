@@ -6,12 +6,12 @@ function vclmp(volume) {
     return volume;
 }
 
-function inlist(haystack, needle) {
-    for(i = 0; i < haystack.length; i++) {
-        if(haystack[i] === needle) {
+function biomecheck(biomes, biome) {
+    biome = biome.toLowerCase();
+    for(i = 0; i < biomes.length; i++) {
+        if(biome.indexOf(biomes[i].toLowerCase()) != -1) {
             return true;
         }
     }
     return false;
 }
-

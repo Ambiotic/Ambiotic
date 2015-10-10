@@ -1,13 +1,13 @@
 [
     {
-        "Name" : "HighWind",
+        "Name" : "JungleDay",
         "Type" : "Looping",
-        "Sound" : "ambiotic:ambient.weather.whistle_wind",
-        "Conditions" : "Player.Y >= 100",
+        "Sound" : "ambiotic:ambient.biome.jungle-day",
+        "Conditions" : "biomecheck(JungleBiomes, World.Biome) && #IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged",
         "Volume" : {
             "Type" : "Scripted",
-            "Code" : "vclmp((Player.Y - 60)/193 - .20) * (Player.IsExposed ? 1.0 : .05);"
+            "Code" : "0.5*(Player.IsExposed ? 1.0 : .02)"
         },
         "FadeOut" : {
             "Type" : "FadeOut",
@@ -21,18 +21,14 @@
     },
 
     {
-        "Name" : "Rain",
+        "Name" : "JungleNight",
         "Type" : "Looping",
-        "Sound" : "ambiotic:ambient.weather.betterain",
-        "Conditions" : "World.IsRaining",
+        "Sound" : "ambiotic:ambient.biome.jungle-night",
+        "Conditions" : "biomecheck(JungleBiomes, World.Biome) && !#IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged",
         "Volume" : {
             "Type" : "Scripted",
-            "Code" : "(Player.IsExposed ? 0.2 : 0.1)"
-        },
-        "Pitch" : {
-            "Type" : "Scripted",
-            "Code" : "(Player.IsExposed ? 1.0 : 0.5)"
+            "Code" : "0.5*(Player.IsExposed ? 1.0 : .02)"
         },
         "FadeOut" : {
             "Type" : "FadeOut",

@@ -2,8 +2,8 @@
     {
         "Name" : "Time",
         "Type" : "GameTime",
-        "Modulus" : 23000,
-        "TicksPerUpdate" : 480
+        "Modulus" : 24000,
+        "TicksPerUpdate" : 50
     },
 
     {
@@ -110,6 +110,18 @@
     {
         "Name" : "Biome",
         "Type" : "BiomeName"
+    },
+
+    {
+        "Name" : "JungleBiomes",
+        "Type" : "Constant",
+        "Value" : "['jungle']"
+    },
+
+    {
+        "Name" : "ForestBiomes",
+        "Type" : "Constant",
+        "Value" : "['forest', 'taiga']"
     },
 
     {

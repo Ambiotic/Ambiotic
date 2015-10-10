@@ -37,7 +37,7 @@ public class RainStrength extends VariableNumber {
         if(world == null)
             return false;
         float newValue = world.getWeightedThunderStrength(0f) * mScalar;
-        boolean updated = (Math.abs(mValue-newValue) < EQUALITY_LIMIT);
+        boolean updated = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
         mValue = newValue;
         return updated;
     }

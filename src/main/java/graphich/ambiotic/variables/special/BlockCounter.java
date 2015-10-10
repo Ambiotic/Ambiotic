@@ -50,7 +50,7 @@ public class BlockCounter extends VariableNumber {
         for (Integer id : mBlockIds) {
             newValue += mScanner.getCount(id);
         }
-        boolean updated = (newValue != mValue);
+        boolean updated = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
         mValue = newValue;
         return updated;
     }

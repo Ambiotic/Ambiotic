@@ -26,7 +26,7 @@ public class BiomeRainFall extends VariableNumber {
         if(world == null)
             return false;
         float newValue =world.getBiomeGenForCoords((int)player.posX, (int)player.posZ).getFloatRainfall();
-        boolean changed = (Math.abs(mValue-newValue) < EQUALITY_LIMIT);
+        boolean changed = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
         mValue = newValue;
         return changed;
     }

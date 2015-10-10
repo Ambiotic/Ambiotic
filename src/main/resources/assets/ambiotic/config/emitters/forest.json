@@ -1,13 +1,13 @@
 [
     {
-        "Name" : "HighWind",
+        "Name" : "ForestDay",
         "Type" : "Looping",
-        "Sound" : "ambiotic:ambient.weather.whistle_wind",
-        "Conditions" : "Player.Y >= 100",
+        "Sound" : "ambiotic:ambient.biome.forest-day",
+        "Conditions" : "biomecheck(ForestBiomes, World.Biome) && #IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged",
         "Volume" : {
             "Type" : "Scripted",
-            "Code" : "vclmp((Player.Y - 60)/193 - .20) * (Player.IsExposed ? 1.0 : .05);"
+            "Code" : "0.5*(Player.IsExposed ? 1.0 : .02)"
         },
         "FadeOut" : {
             "Type" : "FadeOut",
@@ -21,18 +21,14 @@
     },
 
     {
-        "Name" : "Rain",
+        "Name" : "ForestNight",
         "Type" : "Looping",
-        "Sound" : "ambiotic:ambient.weather.betterain",
-        "Conditions" : "World.IsRaining",
-        "Restrict" : "#UnderGround# || Player.Submerged",
+        "Sound" : "ambiotic:ambient.biome.forest-night",
+        "Conditions" : "biomecheck(ForestBiomes, World.Biome)",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsDay#",
         "Volume" : {
             "Type" : "Scripted",
-            "Code" : "(Player.IsExposed ? 0.2 : 0.1)"
-        },
-        "Pitch" : {
-            "Type" : "Scripted",
-            "Code" : "(Player.IsExposed ? 1.0 : 0.5)"
+            "Code" : "0.5*(Player.IsExposed ? 1.0 : .02)"
         },
         "FadeOut" : {
             "Type" : "FadeOut",

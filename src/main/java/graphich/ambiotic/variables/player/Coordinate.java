@@ -54,7 +54,7 @@ public class Coordinate extends VariableNumber {
                 newValue = player.dimension;
                 break;
         }
-        boolean updated = (Math.abs(mValue-newValue) < EQUALITY_LIMIT);
+        boolean updated = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
         mValue = newValue;
         return updated;
     }

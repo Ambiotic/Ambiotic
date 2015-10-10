@@ -3,6 +3,7 @@ package graphich.ambiotic.emitters;
 import graphich.ambiotic.emitters.effects.FloatFadeIn;
 import graphich.ambiotic.emitters.effects.FloatFadeOut;
 import graphich.ambiotic.emitters.effects.FloatProvider;
+import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.IConditional;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSound;
@@ -26,7 +27,7 @@ public class LoopingSound extends MovingSound {
         this.volume = mVolumeCalc.value();
         mFadeOut = fadeOut;
         mFadeIn = fadeIn;
-        if(this.volume == 0.0f)
+        if(this.volume <= 0.0f)
             this.volume = 0.0000001f;
         this.field_147663_c = mPitchCalc.value();
     }
@@ -63,6 +64,8 @@ public class LoopingSound extends MovingSound {
             else
                 volume *= mFadeIn.value();
         }
+
+System.out.println("Volume is : "+volume);
 
         if(volume <= 0.0f) {
             donePlaying = true;
