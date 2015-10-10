@@ -1,3 +1,6 @@
 [
-    "ambiotic:config/emitters/weather.json"
+    "ambiotic:config/emitters/weather.json",
+    "ambiotic:config/emitters/interact.json",
+    "ambiotic:config/emitters/jungle.json",
+    "ambiotic:config/emitters/forest.json"
 ]
