@@ -4,14 +4,14 @@ package graphich.ambiotic.variables.world;
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import graphich.ambiotic.variables.Variable;
-import graphich.ambiotic.variables.VariableInt;
+import graphich.ambiotic.variables.VariableNumber;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
 
 /**
  * Fractional rain strength multiplied by scalar, values will be [0,scalar)
  */
-public class RainStrength extends VariableInt {
+public class RainStrength extends VariableNumber {
 
     @SerializedName("Scalar")
     protected Integer mScalar;
@@ -36,8 +36,8 @@ public class RainStrength extends VariableInt {
         World world = Minecraft.getMinecraft().theWorld;
         if(world == null)
             return false;
-        int newValue = (int) world.getWeightedThunderStrength(0f) * mScalar;
-        boolean updated = (newValue != mValue);
+        float newValue = world.getWeightedThunderStrength(0f) * mScalar;
+        boolean updated = (Math.abs(mValue-newValue) < EQUALITY_LIMIT);
         mValue = newValue;
         return updated;
     }

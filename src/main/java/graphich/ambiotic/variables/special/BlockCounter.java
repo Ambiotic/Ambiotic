@@ -5,12 +5,12 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import graphich.ambiotic.scanners.BlockScanner;
 import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.util.StrictJsonException;
-import graphich.ambiotic.variables.VariableInt;
+import graphich.ambiotic.variables.VariableNumber;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockCounter extends VariableInt {
+public class BlockCounter extends VariableNumber {
 
     @SerializedName("Blocks")
     protected String[] mBlockSpecifiers = null;

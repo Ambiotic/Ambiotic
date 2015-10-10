@@ -6,7 +6,6 @@ import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.variables.Variable;
 import graphich.ambiotic.variables.VariableBool;
-import graphich.ambiotic.variables.VariableInt;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.client.Minecraft;

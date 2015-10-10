@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.variables.Variable;
-import graphich.ambiotic.variables.VariableInt;
+import graphich.ambiotic.variables.VariableNumber;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.EnumSkyBlock;
@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 /**
  * Light value at player coordinates in the world, 3 types
  */
-public class LightLevel extends VariableInt {
+public class LightLevel extends VariableNumber {
 
     @SerializedName("SubType")
     LightTypes mType;
@@ -38,7 +38,8 @@ public class LightLevel extends VariableInt {
 
     @Override //IVariable
     public boolean updateValue(TickEvent event) {
-        int x, y, z, newValue;
+        int x, y, z;
+        float newValue;
         World world = Minecraft.getMinecraft().theWorld;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if(world == null || player == null)
@@ -49,7 +50,7 @@ public class LightLevel extends VariableInt {
         newValue = 0;
         switch (mType) {
             case SUN:
-                newValue = (int) (world.getSavedLightValue(EnumSkyBlock.Sky, x, y, z) * world.getSunBrightness(1.5f));
+                newValue = world.getSavedLightValue(EnumSkyBlock.Sky, x, y, z) * world.getSunBrightness(1.5f);
                 break;
             case LAMP:
                 newValue = world.getSavedLightValue(EnumSkyBlock.Block, x, y, z);
@@ -58,10 +59,10 @@ public class LightLevel extends VariableInt {
                 newValue = world.getBlockLightValue(x, y, z);
                 break;
             case MAXSUN:
-                newValue = (int) (world.getSavedLightValue(EnumSkyBlock.Sky, x, y, z));
+                newValue = world.getSavedLightValue(EnumSkyBlock.Sky, x, y, z);
                 break;
         }
-        boolean updated = (mValue != newValue);
+        boolean updated = (Math.abs(mValue-newValue) < EQUALITY_LIMIT);
         mValue = newValue;
         return updated;
     }

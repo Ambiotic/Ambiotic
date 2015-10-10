@@ -7,14 +7,15 @@ import com.google.gson.annotations.SerializedName;
  * some game value (player.posX, world.getInfo().isRaining(), ect...)
  * that is exposed by the API and to the python engine.
  */
-public abstract class VariableInt extends Variable {
+public abstract class VariableNumber extends Variable {
 
+    public final static float EQUALITY_LIMIT = 0.00001f;
     @SerializedName("InitialValue")
-    protected Integer mInitialValue;
+    protected Double mInitialValue;
 
-    protected transient int mValue = 0;
+    protected transient double mValue = 0.0f;
 
-    public VariableInt(String name) {
+    public VariableNumber(String name) {
         super(name);
     }
 
@@ -22,7 +23,7 @@ public abstract class VariableInt extends Variable {
     public void initialize() {
         super.initialize();
         if(mInitialValue == null)
-            mInitialValue = 0;
+            mInitialValue = 0.0;
     }
 
     @Override //IVariable

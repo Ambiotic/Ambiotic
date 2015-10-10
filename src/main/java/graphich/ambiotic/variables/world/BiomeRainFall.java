@@ -1,38 +1,33 @@
 package graphich.ambiotic.variables.world;
 
-import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import graphich.ambiotic.variables.Variable;
 import graphich.ambiotic.variables.VariableNumber;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class GameTime extends VariableNumber {
+public class BiomeRainFall extends VariableNumber {
 
-    @SerializedName("Modulus")
-    private Integer mModulus = 1;
-
-    public GameTime(String name) {
+    public BiomeRainFall(String name) {
         super(name);
     }
 
-    @Override //IStrictJson
+    @Override
     public void initialize() {
         super.initialize();
         mNameSpace = Variable.WORLD_NAMESPACE;
-        // Default modulus
-        if(mModulus == null)
-            mModulus = 1;
     }
 
-    @Override //IVariable
+    @Override
     public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if(world == null)
             return false;
-        float newValue = (world.getWorldInfo().getWorldTime() % mModulus);
-        boolean updated = (Math.abs(mValue-newValue) < EQUALITY_LIMIT);
+        float newValue =world.getBiomeGenForCoords((int)player.posX, (int)player.posZ).getFloatRainfall();
+        boolean changed = (Math.abs(mValue-newValue) < EQUALITY_LIMIT);
         mValue = newValue;
-        return updated;
+        return changed;
     }
 }

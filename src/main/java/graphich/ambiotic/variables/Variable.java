@@ -10,6 +10,7 @@ import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.util.StrictJsonSerializer;
 import graphich.ambiotic.variables.player.*;
 import graphich.ambiotic.variables.special.BlockCounter;
+import graphich.ambiotic.variables.special.Constant;
 import graphich.ambiotic.variables.world.*;
 
 import java.lang.reflect.Type;
@@ -68,20 +69,26 @@ public abstract class Variable implements IVariable, IStrictJson {
     public static final StrictJsonSerializer<Variable> STRICT_ADAPTER;
     static {
         BiMap<String, Type> types = HashBiMap.create();
+        //Special var types
+        types.put("Constant", Constant.class);
         types.put("BlockCounter", BlockCounter.class);
+        //Player var types
         types.put("CanRainOn", CanRainOn.class);
         types.put("CanSeeSky", CanSeeSky.class);
-        types.put("GameTime", GameTime.class);
-        types.put("IsRaining", IsRaining.class);
         types.put("LightLevel", LightLevel.class);
-        types.put("MoonPhase", MoonPhase.class);
         types.put("PlayerCoordinate", Coordinate.class);
-        types.put("RainStrength", RainStrength.class);
-        types.put("ThunderStrength", ThunderStrength.class);
         types.put("PlayerExposed", Exposed.class);
         types.put("UnderWater", UnderWater.class);
         types.put("VerticalVelocity",VerticalVelocity.class);
+        //World var types
+        types.put("GameTime", GameTime.class);
+        types.put("IsRaining", IsRaining.class);
+        types.put("MoonPhase", MoonPhase.class);
+        types.put("RainStrength", RainStrength.class);
+        types.put("ThunderStrength", ThunderStrength.class);
         types.put("BiomeName", BiomeName.class);
+        types.put("BiomeTemperature", BiomeTemperature.class);
+        types.put("BiomeRainFall", BiomeRainFall.class);
         STRICT_ADAPTER = new StrictJsonSerializer<Variable>(types, Variable.class);
     }
 

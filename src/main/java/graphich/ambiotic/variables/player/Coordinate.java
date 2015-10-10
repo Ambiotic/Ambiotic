@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.variables.Variable;
-import graphich.ambiotic.variables.VariableInt;
+import graphich.ambiotic.variables.VariableNumber;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * Related to player's coordinates in space.
  */
-public class Coordinate extends VariableInt {
+public class Coordinate extends VariableNumber {
 
     @SerializedName("SubType")
     protected Coordinates mCoordinate;
@@ -36,25 +36,25 @@ public class Coordinate extends VariableInt {
 
     @Override //IVariable
     public boolean updateValue(TickEvent event) {
-        int newValue = 0;
+        double newValue = 0;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if(player == null)
             return false;
         switch (mCoordinate) {
             case X:
-                newValue = (int) player.posX;
+                newValue = player.posX;
                 break;
             case Y:
-                newValue = (int) player.posY;
+                newValue = player.posY;
                 break;
             case Z:
-                newValue = (int) player.posZ;
+                newValue = player.posZ;
                 break;
             case DIM:
                 newValue = player.dimension;
                 break;
         }
-        boolean updated = (newValue != mValue);
+        boolean updated = (Math.abs(mValue-newValue) < EQUALITY_LIMIT);
         mValue = newValue;
         return updated;
     }

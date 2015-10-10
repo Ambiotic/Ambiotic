@@ -2,14 +2,14 @@ package graphich.ambiotic.variables.world;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
 import graphich.ambiotic.variables.Variable;
-import graphich.ambiotic.variables.VariableInt;
+import graphich.ambiotic.variables.VariableNumber;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
 
 /**
  * What is the current moon phase?
  */
-public class MoonPhase extends VariableInt {
+public class MoonPhase extends VariableNumber {
 
     public MoonPhase(String name) {
         super(name);
@@ -27,8 +27,8 @@ public class MoonPhase extends VariableInt {
         World world = Minecraft.getMinecraft().theWorld;
         if(world == null)
             return false;
-        int newValue = world.getMoonPhase();
-        boolean updated = (newValue != mValue);
+        float newValue = world.getMoonPhase();
+        boolean updated = (Math.abs(mValue-newValue) < EQUALITY_LIMIT);
         mValue = newValue;
         return updated;
     }
