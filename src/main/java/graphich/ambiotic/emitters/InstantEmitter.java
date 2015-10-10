@@ -4,12 +4,11 @@ import com.google.gson.annotations.SerializedName;
 import graphich.ambiotic.emitters.effects.FloatConstant;
 import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.util.IScripted;
-import graphich.ambiotic.variables.macro.Macro;
+import graphich.ambiotic.variables.Macro;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.entity.player.EntityPlayer;
 
-import java.util.Collection;
 import java.util.Map;
 
 public class InstantEmitter extends SoundEmitter {

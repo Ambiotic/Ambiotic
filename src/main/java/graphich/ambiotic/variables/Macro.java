@@ -1,16 +1,14 @@
-package graphich.ambiotic.variables.macro;
+package graphich.ambiotic.variables;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.annotations.SerializedName;
-import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.IScripted;
 import graphich.ambiotic.util.IStrictJson;
 import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.util.StrictJsonSerializer;
 
 import java.lang.reflect.Type;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.regex.Matcher;

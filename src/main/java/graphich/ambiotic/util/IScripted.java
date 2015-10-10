@@ -1,8 +1,7 @@
 package graphich.ambiotic.util;
 
-import graphich.ambiotic.variables.macro.Macro;
+import graphich.ambiotic.variables.Macro;
 
-import java.util.Collection;
 import java.util.Map;
 
 public interface IScripted {

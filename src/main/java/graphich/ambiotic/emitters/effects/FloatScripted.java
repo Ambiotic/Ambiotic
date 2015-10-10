@@ -4,9 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import graphich.ambiotic.util.IScripted;
 import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.StrictJsonException;
-import graphich.ambiotic.variables.macro.Macro;
+import graphich.ambiotic.variables.Macro;
 
-import java.util.Collection;
 import java.util.Map;
 
 public class FloatScripted extends FloatProvider implements IScripted {

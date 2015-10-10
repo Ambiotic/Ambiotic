@@ -8,7 +8,7 @@ import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.emitters.SoundEmitter;
 import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.util.StrictJsonException;
-import graphich.ambiotic.variables.macro.Macro;
+import graphich.ambiotic.variables.Macro;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SoundHandler;
@@ -18,7 +18,6 @@ import net.minecraftforge.common.MinecraftForge;
 
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;

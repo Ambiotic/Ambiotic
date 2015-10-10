@@ -7,11 +7,10 @@ import graphich.ambiotic.emitters.effects.FloatConstant;
 import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.*;
-import graphich.ambiotic.variables.macro.Macro;
+import graphich.ambiotic.variables.Macro;
 import net.minecraft.client.audio.ISound;
 
 import java.lang.reflect.Type;
-import java.util.Collection;
 import java.util.Map;
 
 public abstract class SoundEmitter implements IStrictJson, IConditional, IScripted {

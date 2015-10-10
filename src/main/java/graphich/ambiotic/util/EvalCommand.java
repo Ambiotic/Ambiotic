@@ -2,7 +2,7 @@ package graphich.ambiotic.util;
 
 import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.registries.VariableRegistry;
-import graphich.ambiotic.variables.macro.Macro;
+import graphich.ambiotic.variables.Macro;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
