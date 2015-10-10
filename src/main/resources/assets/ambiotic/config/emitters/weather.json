@@ -23,6 +23,15 @@
         "Pitch" : {
             "Type" : "Scripted",
             "Code" : "(Player.IsExposed ? 1.0 : 0.5)"
+        },
+        "FadeOut" : {
+            "Type" : "FadeOut",
+            "FadeFactor" : "0.01"
+        },
+        "FadeIn" : {
+            "Type" : "FadeIn",
+            "FadeFactor" : "0.01",
+            "InitialValue" : "0.01"
         }
      }
  ]
