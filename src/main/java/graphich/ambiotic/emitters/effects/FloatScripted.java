@@ -1,8 +1,8 @@
 package graphich.ambiotic.emitters.effects;
 
 import com.google.gson.annotations.SerializedName;
-import graphich.ambiotic.util.IScripted;
 import graphich.ambiotic.main.Ambiotic;
+import graphich.ambiotic.util.IScripted;
 import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.variables.Macro;
 

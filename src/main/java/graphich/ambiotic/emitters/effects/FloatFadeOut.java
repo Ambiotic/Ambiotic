@@ -1,7 +1,6 @@
 package graphich.ambiotic.emitters.effects;
 
 import com.google.gson.annotations.SerializedName;
-import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.StrictJsonException;
 
 public class FloatFadeOut extends FloatProvider {

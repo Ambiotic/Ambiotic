@@ -1,7 +1,6 @@
 package graphich.ambiotic.emitters.effects;
 
 import com.google.gson.annotations.SerializedName;
-import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.util.StrictJsonException;
 
