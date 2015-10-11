@@ -15,7 +15,7 @@ public class LoopingSound extends MovingSound {
     protected IConditional mScripted;
     protected float mFadeOut;
     protected float mFadeIn;
-    protected float mFadeFactor = -1.0f;
+    protected float mFadeFactor;
 
     protected LoopingSound(String sound, FloatProvider vcalc, FloatProvider pcalc, LoopingEmitter scripted, float fadeOut, float fadeIn) {
         super(new ResourceLocation(sound));
@@ -34,6 +34,7 @@ public class LoopingSound extends MovingSound {
     public void update() {
         if(donePlaying)
             return;
+
         EntityPlayer p = Minecraft.getMinecraft().thePlayer;
         xPosF = (float)p.posX;
         //This forces the sound to be played in "mono"
