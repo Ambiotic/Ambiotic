@@ -4,7 +4,7 @@
         "Type" : "Looping",
         "Sound" : "ambiotic:ambient.biome.savanna-day",
         "Conditions" : "biomecheck(SavannaBiomes, World.Biome) && #IsDay#",
-        "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.5",
+        "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.5 || World.IsRaining",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.5*(Player.IsExposed ? 1.0 : .02)"
@@ -16,7 +16,7 @@
         "Type" : "Looping",
         "Sound" : "ambiotic:ambient.biome.savanna-night",
         "Conditions" : "biomecheck(SavannaBiomes, World.Biome) && !#IsDay#",
-        "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.5",
+        "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.5 || World.IsRaining",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.5*(Player.IsExposed ? 1.0 : .02)"
