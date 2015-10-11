@@ -27,11 +27,21 @@
     ]
   },
   "ambient.weather.thunder": {
-    "category": "weather",
+    "category": "ambient",
     "sounds": [
       "ambient/weather/thunder1",
+      "ambient/weather/thunder10",
+      "ambient/weather/thunder11",
+      "ambient/weather/thunder12",
+      "ambient/weather/thunder13",
       "ambient/weather/thunder2",
-      "ambient/weather/thunder3"
+      "ambient/weather/thunder3",
+      "ambient/weather/thunder4",
+      "ambient/weather/thunder5",
+      "ambient/weather/thunder6",
+      "ambient/weather/thunder7",
+      "ambient/weather/thunder8",
+      "ambient/weather/thunder9"
     ]
   },
   "game.player.hurt.fall.big": {
