@@ -16,7 +16,7 @@
         "FadeIn" : {
             "Type" : "FadeIn",
             "FadeFactor" : "0.01",
-            "InitialValue" : "0.01"
+            "InitialValue" : "0.00000001"
         }
     },
 
