@@ -2,7 +2,13 @@
     {
         "Name" : "IsDay",
         "Type" : "Macro",
-        "Code" : "(World.Time >= 1000 && World.Time <= 13000)"
+        "Code" : "(World.Time >= 500 && World.Time <= 13000)"
+    },
+
+    {
+        "Name" : "Muffle",
+        "Type" : "Macro",
+        "Code" : "(Player.IsExposed ? 1.0 : .05)"
     },
 
     {

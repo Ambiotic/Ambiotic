@@ -7,7 +7,7 @@
         "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.5 || World.IsRaining",
         "Volume" : {
             "Type" : "Scripted",
-            "Code" : "0.5*(Player.IsExposed ? 1.0 : .02)"
+            "Code" : "0.5*#Muffle#"
         }
     },
 
@@ -19,7 +19,7 @@
         "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.5 || World.IsRaining",
         "Volume" : {
             "Type" : "Scripted",
-            "Code" : "0.5*(Player.IsExposed ? 1.0 : .02)"
+            "Code" : "0.5*#Muffle#"
         }
     }
 ]

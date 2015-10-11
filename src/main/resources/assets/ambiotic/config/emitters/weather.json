@@ -7,7 +7,7 @@
         "Restrict" : "#UnderGround# || Player.Submerged",
         "Volume" : {
             "Type" : "Scripted",
-            "Code" : "vclmp((Player.Y - 60)/193 - .20) * (Player.IsExposed ? 1.0 : .05);"
+            "Code" : "vclmp((Player.Y - 60)/193 - .20) * #Muffle#;"
         }
     },
 
