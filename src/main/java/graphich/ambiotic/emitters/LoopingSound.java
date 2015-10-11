@@ -39,6 +39,12 @@ public class LoopingSound extends MovingSound {
         //Do NOT call conditionsMet() multiple times: it's expensive
         boolean conditonsMet = mScripted.conditionsMet();
 
+        EntityPlayer p = Minecraft.getMinecraft().thePlayer;
+        xPosF = (float)p.posX;
+        //This forces the sound to be played in "mono"
+        yPosF = (float)p.posY+5000;
+        zPosF = (float)p.posZ;
+
         //We don't fade out
         if(!conditonsMet && mFadeOut == null) {
             volume = 0;
@@ -65,18 +71,10 @@ public class LoopingSound extends MovingSound {
                 volume *= mFadeIn.value();
         }
 
-System.out.println("Volume is : "+volume);
-
         if(volume <= 0.0f) {
             donePlaying = true;
             volume = 0.0f;
             return;
         }
-
-        EntityPlayer p = Minecraft.getMinecraft().thePlayer;
-        xPosF = (float)p.posX;
-        //This forces the sound to be played in "mono"
-        yPosF = (float)p.posY+5000;
-        zPosF = (float)p.posZ;
     }
 }

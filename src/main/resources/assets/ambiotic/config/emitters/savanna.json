@@ -1,9 +1,9 @@
 [
     {
-        "Name" : "JungleDay",
+        "Name" : "SavannaDay",
         "Type" : "Looping",
-        "Sound" : "ambiotic:ambient.biome.jungle-day",
-        "Conditions" : "biomecheck(JungleBiomes, World.Biome) && #IsDay#",
+        "Sound" : "ambiotic:ambient.biome.savanna-day",
+        "Conditions" : "biomecheck(SavannaBiomes, World.Biome) && #IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.5",
         "Volume" : {
             "Type" : "Scripted",
@@ -21,10 +21,10 @@
     },
 
     {
-        "Name" : "JungleNight",
+        "Name" : "SavannaNight",
         "Type" : "Looping",
-        "Sound" : "ambiotic:ambient.biome.jungle-night",
-        "Conditions" : "biomecheck(JungleBiomes, World.Biome) && !#IsDay#",
+        "Sound" : "ambiotic:ambient.biome.savanna-night",
+        "Conditions" : "biomecheck(SavannaBiomes, World.Biome) && !#IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.5",
         "Volume" : {
             "Type" : "Scripted",

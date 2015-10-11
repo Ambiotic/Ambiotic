@@ -4,7 +4,7 @@
         "Type" : "Looping",
         "Sound" : "ambiotic:ambient.biome.forest-day",
         "Conditions" : "biomecheck(ForestBiomes, World.Biome) && #IsDay#",
-        "Restrict" : "#UnderGround# || Player.Submerged",
+        "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.1",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.5*(Player.IsExposed ? 1.0 : .02)"
@@ -25,7 +25,7 @@
         "Type" : "Looping",
         "Sound" : "ambiotic:ambient.biome.forest-night",
         "Conditions" : "biomecheck(ForestBiomes, World.Biome)",
-        "Restrict" : "#UnderGround# || Player.Submerged || #IsDay#",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsDay# || World.BiomeTemp <= 0.1",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.5*(Player.IsExposed ? 1.0 : .02)"

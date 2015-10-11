@@ -30,6 +30,9 @@ public class LoopingEmitter extends SoundEmitter {
         if(conditionsMet() && mEmitted == null) {
             mEmitted = new LoopingSound(mSound, mVolume, mPitch, this, mFadeOut, mFadeIn);
             return mEmitted;
+        } else if(mEmitted != null) {
+            if(!mEmitted.isDonePlaying())
+                return null;
         }
         if(!conditionsMet())
             mEmitted = null;

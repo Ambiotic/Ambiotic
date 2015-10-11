@@ -1,9 +1,9 @@
 [
     {
-        "Name" : "JungleDay",
+        "Name" : "PlainsDay",
         "Type" : "Looping",
-        "Sound" : "ambiotic:ambient.biome.jungle-day",
-        "Conditions" : "biomecheck(JungleBiomes, World.Biome) && #IsDay#",
+        "Sound" : "ambiotic:ambient.biome.plains-day",
+        "Conditions" : "biomecheck(PlainsBiomes, World.Biome) && #IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.5",
         "Volume" : {
             "Type" : "Scripted",
@@ -21,10 +21,10 @@
     },
 
     {
-        "Name" : "JungleNight",
+        "Name" : "PlainsNight",
         "Type" : "Looping",
-        "Sound" : "ambiotic:ambient.biome.jungle-night",
-        "Conditions" : "biomecheck(JungleBiomes, World.Biome) && !#IsDay#",
+        "Sound" : "ambiotic:ambient.biome.plains-night",
+        "Conditions" : "biomecheck(PlainsBiomes, World.Biome) && !#IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.5",
         "Volume" : {
             "Type" : "Scripted",

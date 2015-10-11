@@ -121,7 +121,25 @@
     {
         "Name" : "ForestBiomes",
         "Type" : "Constant",
-        "Value" : "['forest', 'taiga']"
+        "Value" : "['forest', 'taiga', 'scrubland']"
+    },
+
+    {
+        "Name" : "PlainsBiomes",
+        "Type" : "Constant",
+        "Value" : "['plains']"
+    },
+
+    {
+        "Name" : "SavannaBiomes",
+        "Type" : "Constant",
+        "Value" : "['savanna']"
+    },
+
+    {
+        "Name" : "SwampBiomes",
+        "Type" : "Constant",
+        "Value" : "['swamp', 'wetland']"
     },
 
     {
