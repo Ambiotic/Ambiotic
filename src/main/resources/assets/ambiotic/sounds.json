@@ -80,81 +80,71 @@
 
     "ambient.biome.forest-day" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "biome/forest-day"
+            {"name" : "biome/forest-day", "stream" : true}
         ]
     },
 
     "ambient.biome.forest-night" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "biome/forest-night"
+            {"name" : "biome/forest-night", "stream" : true}
         ]
     },
 
     "ambient.biome.jungle-day" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "biome/jungle-day"
+            {"name" : "biome/jungle-day", "stream" : true}
         ]
     },
 
     "ambient.biome.jungle-night" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "biome/jungle-night"
+            {"name" : "biome/jungle-night", "stream" : true}
         ]
     },
 
     "ambient.biome.plains-day" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "biome/plains-day"
+            {"name" : "biome/plains-day", "stream" : true}
         ]
     },
 
     "ambient.biome.plains-night" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "biome/plains-night"
+            {"name" : "biome/plains-night", "stream" : true}
         ]
     },
 
     "ambient.biome.savanna-day" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "biome/savanna-day"
+            {"name" : "biome/savanna-day", "stream" : true}
         ]
     },
 
     "ambient.biome.savanna-night" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "biome/savanna-night"
+            {"name" : "biome/savanna-night", "stream" : true}
         ]
     },
 
     "ambient.biome.swamp-day" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "biome/swamp-day"
+            {"name" : "biome/swamp-day", "stream" : true}
         ]
     },
 
     "ambient.biome.swamp-night" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "biome/swamp-night"
+            {"name" : "biome/swamp-day", "stream" : true}
         ]
     }
 }

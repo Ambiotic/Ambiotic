@@ -120,10 +120,6 @@ public class EmitterRegistry {
             return;
         SoundHandler handler = Minecraft.getMinecraft().getSoundHandler();
         for(SoundEmitter emitter : mRegistry.values()) {
-            // Skip sounds not loaded yet
-            if(!Ambiotic.soundLoaded(emitter.sound())) {
-                continue;
-            }
             ISound emitted = emitter.emit();
             if(emitted != null && !handler.isSoundPlaying(emitted)) {
                 Ambiotic.logger().info("Playing "+emitter.name());

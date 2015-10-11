@@ -11,7 +11,6 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
-import graphich.ambiotic.emitters.SoundLoaderThread;
 import graphich.ambiotic.registries.EmitterRegistry;
 import graphich.ambiotic.registries.ScannerRegistry;
 import graphich.ambiotic.registries.VariableRegistry;
@@ -54,13 +53,6 @@ public class Ambiotic implements IResourceManagerReloadListener {
         return Ambiotic.logger;
     }
 
-    protected static SoundLoaderThread soundloader;
-    public static boolean soundLoaded(String sound) {
-        if(soundloader == null)
-            return false;
-        return soundloader.soundLoaded(sound);
-    }
-
     protected static ScriptEngine scripter;
     public static Object evalJS(String js)
     {
@@ -74,10 +66,6 @@ public class Ambiotic implements IResourceManagerReloadListener {
 
     //Hack to skipp "first" reload, resources are always reloaded twice
     protected boolean mPastFirstReload = false;
-
-    // Flags for displaying messages on ticks
-    protected boolean mWarnedOfLag = false;
-    protected boolean mNotifiedLoadComplete = false;
 
     protected static final GsonBuilder gsonbuilder;
     public static Gson gson() {
@@ -121,7 +109,6 @@ public class Ambiotic implements IResourceManagerReloadListener {
         DebugGui gui = new DebugGui();
         FMLCommonHandler.instance().bus().register(gui);
         MinecraftForge.EVENT_BUS.register(gui);
-        FMLCommonHandler.instance().bus().register(this);
     }
 
     protected void loadAll() {
@@ -160,11 +147,6 @@ public class Ambiotic implements IResourceManagerReloadListener {
         }
         VariableRegistry.INSTANCE.initializeJSAll();
         ScannerRegistry.INSTANCE.initializeConstantJSAll();
-        if(Ambiotic.soundloader == null) {
-            Ambiotic.soundloader = new SoundLoaderThread(EmitterRegistry.INSTANCE.sounds());
-            soundloader.start();
-        }
-
     }
 
     @Override
@@ -176,21 +158,5 @@ public class Ambiotic implements IResourceManagerReloadListener {
             return;
         }
         loadAll();
-    }
-
-    @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        if(player == null)
-            return;
-        if(!mWarnedOfLag && !soundloader.loadFinished()) {
-            player.addChatMessage(new ChatComponentText("Ambiotic: Sounds are currently being loaded, expect lag and some sounds not to play"));
-            mWarnedOfLag = true;
-        }
-        if(!mNotifiedLoadComplete && soundloader.loadFinished()) {
-            player.addChatMessage(new ChatComponentText("Ambiotic: Sound load completed"));
-            mNotifiedLoadComplete = true;
-            FMLCommonHandler.instance().bus().unregister(this);
-        }
     }
 }
