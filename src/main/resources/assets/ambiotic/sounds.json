@@ -40,17 +40,15 @@
 
     "ambient.weather.whistle_wind" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "weather/wind/whistle_wind_loop1"
+            {name : "weather/wind/whistle_wind_loop1", "stream" : true}
         ]
     },
 
     "ambient.interact.under_water" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "interact/water_underwater_loop"
+            {name : "interact/water_underwater_loop", "stream" : true}
         ]
     },
 
@@ -58,23 +56,21 @@
         "category" : "ambient",
         "streaming" : true,
         "sounds" : [
-            "biome/beach"
+            {"name" : "biome/beach", "stream" : true}
         ]
     },
 
     "ambient.biome.cave" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "biome/cave"
+            {"name" : "biome/cave", "stream" : true}
         ]
     },
 
     "ambient.biome.snowy" : {
         "category" : "ambient",
-        "streaming" : true,
         "sounds" : [
-            "biome/snowy"
+            {"name" : "biome/snowy", "stream" : true}
         ]
     },
 
