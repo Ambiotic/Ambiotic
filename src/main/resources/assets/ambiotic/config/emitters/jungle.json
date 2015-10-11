@@ -8,15 +8,6 @@
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.5*(Player.IsExposed ? 1.0 : .02)"
-        },
-        "FadeOut" : {
-            "Type" : "FadeOut",
-            "FadeFactor" : "0.04"
-        },
-        "FadeIn" : {
-            "Type" : "FadeIn",
-            "FadeFactor" : "0.01",
-            "InitialValue" : "0.00000001"
         }
     },
 
@@ -29,15 +20,6 @@
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.5*(Player.IsExposed ? 1.0 : .02)"
-        },
-        "FadeOut" : {
-            "Type" : "FadeOut",
-            "FadeFactor" : "0.04"
-        },
-        "FadeIn" : {
-            "Type" : "FadeIn",
-            "FadeFactor" : "0.01",
-            "InitialValue" : "0.00000001"
         }
     }
 ]

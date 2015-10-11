@@ -8,9 +8,9 @@ import net.minecraft.client.audio.ISound;
 public class LoopingEmitter extends SoundEmitter {
 
     @SerializedName("FadeOut")
-    protected FloatFadeOut mFadeOut;
+    protected Float mFadeOut;
     @SerializedName("FadeIn")
-    protected FloatFadeIn mFadeIn;
+    protected Float mFadeIn;
 
     protected transient LoopingSound mEmitted = null;
 
@@ -22,6 +22,11 @@ public class LoopingEmitter extends SoundEmitter {
     @Override
     public void initialize() {
         super.initialize();
+        // Default fades
+        if(mFadeIn == null)
+            mFadeIn = 0.01f;
+        if(mFadeOut == null)
+            mFadeOut = 0.01f;
     }
 
 

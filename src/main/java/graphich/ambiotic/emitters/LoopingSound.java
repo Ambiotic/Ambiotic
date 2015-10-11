@@ -13,16 +13,18 @@ public class LoopingSound extends MovingSound {
     protected FloatProvider mVolumeCalc;
     protected FloatProvider mPitchCalc;
     protected IConditional mScripted;
-    protected FloatFadeOut mFadeOut;
-    protected FloatFadeIn mFadeIn;
+    protected float mFadeOut;
+    protected float mFadeIn;
+    protected float mFadeFactor = -1.0f;
 
-    protected LoopingSound(String sound, FloatProvider vcalc, FloatProvider pcalc, LoopingEmitter scripted, FloatFadeOut fadeOut, FloatFadeIn fadeIn) {
+    protected LoopingSound(String sound, FloatProvider vcalc, FloatProvider pcalc, LoopingEmitter scripted, float fadeOut, float fadeIn) {
         super(new ResourceLocation(sound));
         mVolumeCalc = vcalc;
         mPitchCalc = pcalc;
         mScripted = scripted;
         mFadeOut = fadeOut;
         mFadeIn = fadeIn;
+        mFadeFactor = fadeIn;
         repeat = true;
         this.field_147666_i = AttenuationType.NONE;
         this.update();
@@ -32,40 +34,26 @@ public class LoopingSound extends MovingSound {
     public void update() {
         if(donePlaying)
             return;
-        //Do NOT call conditionsMet() multiple times: it's expensive
-        boolean conditonsMet = mScripted.conditionsMet();
-
         EntityPlayer p = Minecraft.getMinecraft().thePlayer;
         xPosF = (float)p.posX;
         //This forces the sound to be played in "mono"
         yPosF = (float)p.posY+5000;
         zPosF = (float)p.posZ;
 
-        //We don't fade out
-        if(!conditonsMet && mFadeOut == null) {
-            volume = 0;
-            donePlaying = true;
-            return;
-        }
-
         field_147663_c = mPitchCalc.value();
         volume = mVolumeCalc.value();
 
-        // Apply fade out
-        if(mFadeOut != null) {
-            if(!conditonsMet)
-                volume *= mFadeOut.value();
-            else
-                mFadeOut.reset();
+        // Apply fade in / fade out
+        if(!mScripted.conditionsMet()) {
+            mFadeFactor -= mFadeOut;
+            if(mFadeFactor <= 0.0f)
+                mFadeFactor = 0.0f;
+        } else {
+            mFadeFactor += mFadeIn;
+            if(mFadeFactor >= 1.0f)
+                mFadeFactor = 1.0f;
         }
-
-        // Apply fade in
-        if(mFadeIn != null) {
-            if(!conditonsMet)
-                mFadeIn.reset();
-            else
-                volume *= mFadeIn.value();
-        }
+        volume *= mFadeFactor;
 
         if(volume <= 0.0f) {
             donePlaying = true;

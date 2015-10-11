@@ -8,15 +8,6 @@
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "vclmp((Player.Y - 60)/193 - .20) * (Player.IsExposed ? 1.0 : .05);"
-        },
-        "FadeOut" : {
-            "Type" : "FadeOut",
-            "FadeFactor" : "0.01"
-        },
-        "FadeIn" : {
-            "Type" : "FadeIn",
-            "FadeFactor" : "0.01",
-            "InitialValue" : "0.00000001"
         }
     },
 
@@ -28,20 +19,11 @@
         "Restrict" : "#UnderGround# || Player.Submerged",
         "Volume" : {
             "Type" : "Scripted",
-            "Code" : "(Player.IsExposed ? 0.2 : 0.1)"
+            "Code" : "(Player.IsExposed ? 0.2 : 0.1)*(World.IsRaining ? 1.0 : 0.0)"
         },
         "Pitch" : {
             "Type" : "Scripted",
             "Code" : "(Player.IsExposed ? 1.0 : 0.5)"
-        },
-        "FadeOut" : {
-            "Type" : "FadeOut",
-            "FadeFactor" : "0.04"
-        },
-        "FadeIn" : {
-            "Type" : "FadeIn",
-            "FadeFactor" : "0.01",
-            "InitialValue" : "0.00000001"
         }
     }
 ]
