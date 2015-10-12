@@ -127,7 +127,7 @@
     {
         "Name" : "PlainsBiomes",
         "Type" : "Constant",
-        "Value" : "['plains', 'extreme hills']"
+        "Value" : "['plains', 'extreme hill']"
     },
 
     {
@@ -140,6 +140,12 @@
         "Name" : "SwampBiomes",
         "Type" : "Constant",
         "Value" : "['swamp', 'wetland']"
+    },
+
+    {
+        "Name" : "BeachBiomes",
+        "Type" : "Constant",
+        "Value" : "['beach', 'shore']"
     },
 
     {

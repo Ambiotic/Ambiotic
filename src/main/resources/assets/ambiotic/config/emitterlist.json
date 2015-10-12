@@ -6,5 +6,6 @@
     "ambiotic:config/emitters/forest.json",
     "ambiotic:config/emitters/savanna.json",
     "ambiotic:config/emitters/plains.json",
-    "ambiotic:config/emitters/swamp.json"
+    "ambiotic:config/emitters/swamp.json",
+    "ambiotic:config/emitters/beach.json"
 ]

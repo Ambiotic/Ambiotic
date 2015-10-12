@@ -1,0 +1,13 @@
+[
+    {
+        "Name" : "Beach",
+        "Type" : "Looping",
+        "Sound" : "ambiotic:ambient.biome.beach",
+        "Conditions" : "biomecheck(BeachBiomes, World.Biome)",
+        "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.1",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "1.0*#Muffle#"
+        }
+    }
+]
