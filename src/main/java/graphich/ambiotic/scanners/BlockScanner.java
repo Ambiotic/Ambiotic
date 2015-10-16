@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.event.world.BlockEvent;
 
 import java.util.*;
@@ -28,16 +29,26 @@ public class BlockScanner extends Scanner {
 
     protected transient HashMap<Integer, Integer> mCounts;
 
+    //Iteration variables
     protected transient boolean mScanFinished = false;
     protected transient int mTicksSinceFull = -1;
-
     protected transient CuboidPointIterator mFullRange;
+
+    protected transient int mVolume = 0; //xsize*ysize*zsize
 
     //Last tick's player coordinates
     protected transient int mLastX = 0;
     protected transient int mLastY = 0;
     protected transient int mLastZ = 0;
     protected transient int mLastDimension = 0;
+
+    //Special variables and funcs
+    protected transient float mBiomeTemperatureSum = 0;
+    public float averageTemperature() { return mBiomeTemperatureSum / mVolume; }
+    protected transient float mBiomeHumiditySum = 0;
+    public float averageHumidity() { return mBiomeHumiditySum / mVolume; }
+    protected transient float mBiomeSalinity = 0;
+    public float averageSalinity() { return mBiomeSalinity / mVolume; }
 
     public BlockScanner(String name, int blocksPerTick, int xsize, int ysize, int zsize) {
         mBlocksPerTick = blocksPerTick;
@@ -76,6 +87,9 @@ public class BlockScanner extends Scanner {
         mLastY = 0;
         mLastZ = 0;
         mTicksSinceFull = -1;
+        mBiomeTemperatureSum = 0;
+        mBiomeHumiditySum = 0;
+        mVolume = mXSize*mYSize*mZSize;
     }
 
 
@@ -107,6 +121,34 @@ public class BlockScanner extends Scanner {
         }
     }
 
+    protected void updateBiomeVariables(Point point, boolean subtract) {
+        int x,y,z;
+        if(point == null)
+            return;
+        x = point.x;
+        y = point.y;
+        z = point.z;
+        BiomeGenBase base = Minecraft.getMinecraft().theWorld.getBiomeGenForCoords(x,z);
+        String name = base.biomeName.toLowerCase();
+        float t = base.getFloatTemperature(x,y,z);
+        float r = base.getFloatRainfall();
+        float s = 0.0f;
+        if(name.contains("ocean") || name.contains("beach"))
+            s = 1.0f;
+        if(subtract)
+        {
+            mBiomeHumiditySum -= r;
+            mBiomeTemperatureSum -= t;
+            mBiomeSalinity -= s;
+        }
+        else
+        {
+            mBiomeHumiditySum += r;
+            mBiomeTemperatureSum += t;
+            mBiomeSalinity += s;
+        }
+    }
+
     protected void updateScan(Cuboid newVolume, Cuboid oldVolume, Cuboid intersect) {
         ComplementsPointIterator newInRange = new ComplementsPointIterator(newVolume, intersect);
         ComplementsPointIterator newOutOfRange = new ComplementsPointIterator(oldVolume, intersect);
@@ -117,12 +159,14 @@ public class BlockScanner extends Scanner {
             int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
             addToCount(blockId,-1);
             point = newOutOfRange.next();
+            updateBiomeVariables(point,true);
         }
         point = newInRange.next();
         while (point != null) {
             int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
             addToCount(blockId,1);
             point = newInRange.next();
+            updateBiomeVariables(point,false);
         }
         mScanFinished = true;
     }
@@ -148,6 +192,7 @@ public class BlockScanner extends Scanner {
             int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
             addToCount(blockId,1);
             point = mFullRange.next();
+            updateBiomeVariables(point, false);
         }
         if (point == null) {
             mScanFinished = true;
@@ -178,6 +223,9 @@ public class BlockScanner extends Scanner {
         mScanFinished = false;
         mFullRange = new CuboidPointIterator(getVolumeFor(mLastX, mLastY, mLastZ));
         resetBlockCounts();
+        mBiomeTemperatureSum = 0;
+        mBiomeHumiditySum = 0;
+        mBiomeSalinity = 0;
     }
 
     protected void addToCount(Integer  blockId, Integer count) {
