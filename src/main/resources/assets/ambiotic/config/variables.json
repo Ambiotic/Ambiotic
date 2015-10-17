@@ -98,13 +98,24 @@
     },
 
     {
-        "Name" : "BiomeTemp",
-        "Type" : "BiomeTemperature"
+        "Name" : "Humidity",
+        "Type" : "BiomeAverage",
+        "Scanner" : "LS",
+        "SubType" : "HUMIDITY"
     },
 
     {
-        "Name" : "BiomeRain",
-        "Type" : "BiomeRainFall"
+        "Name" : "Temperature",
+        "Type" : "BiomeAverage",
+        "Scanner" : "LS",
+        "SubType" : "TEMPERATURE"
+    },
+
+    {
+        "Name" : "Salinity",
+        "Type" : "BiomeAverage",
+        "Scanner" : "LS",
+        "SubType" : "SALINITY"
     },
 
     {

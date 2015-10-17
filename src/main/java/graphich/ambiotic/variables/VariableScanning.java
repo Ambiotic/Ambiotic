@@ -15,6 +15,7 @@ public abstract class VariableScanning extends VariableNumber {
         super(name);
         mScanner = scanner;
         mScannerName = scanner.name();
+        initialize();
     }
     @Override //IStrictJson
     public void validate() throws StrictJsonException {

@@ -9,6 +9,7 @@ import graphich.ambiotic.util.IStrictJson;
 import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.util.StrictJsonSerializer;
 import graphich.ambiotic.variables.player.*;
+import graphich.ambiotic.variables.special.BiomeAverage;
 import graphich.ambiotic.variables.special.BlockCounter;
 import graphich.ambiotic.variables.special.Constant;
 import graphich.ambiotic.variables.world.*;
@@ -72,6 +73,7 @@ public abstract class Variable implements IVariable, IStrictJson {
         //Special var types
         types.put("Constant", Constant.class);
         types.put("BlockCounter", BlockCounter.class);
+        types.put("BiomeAverage", BiomeAverage.class);
         //Player var types
         types.put("CanRainOn", CanRainOn.class);
         types.put("CanSeeSky", CanSeeSky.class);
@@ -87,8 +89,6 @@ public abstract class Variable implements IVariable, IStrictJson {
         types.put("RainStrength", RainStrength.class);
         types.put("ThunderStrength", ThunderStrength.class);
         types.put("BiomeName", BiomeName.class);
-        types.put("BiomeTemperature", BiomeTemperature.class);
-        types.put("BiomeRainFall", BiomeRainFall.class);
         STRICT_ADAPTER = new StrictJsonSerializer<Variable>(types, Variable.class);
     }
 
