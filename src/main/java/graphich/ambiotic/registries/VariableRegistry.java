@@ -10,6 +10,7 @@ import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.scanners.BlockScanner;
 import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.variables.Macro;
+import graphich.ambiotic.variables.VariableScanning;
 import graphich.ambiotic.variables.special.BlockCounter;
 import graphich.ambiotic.variables.IVariable;
 import graphich.ambiotic.variables.Variable;
@@ -165,26 +166,14 @@ public class VariableRegistry {
             }
 
             // Need to link block counter to block scanner
-            if(variable instanceof BlockCounter) {
-                BlockCounter counter = (BlockCounter) variable;
-                Scanner scanner = ScannerRegistry.INSTANCE.scanner(counter.getScannerName());
+            if(variable instanceof VariableScanning) {
+                VariableScanning scanning = (VariableScanning) variable;
+                Scanner scanner = ScannerRegistry.INSTANCE.scanner(scanning.getScannerName());
                 if(scanner == null || !(scanner instanceof BlockScanner)) {
-                    Ambiotic.logger().error(errPrefix + " no block scanner named '"+counter.getScannerName()+"' is registered");
+                    Ambiotic.logger().error(errPrefix + " no block scanner named '"+scanning.getScannerName()+"' is registered");
                     continue;
                 }
-                List<String> badSpecs = counter.linkToScanner((BlockScanner)scanner);
-                if(badSpecs.size() != 0) {
-                    String msg = "In the variable '" + variable.name() + "' ";
-                    boolean allBad = (counter.getBlockSpecs().length == badSpecs.size());
-                    if(allBad)
-                        msg += " all the block specifications were bad and it was ignored.";
-                    else
-                        msg += "the following bad blocks specifications were ignored : " +Joiner.on(", ").join(badSpecs);
-                    Ambiotic.logger().warn(msg);
-                    // Skip past block counter's with no valid block specifications
-                    if(allBad)
-                        continue;
-                }
+                scanning.linkToScanner((BlockScanner)scanner);
             }
             //Finally registerVariable variable
             registerVariable(variable);

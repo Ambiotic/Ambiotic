@@ -6,23 +6,21 @@ import graphich.ambiotic.scanners.BlockScanner;
 import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.variables.VariableNumber;
+import graphich.ambiotic.variables.VariableScanning;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockCounter extends VariableNumber {
+public class BlockCounter extends VariableScanning {
 
     @SerializedName("Blocks")
     protected String[] mBlockSpecifiers = null;
-    @SerializedName("Scanner")
-    protected String mScannerName = "";
 
     protected transient List<Integer> mBlockIds = null;
-    protected transient BlockScanner mScanner = null;
+    protected transient List<String> mBadBlockSpecs = null;
 
     public BlockCounter(String name, BlockScanner scanner) {
-        super(name);
-        mScanner = scanner;
+        super(name, scanner);
     }
 
     @Override //IStrictJson
@@ -30,8 +28,6 @@ public class BlockCounter extends VariableNumber {
         super.validate();
         if(mBlockSpecifiers == null || mBlockSpecifiers.length == 0)
             throw new StrictJsonException("Blocks list is required and must have at least one entry");
-        if(mScannerName == null || mScannerName.equals(""))
-            throw new StrictJsonException("Scanner is required");
     }
 
     @Override //IStrictJson
@@ -39,6 +35,7 @@ public class BlockCounter extends VariableNumber {
         super.initialize();
         //Transients
         mBlockIds = new ArrayList<Integer>();
+        mBadBlockSpecs = new ArrayList<String>();
         mNameSpace = mScannerName;
     }
 
@@ -55,27 +52,26 @@ public class BlockCounter extends VariableNumber {
         return updated;
     }
 
-    public List<String> linkToScanner(BlockScanner scanner) {
+    @Override //VariableScanning
+    public void linkToScanner(BlockScanner scanner) {
         mScanner = scanner;
-        List<String> badSpecs = new ArrayList<String>();
+        mScannerName = scanner.name();
+        mBlockIds.clear();
+        mBadBlockSpecs.clear();
+
         for(String spec : mBlockSpecifiers) {
             ArrayList<Integer> blockIds = Helpers.buildBlockIdList(spec);
             if(blockIds.size() == 0) {
-                badSpecs.add(spec);
+                mBadBlockSpecs.add(spec);
                 continue;
             }
             mScanner.registerBlockIds(blockIds);
             addBlockIds(blockIds);
         }
-        return badSpecs;
     }
 
     public String[] getBlockSpecs() {
         return mBlockSpecifiers;
-    }
-
-    public String getScannerName() {
-        return mScannerName;
     }
 
     public void addBlockIds(List<Integer> blockIds) {
