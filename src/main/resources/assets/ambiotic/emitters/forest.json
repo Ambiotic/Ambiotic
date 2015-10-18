@@ -1,5 +1,22 @@
 [
     {
+        "Name" : "NightBirds",
+        "Type" : "Instant",
+        "Sound" : "ambiotic:animals.night_inst_bird_hoot",
+        "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature <= 1.0",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsDay#",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "0.2*#Muffle#"
+        },
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min"  : 500,
+            "Max"  : 1000
+        }
+    },
+
+    {
         "Name" : "LeaveWind",
         "Type" : "Instant",
         "Sound" : "ambiotic:misc.wind_leaves",
@@ -28,8 +45,8 @@
         },
         "CoolDown" : {
             "Type" : "Random",
-            "Min"  : 10,
-            "Max"  : 25
+            "Min"  : 30,
+            "Max"  : 100
         }
     }
 ]

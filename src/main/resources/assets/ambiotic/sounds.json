@@ -39,6 +39,15 @@
             "animals/day_inst_bird_squeek3"
         ]
     }, 
+    "animals.day_inst_crow": {
+        "category": "ambient", 
+        "sounds": [
+            "animals/day_inst_crow1", 
+            "animals/day_inst_crow2", 
+            "animals/day_inst_crow3", 
+            "animals/day_inst_crow4"
+        ]
+    }, 
     "animals.day_inst_seagulls": {
         "category": "ambient", 
         "sounds": [
@@ -76,6 +85,15 @@
                 "name": "animals/night_fade_frog4", 
                 "stream": true
             }
+        ]
+    }, 
+    "animals.night_inst_bird_hoot": {
+        "category": "ambient", 
+        "sounds": [
+            "animals/night_inst_bird_hoot1", 
+            "animals/night_inst_bird_hoot2", 
+            "animals/night_inst_bird_hoot3", 
+            "animals/night_inst_bird_hoot4"
         ]
     }, 
     "bkgs.beach_waves_loop": {
