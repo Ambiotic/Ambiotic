@@ -131,5 +131,30 @@
                 "stream": true
             }
         ]
+    }, 
+    "misc.wind_leaves": {
+        "category": "ambient", 
+        "sounds": [
+            {
+                "name": "misc/wind_leaves1", 
+                "stream": true
+            }, 
+            {
+                "name": "misc/wind_leaves2", 
+                "stream": true
+            }, 
+            {
+                "name": "misc/wind_leaves3", 
+                "stream": true
+            }, 
+            {
+                "name": "misc/wind_leaves4", 
+                "stream": true
+            }, 
+            {
+                "name": "misc/wind_leaves5", 
+                "stream": true
+            }
+        ]
     }
 }

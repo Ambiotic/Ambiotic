@@ -3,5 +3,6 @@
 
     "ambiotic:config/emitters/swamp.json",
     "ambiotic:config/emitters/beach.json",
-    "ambiotic:config/emitters/caves.json"
+    "ambiotic:config/emitters/caves.json",
+    "ambiotic:config/emitters/forest.json"
 ]

@@ -1,0 +1,35 @@
+[
+    {
+        "Name" : "LeaveWind",
+        "Type" : "Instant",
+        "Sound" : "ambiotic:misc.wind_leaves",
+        "Conditions" : "LS.Foliage / LS.Size >= 0.03",
+        "Restrict" : "#UnderGround# || Player.Submerged",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "0.2*#Muffle#"
+        },
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min"  : 0,
+            "Max"  : 15
+        }
+    },
+
+    {
+        "Name" : "LeaveWind2",
+        "Type" : "Instant",
+        "Sound" : "ambiotic:misc.wind_leaves",
+        "Conditions" : "LS.Foliage / LS.Size >= 0.03",
+        "Restrict" : "#UnderGround# || Player.Submerged",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "0.2*#Muffle#"
+        },
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min"  : 10,
+            "Max"  : 25
+        }
+    }
+]
