@@ -53,7 +53,7 @@
         {
             "Name" : "UnderGround",
             "Type" : "Macro",
-            "Code" : "LS.Air/LS.Size < 0.50 && Column.Air/Column.Size < 0.50"
+            "Code" : "LS.Air/LS.Size < 0.50 && Column.Air/Column.Size < 0.50 && LS.SunLevel < 4.0"
         }
     ],
 
@@ -209,6 +209,14 @@
             "Scanner" : "LS",
             "SubType" : "SALINITY"
         },
+
+        {
+            "Name" : "SunLevel",
+            "Type" : "BiomeAverage",
+            "Scanner" : "LS",
+            "SubType" : "MAXSUN"
+        },
+
         {
             "Name" : "Air",
             "Type" : "BlockCounter",

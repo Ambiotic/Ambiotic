@@ -3,11 +3,11 @@ package graphich.ambiotic.scanners;
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.StrictJsonException;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.event.world.BlockEvent;
@@ -49,6 +49,8 @@ public class BlockScanner extends Scanner {
     public float averageHumidity() { return mBiomeHumiditySum / mVolume; }
     protected transient float mBiomeSalinity = 0;
     public float averageSalinity() { return mBiomeSalinity / mVolume; }
+    protected transient float mAverageSunLevel = 0;
+    public float averageSunLevel() {return mAverageSunLevel / mVolume; }
 
     public BlockScanner(String name, int blocksPerTick, int xsize, int ysize, int zsize) {
         mBlocksPerTick = blocksPerTick;
@@ -89,6 +91,8 @@ public class BlockScanner extends Scanner {
         mTicksSinceFull = -1;
         mBiomeTemperatureSum = 0;
         mBiomeHumiditySum = 0;
+        mBiomeSalinity = 0;
+        mAverageSunLevel = 0;
         mVolume = mXSize*mYSize*mZSize;
     }
 
@@ -121,7 +125,7 @@ public class BlockScanner extends Scanner {
         }
     }
 
-    protected void updateBiomeVariables(Point point, boolean subtract) {
+    protected void updateAverages(Point point, boolean subtract) {
         int x,y,z;
         if(point == null)
             return;
@@ -133,6 +137,7 @@ public class BlockScanner extends Scanner {
         float t = base.getFloatTemperature(x,y,z);
         float r = base.getFloatRainfall();
         float s = 0.0f;
+        float l = Minecraft.getMinecraft().theWorld.getSavedLightValue(EnumSkyBlock.Sky, x, y, z);
         if(name.contains("ocean") || name.contains("beach"))
             s = 1.0f;
         if(subtract)
@@ -140,12 +145,14 @@ public class BlockScanner extends Scanner {
             mBiomeHumiditySum -= r;
             mBiomeTemperatureSum -= t;
             mBiomeSalinity -= s;
+            mAverageSunLevel -= l;
         }
         else
         {
             mBiomeHumiditySum += r;
             mBiomeTemperatureSum += t;
             mBiomeSalinity += s;
+            mAverageSunLevel += l;
         }
     }
 
@@ -159,14 +166,14 @@ public class BlockScanner extends Scanner {
             int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
             addToCount(blockId,-1);
             point = newOutOfRange.next();
-            updateBiomeVariables(point,true);
+            updateAverages(point, true);
         }
         point = newInRange.next();
         while (point != null) {
             int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
             addToCount(blockId,1);
             point = newInRange.next();
-            updateBiomeVariables(point,false);
+            updateAverages(point, false);
         }
         mScanFinished = true;
     }
@@ -194,7 +201,7 @@ public class BlockScanner extends Scanner {
             int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
             addToCount(blockId,1);
             point = mFullRange.next();
-            updateBiomeVariables(point, false);
+            updateAverages(point, false);
         }
         if (point == null) {
             mScanFinished = true;
