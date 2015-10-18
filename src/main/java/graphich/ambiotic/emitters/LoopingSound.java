@@ -6,6 +6,7 @@ import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.util.IConditional;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSound;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -17,7 +18,7 @@ public class LoopingSound extends MovingSound {
     protected float mFadeIn;
     protected float mFadeFactor;
 
-    protected LoopingSound(String sound, FloatProvider vcalc, FloatProvider pcalc, LoopingEmitter scripted, float fadeOut, float fadeIn) {
+    protected LoopingSound(String sound, FloatProvider vcalc, FloatProvider pcalc, IConditional scripted, float fadeOut, float fadeIn, boolean loops) {
         super(new ResourceLocation(sound));
         mVolumeCalc = vcalc;
         mPitchCalc = pcalc;
@@ -25,16 +26,20 @@ public class LoopingSound extends MovingSound {
         mFadeOut = fadeOut;
         mFadeIn = fadeIn;
         mFadeFactor = fadeIn;
-        repeat = true;
+        repeat = loops;
         this.field_147666_i = AttenuationType.NONE;
         this.update();
     }
 
+    protected LoopingSound(String sound, FloatProvider vcalc, FloatProvider pcalc, IConditional scripted, float fadeOut, float fadeIn) {
+        this(sound, vcalc, pcalc, scripted, fadeOut, fadeIn, true);
+    }
+
     @Override
     public void update() {
+
         if(donePlaying)
             return;
-
         EntityPlayer p = Minecraft.getMinecraft().thePlayer;
         xPosF = (float)p.posX;
         //This forces the sound to be played in "mono"

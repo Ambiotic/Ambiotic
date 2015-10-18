@@ -1,0 +1,64 @@
+[
+    {
+        "Name" : "SwimmingUnderWater",
+        "Type" : "Looping",
+        "Sound" : "ambiotic:bkgs.inst_water_underwater_loop",
+        "Conditions" : "Player.Submerged",
+        "Volume" : {
+            "Type" : "Constant",
+            "Value" : 0.5
+        }
+    },
+
+    {
+        "Name" : "DayBkgGrassBugs",
+        "Type" : "Looping",
+        "Sound" : "ambiotic:bkgs.day_bugs_loop",
+        "Conditions" : "LS.Temperature >= 0.5 && LS.Temperature < 1.80 && #IsDay#",
+        "Restrict" : "#UnderGround# || Player.Submerged ||  LS.Salinity >= 0.1 || (LS.Grass + LS.Foliage) < 500",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "0.1*#Muffle#"
+        }
+    },
+
+    {
+        "Name" : "NightBkgGrassBugs",
+        "Type" : "Looping",
+        "Sound" : "ambiotic:bkgs.night_bugs_loop",
+        "Conditions" : "LS.Temperature >= 0.5 && LS.Temperature < 1.80",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsDay#  ||  LS.Salinity >= 0.1 || (LS.Grass + LS.Foliage) < 500",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "0.1*#Muffle#"
+        }
+    },
+
+    {
+        "Name" : "HighWind",
+        "Type" : "Looping",
+        "Sound" : "ambiotic:bkgs.inst_whistle_wind_loop",
+        "Conditions" : "Player.Y >= 100",
+        "Restrict" : "(#UnderGround#) || Player.Submerged",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "vclmp((Player.Y - 60)/193 - .20) * #Muffle#;"
+        }
+    },
+
+    {
+        "Name" : "Rain",
+        "Type" : "Looping",
+        "Sound" : "ambiotic:bkgs.inst_rain_loop",
+        "Conditions" : "World.IsRaining",
+        "Restrict" : "((#UnderGround#) && !Player.IsExposed) || Player.Submerged",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "(Player.IsExposed ? 0.2 : 0.1)*(World.IsRaining ? 1.0 : 0.0)"
+        },
+        "Pitch" : {
+            "Type" : "Scripted",
+            "Code" : "(Player.IsExposed ? 1.0 : 0.5)"
+        }
+    }
+]

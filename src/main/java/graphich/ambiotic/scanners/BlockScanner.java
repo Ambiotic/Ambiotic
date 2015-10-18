@@ -189,6 +189,8 @@ public class BlockScanner extends Scanner {
 
         while (point != null && checked < mBlocksPerTick) {
             checked++;
+            if(point.y <= 0)
+                continue;
             int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
             addToCount(blockId,1);
             point = mFullRange.next();
@@ -247,6 +249,9 @@ public class BlockScanner extends Scanner {
             minY = y - mYSize / 2;
             maxY = y + mYSize / 2;
         }
+        //World bottom truncate
+        if(minY < 0)
+            minY = 0;
         minX = x - mXSize / 2;
         maxX = x + mXSize / 2;
         minZ = z - mZSize / 2;
@@ -259,7 +264,7 @@ public class BlockScanner extends Scanner {
         // No scan state
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         World world = Minecraft.getMinecraft().theWorld;
-        if (player == null || world == null || event.isCanceled()) {
+        if (player == null || world == null || event.isCanceled() || player.posY < 0) {
             mFullRange = null;
             return;
         }
@@ -268,6 +273,8 @@ public class BlockScanner extends Scanner {
         x = (int) player.posX;
         y = (int) player.posY;
         z = (int) player.posZ;
+
+
         Cuboid oldVolume = getVolumeFor(mLastX, mLastY, mLastZ);
         Cuboid newVolume = getVolumeFor(x, y, z);
         Cuboid intersect = oldVolume.intersection(newVolume);

@@ -1,25 +1,35 @@
 [
     {
-        "Name" : "SwampDay",
-        "Type" : "Looping",
-        "Sound" : "ambiotic:ambient.biome.swamp-day",
-        "Conditions" : "biomecheck(SwampBiomes, World.Biome) && #IsDay#",
-        "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.5",
+        "Name" : "NightSwampAnimals",
+        "Type" : "Instant",
+        "Sound" : "ambiotic:animals.night_fade_frog",
+        "Conditions" : "LS.Temperature >= 0.75 && LS.Temperature < 0.81 && LS.Humidity >= 0.86 && LS.Humidity < 0.92",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsDay#",
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min"  : 50,
+            "Max"  : 250
+        },
         "Volume" : {
             "Type" : "Scripted",
-            "Code" : "0.5*#Muffle#"
+            "Code" : "0.05*#Muffle#"
         }
     },
 
     {
-        "Name" : "SwampNight",
-        "Type" : "Looping",
-        "Sound" : "ambiotic:ambient.biome.swamp-night",
-        "Conditions" : "biomecheck(SwampBiomes, World.Biome) && !#IsDay#",
-        "Restrict" : "#UnderGround# || Player.Submerged || World.BiomeTemp <= 0.5",
+        "Name" : "DaySwampAnimals",
+        "Type" : "Instant",
+        "Sound" : "ambiotic:animals.day_fade_frog_bird_mix",
+        "Conditions" : "LS.Temperature >= 0.75 && LS.Temperature < 0.81 && LS.Humidity >= 0.86 && LS.Humidity < 0.92 && #IsDay#",
+        "Restrict" : "#UnderGround# || Player.Submerged",
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min"  : 50,
+            "Max"  : 250
+        },
         "Volume" : {
             "Type" : "Scripted",
-            "Code" : "1.0*#Muffle#"
+            "Code" : "0.05*#Muffle#"
         }
     }
 ]

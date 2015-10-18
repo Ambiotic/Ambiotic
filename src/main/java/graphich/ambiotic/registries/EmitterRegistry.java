@@ -12,6 +12,7 @@ import graphich.ambiotic.variables.Macro;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SoundHandler;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -114,9 +115,10 @@ public class EmitterRegistry {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
-        if(event.isCanceled() || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        if(event.isCanceled() || Minecraft.getMinecraft().theWorld == null || player == null)
             return;
-        if(mGamePaused)
+        if(mGamePaused || player.posY <= 0)
             return;
         SoundHandler handler = Minecraft.getMinecraft().getSoundHandler();
         for(SoundEmitter emitter : mRegistry.values()) {

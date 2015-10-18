@@ -3,14 +3,11 @@ package graphich.ambiotic.emitters;
 import com.google.gson.annotations.SerializedName;
 import graphich.ambiotic.emitters.effects.FloatFadeIn;
 import graphich.ambiotic.emitters.effects.FloatFadeOut;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
+import net.minecraft.client.audio.SoundHandler;
 
 public class LoopingEmitter extends SoundEmitter {
-
-    @SerializedName("FadeOut")
-    protected Float mFadeOut;
-    @SerializedName("FadeIn")
-    protected Float mFadeIn;
 
     protected transient LoopingSound mEmitted = null;
 
@@ -22,16 +19,14 @@ public class LoopingEmitter extends SoundEmitter {
     @Override
     public void initialize() {
         super.initialize();
-        // Default fades
-        if(mFadeIn == null)
-            mFadeIn = 0.01f;
-        if(mFadeOut == null)
-            mFadeOut = 0.01f;
     }
 
 
     @Override
     public ISound emit() {
+        SoundHandler handler = Minecraft.getMinecraft().getSoundHandler();
+        if(mEmitted != null && !handler.isSoundPlaying(mEmitted))
+            mEmitted = null;
         if(conditionsMet() && mEmitted == null) {
             mEmitted = new LoopingSound(mSound, mVolume, mPitch, this, mFadeOut, mFadeIn);
             return mEmitted;

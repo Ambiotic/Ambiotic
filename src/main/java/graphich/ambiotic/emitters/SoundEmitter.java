@@ -26,6 +26,10 @@ public abstract class SoundEmitter implements IStrictJson, IConditional, IScript
     protected String mConditionCode = "";
     @SerializedName("Restrict")
     protected String mRestrictCode = "";
+    @SerializedName("FadeOut")
+    protected Float mFadeOut;
+    @SerializedName("FadeIn")
+    protected Float mFadeIn;
 
 
     public SoundEmitter(String name, String sound) {
@@ -71,8 +75,14 @@ public abstract class SoundEmitter implements IStrictJson, IConditional, IScript
             mVolume = new FloatConstant(1.0f);
         if(mPitch == null)
             mPitch = new FloatConstant(1.0f);
+        // Restrictions are optional
         if(mRestrictCode == null)
             mRestrictCode = "";
+        // Default fades
+        if(mFadeIn == null)
+            mFadeIn = 0.01f;
+        if(mFadeOut == null)
+            mFadeOut = 0.01f;
     }
 
     public String name() { return mName; }

@@ -15,6 +15,7 @@ import graphich.ambiotic.variables.special.BlockCounter;
 import graphich.ambiotic.variables.IVariable;
 import graphich.ambiotic.variables.Variable;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import graphich.ambiotic.scanners.Scanner;
@@ -235,11 +236,12 @@ public class VariableRegistry {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
-        if (mUpdates == null || !mFrozen)
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        if (mUpdates == null || !mFrozen || player == null)
             return;
         if(Minecraft.getMinecraft().theWorld == null)
             return;
-        if(!Minecraft.getMinecraft().theWorld.isRemote)
+        if(player.posY <= 0)
             return;
         StringBuilder code = new StringBuilder();
         boolean updated = false;

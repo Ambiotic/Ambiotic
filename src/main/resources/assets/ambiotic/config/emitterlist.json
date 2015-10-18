@@ -1,11 +1,7 @@
 [
-    "ambiotic:config/emitters/weather.json",
-    "ambiotic:config/emitters/interact.json",
+    "ambiotic:config/emitters/background.json",
 
-    "ambiotic:config/emitters/jungle.json",
-    "ambiotic:config/emitters/forest.json",
-    "ambiotic:config/emitters/savanna.json",
-    "ambiotic:config/emitters/plains.json",
     "ambiotic:config/emitters/swamp.json",
-    "ambiotic:config/emitters/beach.json"
+    "ambiotic:config/emitters/beach.json",
+    "ambiotic:config/emitters/caves.json"
 ]

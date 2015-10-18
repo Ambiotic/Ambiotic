@@ -2,10 +2,9 @@
   {
     "Type" : "BlockScanner",
     "Name" : "LS",
-    "XSize" : 64,
+    "XSize" : 32,
     "YSize" : 16,
-    "ZSize" : 64,
-    "YStartsAtPlayer" : true
+    "ZSize" : 32
   },
 
   {
