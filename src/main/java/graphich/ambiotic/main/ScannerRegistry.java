@@ -1,8 +1,7 @@
-package graphich.ambiotic.registries;
+package graphich.ambiotic.main;
 
 import com.google.gson.*;
 import cpw.mods.fml.common.FMLCommonHandler;
-import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.scanners.Scanner;
 

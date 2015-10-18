@@ -1,10 +1,9 @@
-package graphich.ambiotic.registries;
+package graphich.ambiotic.main;
 
 import com.google.gson.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.emitters.SoundEmitter;
 import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.util.StrictJsonException;
