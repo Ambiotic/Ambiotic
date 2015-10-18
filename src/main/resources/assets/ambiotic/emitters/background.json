@@ -50,7 +50,7 @@
         "Name" : "Rain",
         "Type" : "Looping",
         "Sound" : "ambiotic:bkgs.inst_rain_loop",
-        "Conditions" : "World.IsRaining",
+        "Conditions" : "World.IsRaining && LS.Humidity > 0.3",
         "Restrict" : "((#UnderGround#) && !Player.IsExposed) || Player.Submerged",
         "Volume" : {
             "Type" : "Scripted",
