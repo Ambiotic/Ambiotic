@@ -1,17 +1,14 @@
 package graphich.ambiotic.main;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import graphich.ambiotic.scanners.Scanner;
 import graphich.ambiotic.emitters.SoundEmitter;
 import graphich.ambiotic.emitters.effects.FloatProvider;
+import graphich.ambiotic.scanners.Scanner;
 import graphich.ambiotic.util.DebugGui;
 import graphich.ambiotic.util.EvalCommand;
 import graphich.ambiotic.util.Helpers;
@@ -21,12 +18,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
-import net.minecraft.client.util.JsonException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Logger;
-import com.google.gson.*;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;

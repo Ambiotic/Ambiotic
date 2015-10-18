@@ -1,24 +1,23 @@
 package graphich.ambiotic.main;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.scanners.BlockScanner;
+import graphich.ambiotic.scanners.Scanner;
 import graphich.ambiotic.util.StrictJsonException;
-import graphich.ambiotic.variables.Macro;
-import graphich.ambiotic.variables.VariableScanning;
 import graphich.ambiotic.variables.IVariable;
+import graphich.ambiotic.variables.Macro;
 import graphich.ambiotic.variables.Variable;
+import graphich.ambiotic.variables.VariableScanning;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import graphich.ambiotic.scanners.Scanner;
 import net.minecraftforge.event.world.WorldEvent;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
