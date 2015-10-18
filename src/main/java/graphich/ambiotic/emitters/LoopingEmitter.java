@@ -6,7 +6,7 @@ import net.minecraft.client.audio.SoundHandler;
 
 public class LoopingEmitter extends SoundEmitter {
 
-    protected transient LoopingSound mEmitted = null;
+    protected transient BackgroundSound mEmitted = null;
 
     public LoopingEmitter(String name, String sound) {
         super(name, sound);
@@ -25,7 +25,7 @@ public class LoopingEmitter extends SoundEmitter {
         if(mEmitted != null && !handler.isSoundPlaying(mEmitted))
             mEmitted = null;
         if(conditionsMet() && mEmitted == null) {
-            mEmitted = new LoopingSound(mSound, mVolume, mPitch, this, mFadeOut, mFadeIn);
+            mEmitted = new BackgroundSound(mSound, mVolume, mPitch, this, mFadeOut, mFadeIn);
             return mEmitted;
         } else if(mEmitted != null) {
             if(!mEmitted.isDonePlaying())

@@ -3,13 +3,11 @@ package graphich.ambiotic.emitters;
 import com.google.gson.annotations.SerializedName;
 import graphich.ambiotic.emitters.effects.FloatConstant;
 import graphich.ambiotic.emitters.effects.FloatProvider;
-import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.IScripted;
 import graphich.ambiotic.variables.Macro;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.Map;
 
@@ -20,7 +18,7 @@ public class InstantEmitter extends SoundEmitter {
 
     protected transient int mSinceEmission = 0;
     protected transient int mNextEmission = 0;
-    protected transient LoopingSound mLastEmitted = null;
+    protected transient BackgroundSound mLastEmitted = null;
 
     public InstantEmitter(String name, String sound, String condition) {
         super(name, sound);
@@ -63,7 +61,7 @@ public class InstantEmitter extends SoundEmitter {
         if(conditionsMet() && mLastEmitted == null) {
             mSinceEmission = 0;
             mNextEmission = (int)mCoolDown.value();
-            mLastEmitted = new LoopingSound(mSound,mVolume,mPitch,this,mFadeOut,mFadeIn,false);
+            mLastEmitted = new BackgroundSound(mSound,mVolume,mPitch,this,mFadeOut,mFadeIn,false);
             return mLastEmitted;
         }
         return null;

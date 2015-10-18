@@ -7,7 +7,7 @@ import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class LoopingSound extends MovingSound {
+public class BackgroundSound extends MovingSound {
     protected FloatProvider mVolumeCalc;
     protected FloatProvider mPitchCalc;
     protected IConditional mScripted;
@@ -15,7 +15,7 @@ public class LoopingSound extends MovingSound {
     protected float mFadeIn;
     protected float mFadeFactor;
 
-    protected LoopingSound(String sound, FloatProvider vcalc, FloatProvider pcalc, IConditional scripted, float fadeOut, float fadeIn, boolean loops) {
+    protected BackgroundSound(String sound, FloatProvider vcalc, FloatProvider pcalc, IConditional scripted, float fadeOut, float fadeIn, boolean loops) {
         super(new ResourceLocation(sound));
         mVolumeCalc = vcalc;
         mPitchCalc = pcalc;
@@ -28,7 +28,7 @@ public class LoopingSound extends MovingSound {
         this.update();
     }
 
-    protected LoopingSound(String sound, FloatProvider vcalc, FloatProvider pcalc, IConditional scripted, float fadeOut, float fadeIn) {
+    protected BackgroundSound(String sound, FloatProvider vcalc, FloatProvider pcalc, IConditional scripted, float fadeOut, float fadeIn) {
         this(sound, vcalc, pcalc, scripted, fadeOut, fadeIn, true);
     }
 
