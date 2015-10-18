@@ -34,20 +34,6 @@ public class Helpers {
         return true;
     }
 
-    public static String makeCodeFromJsonList(JsonArray json) throws Exception {
-        int index = 0;
-        StringBuilder code = new StringBuilder();
-        for (JsonElement cur : json) {
-            if (!cur.isJsonPrimitive() || !cur.getAsJsonPrimitive().isString())
-                throw new Exception("This function is being removed");
-            index += 1;
-            String line = cur.getAsString();
-            line = line.trim() + " "; //We want exactly 1 trailing space
-            code.append(line);
-        }
-        return "(" + code.toString().trim() + ");";
-    }
-
     public static ArrayList<Integer> buildBlockIdList(String specifier) {
         ArrayList<ItemStack> items = OreDictionary.getOres(specifier);
         ArrayList<Integer> blockIds = new ArrayList<Integer>();
