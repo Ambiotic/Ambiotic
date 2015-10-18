@@ -33,8 +33,6 @@ public abstract class FloatProvider implements IStrictJson {
         types.put("Random", FloatRandom.class);
         types.put("Constant", FloatConstant.class);
         types.put("Scripted", FloatScripted.class);
-        types.put("FadeOut", FloatFadeOut.class);
-        types.put("FadeIn", FloatFadeIn.class);
         STRICT_ADAPTER = new StrictJsonSerializer<FloatProvider>(types,FloatProvider.class);
     }
 

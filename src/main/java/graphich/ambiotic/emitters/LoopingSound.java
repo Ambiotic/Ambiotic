@@ -1,12 +1,9 @@
 package graphich.ambiotic.emitters;
 
-import graphich.ambiotic.emitters.effects.FloatFadeIn;
-import graphich.ambiotic.emitters.effects.FloatFadeOut;
 import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.util.IConditional;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSound;
-import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 

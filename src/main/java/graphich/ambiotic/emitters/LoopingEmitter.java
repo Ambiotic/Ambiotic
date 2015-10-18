@@ -1,8 +1,5 @@
 package graphich.ambiotic.emitters;
 
-import com.google.gson.annotations.SerializedName;
-import graphich.ambiotic.emitters.effects.FloatFadeIn;
-import graphich.ambiotic.emitters.effects.FloatFadeOut;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SoundHandler;
