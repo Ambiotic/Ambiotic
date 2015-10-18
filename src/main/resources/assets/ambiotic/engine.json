@@ -180,6 +180,26 @@
         },
 
         {
+            "Name" : "Humidity",
+            "Type" : "BiomeAverage",
+            "Scanner" : "LS",
+            "SubType" : "HUMIDITY"
+        },
+
+        {
+            "Name" : "Temperature",
+            "Type" : "BiomeAverage",
+            "Scanner" : "LS",
+            "SubType" : "TEMPERATURE"
+        },
+
+        {
+            "Name" : "Salinity",
+            "Type" : "BiomeAverage",
+            "Scanner" : "LS",
+            "SubType" : "SALINITY"
+        },
+        {
             "Name" : "Air",
             "Type" : "BlockCounter",
             "Scanner" : "Column",
