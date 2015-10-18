@@ -2,12 +2,12 @@
     "DefaultVars" : true,
 
     "EmitterList" : [
-        "ambiotic:config/emitters/background.json",
+        "ambiotic:emitters/background.json",
 
-        "ambiotic:config/emitters/swamp.json",
-        "ambiotic:config/emitters/beach.json",
-        "ambiotic:config/emitters/caves.json",
-        "ambiotic:config/emitters/forest.json"
+        "ambiotic:emitters/swamp.json",
+        "ambiotic:emitters/beach.json",
+        "ambiotic:emitters/caves.json",
+        "ambiotic:emitters/forest.json"
     ],
 
     "Scanners" : [

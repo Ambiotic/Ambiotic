@@ -63,24 +63,21 @@ public class EmitterRegistry {
     }
 
     public void load() {
-        ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/emitterlist.json");
-
-        Ambiotic.logger().info("Loading event include list file '" + rl + "'");
-        String[] includeList = null;
-        try {
-            JsonParser parser = new JsonParser();
-            JsonElement json = parser.parse(Helpers.resourceAsStreamReader(rl));
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            Gson gson = gsonBuilder.create();
-            includeList = gson.fromJson(json,String[].class);
-        } catch (IOException ex) {
-            Ambiotic.logger().error("Error reading '" + rl + " : " + ex.getMessage());
+        JsonArray jsonArray = Ambiotic.engineSection("EmitterList").getAsJsonArray();
+        if(jsonArray == null)
             return;
-        }
 
+        Ambiotic.logger().info("Loading emitter list");
+        String[] includeList = null;
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+        includeList = gson.fromJson(jsonArray,String[].class);
+
+        ResourceLocation rl;
         for(String include : includeList) {
             rl = new ResourceLocation(include);
-            Ambiotic.logger().info("Loading event include '" + rl + "'");
+            Ambiotic.logger().info("Loading emitter definition '" + rl + "'");
             load(rl);
         }
 
@@ -96,7 +93,7 @@ public class EmitterRegistry {
         try {
             events = Helpers.getRootJsonArray(rl);
         } catch (IOException ex) {
-            Ambiotic.logger().warn("Can't load '" + rl + "' : " + ex.getMessage());
+            Ambiotic.logger().warn("Can not load : " + ex.getMessage());
             return;
         }
         Gson gson = Ambiotic.gson();
