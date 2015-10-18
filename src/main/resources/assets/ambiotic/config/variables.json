@@ -25,25 +25,25 @@
 
     {
         "Name" : "X",
-        "Type" : "PlayerCoordinate",
+        "Type" : "Coordinate",
         "SubType" : "X"
     },
 
     {
         "Name" : "Y",
-        "Type" : "PlayerCoordinate",
+        "Type" : "Coordinate",
         "SubType" : "Y"
     },
 
     {
         "Name" : "Z",
-        "Type" : "PlayerCoordinate",
+        "Type" : "Coordinate",
         "SubType" : "Z"
     },
 
     {
         "Name" : "DIM",
-        "Type" : "PlayerCoordinate",
+        "Type" : "Coordinate",
         "SubType" : "DIM"
     },
 
@@ -166,7 +166,7 @@
 
     {
         "Name" : "IsExposed",
-        "Type" : "PlayerExposed",
+        "Type" : "Exposed",
         "AirPermeableBlocks" : [
             "minecraft:air",
             "minecraft:fire",
