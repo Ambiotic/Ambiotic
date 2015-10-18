@@ -11,6 +11,7 @@ public class Constant extends Variable {
 
     public Constant(String name) {
         super(name);
+        initialize();
     }
 
     @Override //IStrictJson

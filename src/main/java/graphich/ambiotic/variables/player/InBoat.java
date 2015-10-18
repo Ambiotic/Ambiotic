@@ -12,6 +12,7 @@ public class InBoat extends VariableBool {
 
     public InBoat(String name) {
         super(name);
+        initialize();
     }
 
     @Override //IStrictJson

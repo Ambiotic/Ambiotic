@@ -13,8 +13,10 @@ public class GameTime extends VariableNumber {
     @SerializedName("Modulus")
     private Integer mModulus = 1;
 
-    public GameTime(String name) {
+    public GameTime(String name, int modulus) {
         super(name);
+        mModulus = modulus;
+        initialize();
     }
 
     @Override //IStrictJson

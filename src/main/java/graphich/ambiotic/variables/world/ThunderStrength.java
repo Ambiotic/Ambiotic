@@ -18,6 +18,7 @@ public class ThunderStrength extends VariableNumber {
     public ThunderStrength(String name, int scalar) {
         super(name);
         mScalar = scalar;
+        initialize();
     }
 
     @Override //IStrictJson

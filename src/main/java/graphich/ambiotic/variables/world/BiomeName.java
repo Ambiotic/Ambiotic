@@ -11,6 +11,7 @@ public class BiomeName extends VariableString {
 
     public BiomeName(String name) {
         super(name);
+        initialize();
     }
 
     @Override

@@ -29,6 +29,7 @@ public class Exposed extends VariableBool {
 
     public Exposed(String name) {
         super(name);
+        initialize();
     }
 
     @Override //IStrictJson

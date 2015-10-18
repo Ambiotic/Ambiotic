@@ -12,6 +12,7 @@ public class UnderWater extends VariableBool {
 
     public UnderWater(String name) {
         super(name);
+        initialize();
     }
 
     @Override

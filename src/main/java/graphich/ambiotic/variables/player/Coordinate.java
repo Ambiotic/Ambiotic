@@ -19,6 +19,7 @@ public class Coordinate extends VariableNumber {
     public Coordinate(String name, Coordinates coordinate) {
         super(name);
         mCoordinate = coordinate;
+        initialize();
     }
 
     @Override //IStrictJson

@@ -15,6 +15,8 @@ import graphich.ambiotic.variables.special.Constant;
 import graphich.ambiotic.variables.world.*;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Variable implements IVariable, IStrictJson {
     @SerializedName("Name")
@@ -95,4 +97,38 @@ public abstract class Variable implements IVariable, IStrictJson {
 
     public static final String WORLD_NAMESPACE = "World";
     public static final String PLAYER_NAMESPACE = "Player";
+
+    public static List<Variable> defaults() {
+        List<Variable> defs = new ArrayList<Variable>();
+        Variable var;
+
+        //Player variables
+        defs.add(new Coordinate("Y", Coordinate.Coordinates.Y));
+        var = new VerticalVelocity("dY");
+        var.mTicksPerUpdate = 5;
+        defs.add(var);
+        defs.add(new Coordinate("X", Coordinate.Coordinates.X));
+        defs.add(new Coordinate("Z", Coordinate.Coordinates.Z));
+        defs.add(new Coordinate("DIM", Coordinate.Coordinates.DIM));
+        defs.add(new LightLevel("Sun", LightLevel.LightTypes.SUN));
+        defs.add(new LightLevel("Torch", LightLevel.LightTypes.LAMP));
+        defs.add(new LightLevel("MaxSun", LightLevel.LightTypes.MAXSUN));
+        defs.add(new LightLevel("Light", LightLevel.LightTypes.TOTAL));
+        defs.add(new CanRainOn("CanRainOn"));
+        defs.add(new CanSeeSky("CanSeeSky"));
+        defs.add(new InBoat("InBoat"));
+        defs.add(new UnderWater("Submerged"));
+
+        //World variables
+        var = new GameTime("Time", 24000);
+        var.mTicksPerUpdate = 50;
+        defs.add(var);
+        defs.add(new IsRaining("IsRaining"));
+        defs.add(new ThunderStrength("ThunderStrength",1000));
+        defs.add(new RainStrength("RainStrength",1000));
+        defs.add(new MoonPhase("MoonPhase"));
+        defs.add(new BiomeName("Biome"));
+
+        return defs;
+    }
 }

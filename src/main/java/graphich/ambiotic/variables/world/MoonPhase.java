@@ -13,6 +13,7 @@ public class MoonPhase extends VariableNumber {
 
     public MoonPhase(String name) {
         super(name);
+        initialize();
     }
 
     @Override //IStrictJson

@@ -14,6 +14,7 @@ public class CanSeeSky extends VariableBool {
 
     public CanSeeSky(String name) {
         super(name);
+        initialize();
     }
 
     @Override //IStrictJson

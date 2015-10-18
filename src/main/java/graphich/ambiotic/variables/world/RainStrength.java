@@ -19,6 +19,7 @@ public class RainStrength extends VariableNumber {
     public RainStrength(String name, int scalar) {
         super(name);
         mScalar = scalar;
+        initialize();
     }
 
     @Override //IStrictJson

@@ -14,6 +14,7 @@ public class CanRainOn extends VariableBool {
 
     public CanRainOn(String name) {
         super(name);
+        initialize();
     }
 
     @Override //IStrictJson

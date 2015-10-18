@@ -13,6 +13,7 @@ public class IsRaining extends VariableBool {
 
     public IsRaining(String name) {
         super(name);
+        initialize();
     }
 
     @Override //IStrictJson

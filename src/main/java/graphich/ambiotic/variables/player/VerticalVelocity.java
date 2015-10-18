@@ -13,6 +13,7 @@ public class VerticalVelocity extends VariableNumber {
 
     public VerticalVelocity(String name) {
         super(name);
+        initialize();
     }
 
     @Override

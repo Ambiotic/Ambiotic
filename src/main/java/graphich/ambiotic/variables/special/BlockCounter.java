@@ -21,6 +21,7 @@ public class BlockCounter extends VariableScanning {
 
     public BlockCounter(String name, BlockScanner scanner) {
         super(name, scanner);
+        initialize();
     }
 
     @Override //IStrictJson

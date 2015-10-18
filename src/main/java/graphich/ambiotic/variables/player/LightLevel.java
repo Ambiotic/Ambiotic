@@ -21,6 +21,7 @@ public class LightLevel extends VariableNumber {
     public LightLevel(String name, LightTypes type) {
         super(name);
         mType = type;
+        initialize();
     }
 
     @Override //IStrictJson
