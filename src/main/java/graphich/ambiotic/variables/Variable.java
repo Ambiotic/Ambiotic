@@ -82,6 +82,7 @@ public abstract class Variable implements IVariable, IStrictJson {
         types.put("PlayerExposed", Exposed.class);
         types.put("UnderWater", UnderWater.class);
         types.put("VerticalVelocity",VerticalVelocity.class);
+        types.put("InBoat", InBoat.class);
         //World var types
         types.put("GameTime", GameTime.class);
         types.put("IsRaining", IsRaining.class);

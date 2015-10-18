@@ -87,6 +87,11 @@
     },
 
     {
+        "Name" : "InBoat",
+        "Type" : "InBoat"
+    },
+
+    {
         "Name" : "Submerged",
         "Type" : "UnderWater"
     },
