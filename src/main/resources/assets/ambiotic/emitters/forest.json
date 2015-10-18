@@ -17,14 +17,53 @@
     },
 
     {
-        "Name" : "LeaveWind",
+        "Name" : "DayBirds1",
+        "Type" : "Instant",
+        "Sound" : "ambiotic:animals.day_inst_bird_squeek",
+        "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature <= 0.78 && #IsDay#",
+        "Restrict" : "#UnderGround# || Player.Submerged",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "1.0*#Muffle#"
+        },
+        "Pitch" : {
+            "Type" : "Random",
+            "Min"  : 0.80,
+            "Max"  : 1.10
+        },
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min"  : 500,
+            "Max"  : 1000
+        }
+    },
+
+    {
+        "Name" : "DayBirds2",
+        "Type" : "Instant",
+        "Sound" : "ambiotic:animals.day_inst_bird_chatter",
+        "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature <= 0.78 && #IsDay#",
+        "Restrict" : "#UnderGround# || Player.Submerged",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "1.0*#Muffle#"
+        },
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min"  : 500,
+            "Max"  : 1000
+        }
+    },
+
+    {
+        "Name" : "LeaveWind1",
         "Type" : "Instant",
         "Sound" : "ambiotic:misc.wind_leaves",
         "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature <= 0.78",
         "Restrict" : "#UnderGround# || Player.Submerged",
         "Volume" : {
             "Type" : "Scripted",
-            "Code" : "0.2*#Muffle#"
+            "Code" : "0.05*#Muffle#"
         },
         "CoolDown" : {
             "Type" : "Random",

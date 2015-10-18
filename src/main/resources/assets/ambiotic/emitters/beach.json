@@ -14,7 +14,7 @@
         "Name" : "DaySeagulls",
         "Type" : "Instant",
         "Sound" : "ambiotic:animals.day_inst_seagulls",
-        "Conditions" : "LS.Salinity >= 0.1 && #IsDay#",
+        "Conditions" : "LS.Salinity >= 0.2 && #IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged",
         "Volume" : {
             "Type" : "Scripted",
