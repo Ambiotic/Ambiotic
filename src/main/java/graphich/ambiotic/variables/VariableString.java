@@ -29,4 +29,9 @@ public abstract class VariableString extends Variable {
         return name()+" = '"+mInitialValue+"';";
     }
 
+    public boolean setNewValue(String newValue) {
+        boolean updated = mValue.equals(newValue);
+        mValue = newValue;
+        return updated;
+    }
 }

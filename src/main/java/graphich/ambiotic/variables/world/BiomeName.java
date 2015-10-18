@@ -29,8 +29,6 @@ public class BiomeName extends VariableString {
 
         String newValue = world.getBiomeGenForCoords((int)player.posX, (int)player.posZ).biomeName;
         world.getBiomeGenForCoords((int)player.posX, (int)player.posZ).getFloatRainfall();
-        boolean changed = (newValue != mValue);
-        mValue = newValue;
-        return changed;
+        return setNewValue(newValue);
     }
 }
