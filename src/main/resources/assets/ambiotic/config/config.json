@@ -1,0 +1,189 @@
+{
+    "DefaultVars" : true,
+
+    "EmitterList" : [
+        "ambiotic:config/emitters/background.json",
+
+        "ambiotic:config/emitters/swamp.json",
+        "ambiotic:config/emitters/beach.json",
+        "ambiotic:config/emitters/caves.json",
+        "ambiotic:config/emitters/forest.json"
+    ],
+
+    "Scanners" : [
+        {
+            "Type" : "BlockScanner",
+            "Name" : "LS",
+            "XSize" : 32,
+            "YSize" : 16,
+            "ZSize" : 32
+        },
+
+        {
+            "Type" : "BlockScanner",
+            "Name" : "Column",
+            "XSize" : 3,
+            "YSize" : 100,
+            "ZSize" : 3,
+            "YStartsAtPlayer" : true
+        }
+    ],
+
+    "Macros" : [
+        {
+            "Name" : "IsDay",
+            "Type" : "Macro",
+            "Code" : "(World.Time >= 500 && World.Time <= 13000)"
+        },
+
+        {
+            "Name" : "Muffle",
+            "Type" : "Macro",
+            "Code" : "(Player.IsExposed ? 1.0 : .05)"
+        },
+
+        {
+            "Name" : "ColdArea",
+            "Type" : "Macro",
+            "Code" : "LS.ColdBlocks >= 200"
+        },
+
+        {
+            "Name" : "UnderGround",
+            "Type" : "Macro",
+            "Code" : "LS.Air/LS.Size < 0.50 && Column.Air/Column.Size < 0.50"
+        }
+    ],
+
+    "Variables" : [
+        {
+            "Name" : "IsExposed",
+            "Type" : "Exposed",
+            "AirPermeableBlocks" : [
+                "minecraft:air",
+                "minecraft:fire",
+                "minecraft:portal",
+                "minecraft:web",
+                "minecraft:snow_layer",
+
+                "minecraft:vine",
+                "minecraft:reeds",
+                "minecraft:yellow_flower",
+                "minecraft:red_flower",
+                "minecraft:brown_mushroom",
+                "minecraft:red_mushroom",
+                "minecraft:cocoa",
+                "minecraft:potatoes",
+                "minecraft:carrots",
+                "minecraft:pumpkin_stem",
+                "minecraft:melon_stem",
+                "minecraft:waterlily",
+                "minecraft:double_plant",
+                "minecraft:deadbush",
+                "minecraft:tallgrass",
+                "minecraft:nether_wart",
+                "treeLeaves",
+
+                "minecraft:fence",
+                "minecraft:spruce_fence",
+                "minecraft:birch_fence",
+                "minecraft:jungle_fence",
+                "minecraft:dark_oak_fence",
+                "minecraft:acacia_fence",
+                "minecraft:nether_brick_fence",
+                "minecraft:cobblestone_wall",
+                "minecraft:iron_bars",
+                "minecraft:fence_gate",
+                "minecraft:spruce_fence_gate",
+                "minecraft:birch_fence_gate",
+                "minecraft:jungle_fence_gate",
+                "minecraft:dark_oak_fence_gate",
+                "minecraft:acacia_fence_gate",
+
+                "minecraft:brewing_stand",
+                "minecraft:torch",
+                "minecraft:ladder",
+                "minecraft:wall_sign",
+                "minecraft:standing_sign",
+                "minecraft:standing_banner",
+                "minecraft:wall_banner",
+                "minecraft:skull",
+                "minecraft:carpet",
+                "minecraft:flower_pot",
+                "minecraft:bed",
+
+                "minecraft:golden_rail",
+                "minecraft:detector_rail",
+                "minecraft:rail",
+                "minecraft:activator_rail",
+                "minecraft:lever",
+                "minecraft:stone_pressure_plate",
+                "minecraft:wooden_pressure_plate",
+                "minecraft:unlit_redstone_torch",
+                "minecraft:redstone_torch",
+                "minecraft:stone_button",
+                "minecraft:tripwire_hook",
+                "minecraft:wooden_button",
+                "minecraft:light_weighted_pressure_plate",
+                "minecraft:heavy_weighted_pressure_plate",
+                "minecraft:unpowered_comparator",
+                "minecraft:powered_comparator",
+                "minecraft:daylight_detector",
+                "minecraft:daylight_detector_inverted"
+            ],
+            "TicksPerUpdate" : 5
+        },
+
+        {
+            "Name" : "Foliage",
+            "Type" : "BlockCounter",
+            "Scanner" : "LS",
+            "Blocks" : [
+                "treeLeaves",
+                "logWood"
+            ]
+        },
+
+        {
+            "Name" : "Grass",
+            "Type" : "BlockCounter",
+            "Scanner" : "LS",
+            "Blocks" : [
+                "minecraft:grass",
+                "minecraft:tallgrass",
+                "minecraft:yellow_flower",
+                "minecraft:red_flower"
+            ]
+        },
+
+        {
+            "Name" : "ColdBlocks",
+            "Type" : "BlockCounter",
+            "Scanner" : "LS",
+            "Blocks" : [
+                "minecraft:snow",
+                "minecraft:ice",
+                "minecraft:snow_layer",
+                "minecraft:packed_ice"
+            ]
+        },
+
+        {
+            "Name" : "Air",
+            "Type" : "BlockCounter",
+            "Scanner" : "LS",
+            "Blocks" : [
+                "minecraft:air"
+            ]
+        },
+
+        {
+            "Name" : "Air",
+            "Type" : "BlockCounter",
+            "Scanner" : "Column",
+            "Blocks" : [
+                "minecraft:air"
+            ]
+        }
+    ]
+}
