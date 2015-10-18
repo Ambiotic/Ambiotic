@@ -165,16 +165,18 @@ public class Ambiotic implements IResourceManagerReloadListener {
         //Initialize the scripting environment
         ScriptEngineManager man = new ScriptEngineManager(null);
         Ambiotic.scripter = man.getEngineByName("JavaScript");
-        String envjs = "ambiotic:config/env.js";
-        Ambiotic.logger().info("Evaluating javascript environment");
-        try {
-            ResourceLocation rl = new ResourceLocation(envjs);
-            InputStreamReader isr = Helpers.resourceAsStreamReader(rl);
-            Ambiotic.scripter.eval(isr);
-        } catch(IOException ex) {
-            Ambiotic.logger().error("Couldn't read env.js ("+envjs+")");
-        } catch(ScriptException ex) {
-            Ambiotic.logger().error("Error when executing env.js:\n"+ex.getMessage());
+        String envjs = Ambiotic.engineString("HelperJS", null);
+        if(envjs != null) {
+            Ambiotic.logger().info("Evaluating javascript helper file");
+            try {
+                ResourceLocation rl = new ResourceLocation(envjs);
+                InputStreamReader isr = Helpers.resourceAsStreamReader(rl);
+                Ambiotic.scripter.eval(isr);
+            } catch (IOException ex) {
+                Ambiotic.logger().error("Couldn't read helpers.js (" + envjs + ")");
+            } catch (ScriptException ex) {
+                Ambiotic.logger().error("Error when executing helpers.js:\n" + ex.getMessage());
+            }
         }
         VariableRegistry.INSTANCE.initializeJSAll();
         ScannerRegistry.INSTANCE.initializeConstantJSAll();

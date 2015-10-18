@@ -1,6 +1,8 @@
 {
     "DefaultVars" : true,
 
+    "HelperJS" : "ambiotic:helpers.js",
+
     "EmitterList" : [
         "ambiotic:emitters/background.json",
 
