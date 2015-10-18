@@ -46,16 +46,10 @@ public class ScannerRegistry {
     }
 
     public void load() {
-        ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/scanners.json");
-        JsonArray scannerList = null;
-        Ambiotic.logger().info("Loading scanners file '" + rl + "'");
-        try {
-            scannerList = Helpers.getRootJsonArray(rl);
-        } catch (IOException ex) {
-            Ambiotic.logger().error("Error reading '" + rl + "' : " + ex.getMessage());
+        JsonArray scannerList = Ambiotic.engineSection("Scanners").getAsJsonArray();
+        if(scannerList == null)
             return;
-        }
-        //Deserialize and registerVariable each scanner
+        Ambiotic.logger().info("Loading scanner definitions");
         Gson gson = Ambiotic.gson();
         int scannerPos = 0;
         for(JsonElement scannerElm : scannerList) {
