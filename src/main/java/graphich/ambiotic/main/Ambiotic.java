@@ -2,6 +2,8 @@ package graphich.ambiotic.main;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -19,10 +21,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
+import net.minecraft.client.util.JsonException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Logger;
+import com.google.gson.*;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -37,25 +41,7 @@ public class Ambiotic implements IResourceManagerReloadListener {
     public static final String NAME = "Ambiotic";
     public static final String VERSION = "@VERSION@";
 
-    protected static Logger logger;
-    public static Logger logger() {
-        return Ambiotic.logger;
-    }
-
-    protected static ScriptEngine scripter;
-    public static Object evalJS(String js)
-    {
-        try {
-            return Ambiotic.scripter.eval(js);
-        } catch(ScriptException ex) {
-            Ambiotic.logger().error("Script failed\n"+js+"\n"+ex.getMessage());
-        }
-        return null;
-    }
-
-    //Hack to skipp "first" reload, resources are always reloaded twice
-    protected boolean mPastFirstReload = false;
-
+    //GSON Builder Init
     protected static final GsonBuilder gsonbuilder;
     public static Gson gson() {
         return Ambiotic.gsonbuilder.create();
@@ -68,6 +54,54 @@ public class Ambiotic implements IResourceManagerReloadListener {
         gsonbuilder.registerTypeAdapter(Scanner.class, Scanner.STRICT_ADAPTER);
         gsonbuilder.setPrettyPrinting();
     }
+
+    //Mod Logger
+    protected static Logger logger;
+    public static Logger logger() {
+        return Ambiotic.logger;
+    }
+
+    //JS Engine
+    protected static ScriptEngine scripter;
+    public static Object evalJS(String js)
+    {
+        try {
+            return Ambiotic.scripter.eval(js);
+        } catch(ScriptException ex) {
+            Ambiotic.logger().error("Script failed\n"+js+"\n"+ex.getMessage());
+        }
+        return null;
+    }
+
+    //Engine configuration
+    protected static JsonObject enginejson;
+    public static JsonElement engineSection(String section)
+    {
+        if(enginejson == null)
+            return null;
+        if(enginejson.has(section))
+            return enginejson.get(section);
+        return null;
+    }
+    public static Boolean engineBoolean(String name, boolean def)
+    {
+        if(enginejson == null)
+            return def;
+        if(enginejson.has(name))
+            return enginejson.get(name).getAsBoolean();
+        return def;
+    }
+    public static String engineString(String name, String def)
+    {
+        if(enginejson == null)
+            return def;
+        if(enginejson.has(name))
+            return enginejson.get(name).getAsString();
+        return def;
+    }
+
+    //Hack to skip "first" reload, resources are always reloaded twice at startup
+    protected boolean mPastFirstReload = false;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -101,9 +135,17 @@ public class Ambiotic implements IResourceManagerReloadListener {
     }
 
     protected void loadAll() {
-        // Only contiune with load if we pass the pack check
-        if(!passesPackCheck())
+        //Reload engine.json
+        try {
+            Ambiotic.logger().info("Loading engine.json");
+            InputStreamReader reader = null;
+            JsonParser parser = new JsonParser();
+            reader = Helpers.resourceAsStreamReader(new ResourceLocation("ambiotic:engine.json"));
+            enginejson = (parser.parse(reader)).getAsJsonObject();
+        } catch (IOException ex) {
+            Ambiotic.logger().error("Load aborting, could not read engine.json : "+ex.getMessage());
             return;
+        }
 
         //Reset all registries
         ScannerRegistry.INSTANCE.reset();

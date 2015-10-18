@@ -67,39 +67,6 @@ public class VariableRegistry {
         return names;
     }
 
-    protected void loadMacros() {
-        ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/macros.json");
-        JsonArray macroList = null;
-        Ambiotic.logger().info("Reading macros file '"+rl+"'");
-        try {
-            macroList = Helpers.getRootJsonArray(rl);
-        } catch (IOException ex) {
-            Ambiotic.logger().error("Error reading '" + rl + "' : " + ex.getMessage());
-            return;
-        }
-
-        Gson gson = Ambiotic.gson();
-        int macroPos = 0;
-        for(JsonElement element : macroList) {
-            Macro macro = null;
-            String errPrefix = "Skipping macro # " + macroPos + " because ";
-            //Fails strict json
-            try {
-                macro = gson.fromJson(element, Macro.class);
-            } catch (StrictJsonException ex) {
-                Ambiotic.logger().error(errPrefix + " it's invalid : "+ex.getMessage());
-                continue;
-            }
-            if(mMacroLookup.containsKey(macro.name())) {
-                Ambiotic.logger().error(errPrefix + " another is already registered with name '"+macro.name()+"'");
-                continue;
-            }
-            registerMacro(macro);
-            Ambiotic.logger().debug("Loaded variable : \n" + macro);
-            macroPos += 1;
-        }
-    }
-
     public void expandMacroMacros() {
         List<String> broken = new ArrayList<String>();
         for(Macro macro : mMacroLookup.values()) {
@@ -126,22 +93,22 @@ public class VariableRegistry {
     }
 
     public void load() {
-        loadVariables();
-        loadMacros();
+        JsonArray section = Ambiotic.engineSection("Variables").getAsJsonArray();
+        if(section != null)
+            loadVariables(section);
+
+        if(Ambiotic.engineBoolean("DefaultVars", false))
+            loadDefaultVariables();
+
+        section = Ambiotic.engineSection("Macros").getAsJsonArray();
+        if(section != null)
+            loadMacros(section);
+
         expandMacroMacros();
     }
 
-    protected void loadVariables() {
-        ResourceLocation rl = new ResourceLocation(Ambiotic.MODID, "config/variables.json");
-        JsonArray variableList = null;
-        Ambiotic.logger().info("Reading variables file '" + rl + "'");
-        try {
-            variableList = Helpers.getRootJsonArray(rl);
-        } catch (IOException ex) {
-            Ambiotic.logger().error("Error reading '" + rl + "' : " + ex.getMessage());
-            return;
-        }
-
+    protected void loadVariables(JsonArray variableList) {
+        Ambiotic.logger().info("Loading variable definitions");
         //Deserialize and registerVariable each variable
         Gson gson = Ambiotic.gson();
         int variablePos = 0;
@@ -177,6 +144,37 @@ public class VariableRegistry {
             registerVariable(variable);
             Ambiotic.logger().debug("Loaded variable : \n" + variable);
             variablePos += 1;
+        }
+    }
+
+    protected void loadDefaultVariables() {
+        Ambiotic.logger().info("Loading default variable definitions");
+        for(Variable var : Variable.defaults())
+            registerVariable(var);
+    }
+
+    protected void loadMacros(JsonArray macroList) {
+        Ambiotic.logger().info("Loading macro definitions");
+
+        Gson gson = Ambiotic.gson();
+        int macroPos = 0;
+        for(JsonElement element : macroList) {
+            Macro macro = null;
+            String errPrefix = "Skipping macro # " + macroPos + " because ";
+            //Fails strict json
+            try {
+                macro = gson.fromJson(element, Macro.class);
+            } catch (StrictJsonException ex) {
+                Ambiotic.logger().error(errPrefix + " it's invalid : "+ex.getMessage());
+                continue;
+            }
+            if(mMacroLookup.containsKey(macro.name())) {
+                Ambiotic.logger().error(errPrefix + " another is already registered with name '"+macro.name()+"'");
+                continue;
+            }
+            registerMacro(macro);
+            Ambiotic.logger().debug("Loaded variable : \n" + macro);
+            macroPos += 1;
         }
     }
 
