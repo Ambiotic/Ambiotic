@@ -34,8 +34,6 @@ public class CanRainOn extends VariableBool {
         y = (int) player.posY + 2;
         z = (int) player.posZ;
         boolean newValue = (world.canBlockSeeTheSky(x, y, z) && !(world.getTopSolidOrLiquidBlock(x, z) > y)) ? true : false;
-        boolean updated = (mValue != newValue);
-        mValue = newValue;
-        return updated;
+        return setNewValue(newValue);
     }
 }

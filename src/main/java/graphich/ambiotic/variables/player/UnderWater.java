@@ -28,13 +28,9 @@ public class UnderWater extends VariableBool {
         int y = (int)Math.floor(player.posY + player.getEyeHeight());
         int z = (int)Math.floor(player.posZ);
         Block block = Minecraft.getMinecraft().theWorld.getBlock(x,y,z);
-        boolean newValue;
+        boolean newValue = false;
         if(block instanceof BlockLiquid)
             newValue = true;
-        else
-            newValue = false;
-        boolean updated = (newValue != mValue);
-        mValue = newValue;
-        return updated;
+        return setNewValue(newValue);
     }
 }

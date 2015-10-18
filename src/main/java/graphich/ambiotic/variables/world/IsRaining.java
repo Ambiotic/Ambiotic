@@ -28,8 +28,6 @@ public class IsRaining extends VariableBool {
         if(world == null)
             return false;
         boolean newValue = world.getWorldInfo().isRaining() ? true : false;
-        boolean updated = (newValue != mValue);
-        mValue = newValue;
-        return updated;
+        return setNewValue(newValue);
     }
 }

@@ -38,4 +38,10 @@ public  abstract class VariableBool extends Variable {
             return name()+" = true;";
         return name()+" = false;";
     }
+
+    protected boolean setNewValue(boolean newValue) {
+        boolean updated = (mValue != newValue);
+        mValue = newValue;
+        return updated;
+    }
 }

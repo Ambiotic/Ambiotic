@@ -27,10 +27,6 @@ public class InBoat extends VariableBool {
         Entity riding = player.ridingEntity;
         boolean newValue;
         newValue = (riding != null && riding instanceof EntityBoat);
-        if(newValue != mValue) {
-            mValue = newValue;
-            return true;
-        }
-        return false;
+        return setNewValue(newValue);
     }
 }

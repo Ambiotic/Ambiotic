@@ -66,10 +66,7 @@ public class Exposed extends VariableBool {
         if(newValue)
             newValue = slowCheck();
 
-        if(mValue == newValue)
-            return false;
-        mValue = newValue;
-        return true;
+        return setNewValue(newValue);
     }
 
     protected boolean quickCheck() {
