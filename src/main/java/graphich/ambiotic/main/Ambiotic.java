@@ -75,7 +75,7 @@ public class Ambiotic implements IResourceManagerReloadListener {
     }
 
     protected boolean passesPackCheck() {
-        String pack = "ambiotic:ambiotic.json";
+        String pack = "ambiotic:engine.json";
         try {
             ResourceLocation rl = new ResourceLocation(pack);
             InputStreamReader isr = Helpers.resourceAsStreamReader(rl);
