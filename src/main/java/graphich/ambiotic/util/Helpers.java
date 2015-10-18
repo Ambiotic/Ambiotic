@@ -2,7 +2,6 @@ package graphich.ambiotic.util;
 
 import com.google.gson.*;
 import cpw.mods.fml.common.registry.GameData;
-import graphich.ambiotic.main.Ambiotic;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
