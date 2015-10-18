@@ -180,6 +180,16 @@
         },
 
         {
+            "Name" : "Water",
+            "Type" : "BlockCounter",
+            "Scanner" : "LS",
+            "Blocks" : [
+                "minecraft:flowing_water",
+                "minecraft:water"
+            ]
+        },
+
+        {
             "Name" : "Humidity",
             "Type" : "BiomeAverage",
             "Scanner" : "LS",
