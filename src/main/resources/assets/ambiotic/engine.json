@@ -9,7 +9,8 @@
         "ambiotic:emitters/swamp.json",
         "ambiotic:emitters/beach.json",
         "ambiotic:emitters/caves.json",
-        "ambiotic:emitters/forest.json"
+        "ambiotic:emitters/forest.json",
+        "ambiotic:emitters/savanna.json"
     ],
 
     "Scanners" : [
@@ -36,6 +37,12 @@
             "Name" : "IsDay",
             "Type" : "Macro",
             "Code" : "(World.Time >= 500 && World.Time <= 13000)"
+        },
+
+        {
+            "Name" : "BugPlants",
+            "Type" : "Macro",
+            "Code" : "((LS.Grass + LS.Foliage)/LS.Size >= 0.022)"
         },
 
         {

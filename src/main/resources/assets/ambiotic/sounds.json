@@ -150,6 +150,16 @@
             }
         ]
     }, 
+    "bugs.day_inst_hot_biome_bug": {
+        "category": "ambient", 
+        "sounds": [
+            "bugs/day_inst_hot_biome_bug1", 
+            "bugs/day_inst_hot_biome_bug2", 
+            "bugs/day_inst_hot_biome_bug3", 
+            "bugs/day_inst_hot_biome_bug4", 
+            "bugs/day_inst_hot_biome_bug5"
+        ]
+    }, 
     "misc.wind_leaves": {
         "category": "ambient", 
         "sounds": [

@@ -7,7 +7,7 @@ from pprint import PrettyPrinter
 config = {
     "dirmap"   : { "sounds" : "amb" },
     "root"     : "./src/main/resources/assets/ambiotic/sounds",
-    "skipdirs" : ["biome", "birds", "bugs", "wolf"],
+    "skipdirs" : [],
     "jsonfile" : "./src/main/resources/assets/ambiotic/sounds.json"
 }
 

@@ -1,0 +1,18 @@
+[
+    {
+        "Name" : "Cicadas1",
+        "Type" : "Instant",
+        "Sound" : "ambiotic:bugs.day_inst_hot_biome_bug",
+        "Conditions" : "LS.Temperature >= 0.97 && #BugPlants#",
+        "Restrict" : "#UnderGround# || Player.Submerged || LS.Salinity >= 0.1",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "0.15*#Muffle#"
+        },
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min"  : 150,
+            "Max"  : 200
+        }
+    }
+]
