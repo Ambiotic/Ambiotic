@@ -103,19 +103,6 @@ public class Ambiotic implements IResourceManagerReloadListener {
         Ambiotic.logger = event.getModLog();
     }
 
-    protected boolean passesPackCheck() {
-        String pack = "ambiotic:engine.json";
-        try {
-            ResourceLocation rl = new ResourceLocation(pack);
-            InputStreamReader isr = Helpers.resourceAsStreamReader(rl);
-        } catch(IOException ex) {
-            Ambiotic.logger().warn("Cannot read ambiotic.json: no ambiotic information will be loaded.");
-            return false;
-        }
-        //TODO: Actually check min_version / max_version
-        return true;
-    }
-
     @EventHandler
     protected void postInit(FMLPostInitializationEvent event) {
         if(!FMLCommonHandler.instance().getEffectiveSide().isClient())
