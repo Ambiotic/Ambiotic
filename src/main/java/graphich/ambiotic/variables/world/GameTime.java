@@ -34,8 +34,6 @@ public class GameTime extends VariableNumber {
         if(world == null)
             return false;
         float newValue = (world.getWorldInfo().getWorldTime() % mModulus);
-        boolean updated = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
-        mValue = newValue;
-        return updated;
+        return setNewValue(newValue);
     }
 }

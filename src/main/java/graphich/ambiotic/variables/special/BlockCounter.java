@@ -48,9 +48,7 @@ public class BlockCounter extends VariableScanning {
         for (Integer id : mBlockIds) {
             newValue += mScanner.getCount(id);
         }
-        boolean updated = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
-        mValue = newValue;
-        return updated;
+        return setNewValue(newValue);
     }
 
     @Override //VariableScanning

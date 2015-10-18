@@ -55,9 +55,7 @@ public class Coordinate extends VariableNumber {
                 newValue = player.dimension;
                 break;
         }
-        boolean updated = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
-        mValue = newValue;
-        return updated;
+        return setNewValue(newValue);
     }
 
     public enum Coordinates {X, Y, Z, DIM}

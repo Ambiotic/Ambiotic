@@ -41,4 +41,10 @@ public abstract class VariableNumber extends Variable {
     public String initializeJS() {
         return name()+" = "+mInitialValue+";";
     }
+
+    protected boolean setNewValue(double newValue) {
+        boolean updated = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
+        mValue = newValue;
+        return updated;
+    }
 }

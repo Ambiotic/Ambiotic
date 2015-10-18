@@ -37,9 +37,7 @@ public class ThunderStrength extends VariableNumber {
         if(world == null)
             return false;
         float newValue = world.getWeightedThunderStrength(0f) * mScalar;
-        boolean updated = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
-        mValue = newValue;
-        return updated;
+        return setNewValue(newValue);
     }
 
 }

@@ -63,9 +63,7 @@ public class LightLevel extends VariableNumber {
                 newValue = world.getSavedLightValue(EnumSkyBlock.Sky, x, y, z);
                 break;
         }
-        boolean updated = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
-        mValue = newValue;
-        return updated;
+        return setNewValue(newValue);
     }
 
     public enum LightTypes {SUN, LAMP, TOTAL, MAXSUN}

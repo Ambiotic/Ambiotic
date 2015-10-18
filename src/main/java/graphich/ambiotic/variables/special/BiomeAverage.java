@@ -38,9 +38,7 @@ public class BiomeAverage extends VariableScanning {
             case TEMPERATURE: newValue = mScanner.averageTemperature(); break;
             case SALINITY:    newValue = mScanner.averageSalinity(); break;
         }
-        boolean updated = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
-        mValue = newValue;
-        return updated;
+        return setNewValue(newValue);
     }
 
     public enum AverageTypes {HUMIDITY, TEMPERATURE, SALINITY}

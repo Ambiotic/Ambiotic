@@ -29,9 +29,7 @@ public class VerticalVelocity extends VariableNumber {
         if(mLastDim == player.dimension) {
             newValue = (float)Math.ceil(player.posY - mLastY);
         }
-        boolean updated = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
-        mValue = newValue;
         mLastY = player.posY;
-        return updated;
+        return setNewValue(newValue);
     }
 }
