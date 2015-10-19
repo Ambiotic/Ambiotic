@@ -43,9 +43,7 @@
         "category": "ambient", 
         "sounds": [
             "animals/day_inst_crow1", 
-            "animals/day_inst_crow2", 
-            "animals/day_inst_crow3", 
-            "animals/day_inst_crow4"
+            "animals/day_inst_crow2"
         ]
     }, 
     "animals.day_inst_seagulls": {

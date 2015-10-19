@@ -10,7 +10,8 @@
         "ambiotic:emitters/beach.json",
         "ambiotic:emitters/caves.json",
         "ambiotic:emitters/forest.json",
-        "ambiotic:emitters/savanna.json"
+        "ambiotic:emitters/savanna.json",
+        "ambiotic:emitters/plains.json"
     ],
 
     "Scanners" : [

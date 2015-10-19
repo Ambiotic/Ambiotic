@@ -1,0 +1,18 @@
+[
+    {
+        "Name" : "Crows",
+        "Type" : "Instant",
+        "Sound" : "ambiotic:animals.day_inst_crow",
+        "Conditions" : "LS.Temperature >= 0.77 && LS.Temperature <= 0.83 && #BugPlants# && (LS.Foliage/LS.Size) < 0.01",
+        "Restrict" : "#UnderGround# || Player.Submerged || LS.Salinity >= 0.1",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "0.15*#Muffle#"
+        },
+        "CoolDown" : {
+            "Type" : "Random",
+            "Min"  : 500,
+            "Max"  : 1250
+        }
+    }
+]
