@@ -37,7 +37,7 @@
         {
             "Name" : "IsDay",
             "Type" : "Macro",
-            "Code" : "(World.Time >= 500 && World.Time <= 13000)"
+            "Code" : "(World.Time >= 500 && World.Time <= 12500)"
         },
 
         {
