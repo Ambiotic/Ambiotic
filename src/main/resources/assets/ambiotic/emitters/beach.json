@@ -1,16 +1,5 @@
 [
     {
-        "Name" : "BkgBeachWaves",
-        "Type" : "Looping",
-        "Sound" : "ambiotic:bkgs.beach_waves_loop",
-        "Conditions" : "LS.Salinity >= 0.1",
-        "Restrict" : "#UnderGround# || Player.Submerged",
-        "Volume" : {
-            "Type" : "Scripted",
-            "Code" : "0.1*#Muffle#"
-        }
-    },
-    {
         "Name" : "DaySeagulls",
         "Type" : "Instant",
         "Sound" : "ambiotic:animals.day_inst_seagulls",

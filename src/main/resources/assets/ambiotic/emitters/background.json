@@ -1,9 +1,10 @@
 [
     {
-        "Name" : "SwimmingUnderWater",
+        "Name" : "BkgCaves",
         "Type" : "Looping",
-        "Sound" : "ambiotic:bkgs.inst_water_underwater_loop",
-        "Conditions" : "Player.Submerged",
+        "Sound" : "ambiotic:bkgs.cave_loop",
+        "Conditions" : "#UnderGround# && !Player.IsExposed",
+        "Restrict" : "Player.Submerged",
         "Volume" : {
             "Type" : "Constant",
             "Value" : 0.5

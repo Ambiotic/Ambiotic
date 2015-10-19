@@ -8,7 +8,7 @@
 
         "ambiotic:emitters/swamp.json",
         "ambiotic:emitters/beach.json",
-        "ambiotic:emitters/caves.json",
+        "ambiotic:emitters/water.json",
         "ambiotic:emitters/forest.json",
         "ambiotic:emitters/savanna.json",
         "ambiotic:emitters/plains.json"
@@ -43,7 +43,7 @@
         {
             "Name" : "BugPlants",
             "Type" : "Macro",
-            "Code" : "((LS.Grass + LS.Foliage)/LS.Size >= 0.022)"
+            "Code" : "((LS.Grass + LS.Foliage)/LS.Size >= 0.005)"
         },
 
         {

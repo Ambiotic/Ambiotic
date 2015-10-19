@@ -139,6 +139,15 @@
             "bkgs/inst_whistle_wind_loop"
         ]
     }, 
+    "bkgs.lake_river_loop": {
+        "category": "ambient", 
+        "sounds": [
+            {
+                "name": "bkgs/lake_river_loop", 
+                "stream": true
+            }
+        ]
+    }, 
     "bkgs.night_bugs_loop": {
         "category": "ambient", 
         "sounds": [
