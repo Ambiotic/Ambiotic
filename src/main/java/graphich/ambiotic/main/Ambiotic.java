@@ -22,6 +22,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Logger;
+import paulscode.sound.SoundSystemConfig;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -114,6 +115,9 @@ public class Ambiotic implements IResourceManagerReloadListener {
         DebugGui gui = new DebugGui();
         FMLCommonHandler.instance().bus().register(gui);
         MinecraftForge.EVENT_BUS.register(gui);
+        SoundSystemConfig.setNumberStreamingChannels(10);
+        SoundSystemConfig.setNumberNormalChannels(22);
+        Ambiotic.logger().info("Setting normal channels to 22, streaming channels to 10");
     }
 
     protected void loadAll() {

@@ -1,5 +1,17 @@
 [
     {
+        "Name" : "DenseBirdSong",
+        "Type" : "Looping",
+        "Sound" : "ambiotic:bkgs.bird_song_loop",
+        "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature >= 0.50 && LS.Temperature <= 0.78 && #IsDay#",
+        "Restrict" : "#UnderGround# || Player.Submerged",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "0.2*#Muffle#"
+        }
+    },
+
+    {
         "Name" : "NightBirds",
         "Type" : "Instant",
         "Sound" : "ambiotic:animals.night_inst_bird_hoot",

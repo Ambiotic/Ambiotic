@@ -108,6 +108,15 @@
             }
         ]
     }, 
+    "bkgs.bird_song_loop": {
+        "category": "ambient", 
+        "sounds": [
+            {
+                "name": "bkgs/bird_song_loop", 
+                "stream": true
+            }
+        ]
+    }, 
     "bkgs.cave_loop": {
         "category": "ambient", 
         "sounds": [
