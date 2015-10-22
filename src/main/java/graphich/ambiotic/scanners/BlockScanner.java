@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.world.BlockEvent;
 
 import java.util.*;
@@ -51,6 +52,7 @@ public class BlockScanner extends Scanner {
     public float averageSalinity() { return mBiomeSalinity / mVolume; }
     protected transient float mAverageSunLevel = 0;
     public float averageSunLevel() {return mAverageSunLevel / mVolume; }
+    protected transient Map<BiomeDictionary.Type,Integer> mBiomeTypeCounts;
 
     public BlockScanner(String name, int blocksPerTick, int xsize, int ysize, int zsize) {
         mBlocksPerTick = blocksPerTick;
@@ -83,6 +85,7 @@ public class BlockScanner extends Scanner {
             mBlocksPerTick = (mXSize*mZSize*mYSize)/4;
         //Nonserialized stuff must be initialized
         mCounts = new HashMap<Integer, Integer>();
+        mBiomeTypeCounts = new HashMap<BiomeDictionary.Type, Integer>();
         mScanFinished = false;
         mLastDimension = 0;
         mLastX = 0;
@@ -119,41 +122,51 @@ public class BlockScanner extends Scanner {
         }
     }
 
+    protected void resetBiomeTypeCounts() {
+        for(BiomeDictionary.Type type : BiomeDictionary.Type.values()) {
+            mBiomeTypeCounts.put(type, 0);
+        }
+    }
+
     protected void resetBlockCounts() {
         for (int blockId : mCounts.keySet()) {
             mCounts.put(blockId, 0);
         }
     }
 
-    protected void updateAverages(Point point, boolean subtract) {
-        int x,y,z;
+    protected void updateBiomeAverages(Point point, boolean subtract) {
+
+        int x,y,z,sign;
         if(point == null)
             return;
+
+        sign = 1;
+        if(subtract)
+            sign = -1;
+
         x = point.x;
         y = point.y;
         z = point.z;
+
         BiomeGenBase base = Minecraft.getMinecraft().theWorld.getBiomeGenForCoords(x,z);
-        String name = base.biomeName.toLowerCase();
-        float t = base.getFloatTemperature(x,y,z);
-        float r = base.getFloatRainfall();
-        float s = 0.0f;
-        float l = Minecraft.getMinecraft().theWorld.getSavedLightValue(EnumSkyBlock.Sky, x, y, z);
-        if(name.contains("ocean") || name.contains("beach"))
-            s = 1.0f;
-        if(subtract)
-        {
-            mBiomeHumiditySum -= r;
-            mBiomeTemperatureSum -= t;
-            mBiomeSalinity -= s;
-            mAverageSunLevel -= l;
+
+        float temp = sign*base.getFloatTemperature(x,y,z);
+        float humidity = sign*base.getFloatRainfall();
+        float salinity = 0.0f;
+        float maxsun = sign*Minecraft.getMinecraft().theWorld.getSavedLightValue(EnumSkyBlock.Sky, x, y, z);
+
+        //Update Type counts
+        for(BiomeDictionary.Type type : BiomeDictionary.getTypesForBiome(base)) {
+            addToBiomeTypeCount(type, sign * 1);
+            if(type == BiomeDictionary.Type.BEACH || type == BiomeDictionary.Type.OCEAN)
+                salinity += 1;
         }
-        else
-        {
-            mBiomeHumiditySum += r;
-            mBiomeTemperatureSum += t;
-            mBiomeSalinity += s;
-            mAverageSunLevel += l;
-        }
+
+        //Update characteristic counts
+        mBiomeHumiditySum += sign*humidity;
+        mBiomeTemperatureSum += sign*temp;
+        mBiomeSalinity += sign*salinity;
+        mAverageSunLevel += sign*maxsun;
     }
 
     protected void updateScan(Cuboid newVolume, Cuboid oldVolume, Cuboid intersect) {
@@ -164,16 +177,16 @@ public class BlockScanner extends Scanner {
         // Subtract out of range blocks
         while (point != null) {
             int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
-            addToCount(blockId,-1);
+            addToCount(blockId, -1);
             point = newOutOfRange.next();
-            updateAverages(point, true);
+            updateBiomeAverages(point, true);
         }
         point = newInRange.next();
         while (point != null) {
             int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
             addToCount(blockId,1);
             point = newInRange.next();
-            updateAverages(point, false);
+            updateBiomeAverages(point, false);
         }
         mScanFinished = true;
     }
@@ -201,7 +214,7 @@ public class BlockScanner extends Scanner {
             int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
             addToCount(blockId,1);
             point = mFullRange.next();
-            updateAverages(point, false);
+            updateBiomeAverages(point, false);
         }
         if (point == null) {
             mScanFinished = true;
@@ -232,9 +245,17 @@ public class BlockScanner extends Scanner {
         mScanFinished = false;
         mFullRange = new CuboidPointIterator(getVolumeFor(mLastX, mLastY, mLastZ));
         resetBlockCounts();
+        resetBiomeTypeCounts();
         mBiomeTemperatureSum = 0;
         mBiomeHumiditySum = 0;
         mBiomeSalinity = 0;
+    }
+
+    protected void addToBiomeTypeCount(BiomeDictionary.Type type, Integer count) {
+        int c = mBiomeTypeCounts.get(type);
+        c += count;
+        if(c < 0) mBiomeTypeCounts.put(type,0);
+        else mBiomeTypeCounts.put(type, c);
     }
 
     protected void addToCount(Integer  blockId, Integer count) {
@@ -339,7 +360,7 @@ public class BlockScanner extends Scanner {
         //Fake player means leaf decay / environmental cause
         if(event.harvester != Minecraft.getMinecraft().thePlayer) {
             int blockId = Block.getIdFromBlock(event.block);
-            addToCount(blockId,-1);
+            addToCount(blockId, -1);
             addToCount(0, 1);
         }
     }

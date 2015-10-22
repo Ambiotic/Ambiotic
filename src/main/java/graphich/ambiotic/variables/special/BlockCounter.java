@@ -53,8 +53,8 @@ public class BlockCounter extends VariableScanning {
 
     @Override //VariableScanning
     public void linkToScanner(BlockScanner scanner) {
-        mScanner = scanner;
-        mScannerName = scanner.name();
+        super.linkToScanner(scanner);
+
         mBlockIds.clear();
         mBadBlockSpecs.clear();
 

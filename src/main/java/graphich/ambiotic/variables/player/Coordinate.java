@@ -26,7 +26,7 @@ public class Coordinate extends VariableNumber {
     public void validate() throws StrictJsonException {
         super.validate();
         if(mCoordinate == null)
-            throw new  StrictJsonException("No SubType specified, valid subtypes are X, Y, Z or DIM");
+            throw new StrictJsonException("SubType is required and must be one of "+Coordinates.names);
     }
 
     @Override //IStrictJson
@@ -58,6 +58,9 @@ public class Coordinate extends VariableNumber {
         return setNewValue(newValue);
     }
 
-    public enum Coordinates {X, Y, Z, DIM}
+    public enum Coordinates {
+        X, Y, Z, DIM;
+        public static final String names = "X, Y, Z, DIM";
+    }
 
 }

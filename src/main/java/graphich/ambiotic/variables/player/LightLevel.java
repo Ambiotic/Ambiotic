@@ -34,7 +34,7 @@ public class LightLevel extends VariableNumber {
     public void validate() throws StrictJsonException {
         super.validate();
         if(mType == null)
-            throw new StrictJsonException("No SubType specified, valid subtypes are SUN, LAMP, TOTAL, or MAXSUN");
+            throw new StrictJsonException("SubType is required and must be one of "+LightTypes.names);
     }
 
     @Override //IVariable
@@ -66,5 +66,8 @@ public class LightLevel extends VariableNumber {
         return setNewValue(newValue);
     }
 
-    public enum LightTypes {SUN, LAMP, TOTAL, MAXSUN}
+    public enum LightTypes {
+        SUN, LAMP, TOTAL, MAXSUN;
+        public static final String names = " SUN, LAMP, TOTAL, MAXSUN";
+    }
 }

@@ -3,6 +3,7 @@ package graphich.ambiotic.variables.special;
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import graphich.ambiotic.scanners.BlockScanner;
+import graphich.ambiotic.util.StrictJsonException;
 import graphich.ambiotic.variables.VariableScanning;
 
 public class BiomeAverage extends VariableScanning {
@@ -16,16 +17,16 @@ public class BiomeAverage extends VariableScanning {
     }
 
     @Override //IStrictJson
+    public void validate() throws StrictJsonException {
+        super.validate();
+        if(mType == null)
+            throw new StrictJsonException("SubType is required and must be one of "+AverageTypes.names);
+    }
+
+    @Override //IStrictJson
     public void initialize() {
         super.initialize();
         mNameSpace = mScannerName;
-    }
-
-    @Override
-    public void linkToScanner(BlockScanner scanner) {
-        mScanner = scanner;
-        mScannerName = scanner.name();
-        mNameSpace = scanner.name();
     }
 
     @Override //IVariable
@@ -42,5 +43,8 @@ public class BiomeAverage extends VariableScanning {
         return setNewValue(newValue);
     }
 
-    public enum AverageTypes {HUMIDITY, TEMPERATURE, SALINITY, MAXSUN}
+    public enum AverageTypes {
+        HUMIDITY, TEMPERATURE, SALINITY, MAXSUN;
+        public static String names = "HUMIDITY, TEMPERATURE, SALINITY, MAXSUN";
+    }
 }

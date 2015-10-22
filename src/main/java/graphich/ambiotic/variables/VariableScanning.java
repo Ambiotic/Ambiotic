@@ -13,8 +13,7 @@ public abstract class VariableScanning extends VariableNumber {
 
     public VariableScanning(String name, BlockScanner scanner) {
         super(name);
-        mScanner = scanner;
-        mScannerName = scanner.name();
+        linkToScanner(scanner);
         initialize();
     }
     @Override //IStrictJson
@@ -31,7 +30,11 @@ public abstract class VariableScanning extends VariableNumber {
         mNameSpace = mScannerName;
     }
 
-    public abstract void linkToScanner(BlockScanner scanner);
+    public void linkToScanner(BlockScanner scanner) {
+        mScanner = scanner;
+        mScannerName = scanner.name();
+        mNameSpace = scanner.name();
+    }
 
     public String getScannerName() {
         return mScannerName;
