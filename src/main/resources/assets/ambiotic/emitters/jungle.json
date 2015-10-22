@@ -1,0 +1,13 @@
+[
+    {
+        "Name" : "JungleDay",
+        "Type" : "Looping",
+        "Sound" : "ambiotic:bkgs.day_jungle_loop",
+        "Conditions" : "LS.Temperature >= 0.77 && LS.Temperature < 0.83 && LS.Humidity >= 0.83 && LS.Humidity < 0.89 && #IsDay#",
+        "Restrict" : "#UnderGround# || Player.Submerged",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "0.05*#Muffle#"
+        }
+    }
+]
