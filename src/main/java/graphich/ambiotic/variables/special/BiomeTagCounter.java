@@ -26,7 +26,8 @@ public class BiomeTagCounter extends VariableScanning {
 
     @Override
     public boolean updateValue(TickEvent event) {
-        return false;
+        float newValue = mScanner.biomeTagCount(mTag);
+        return setNewValue(newValue);
     }
 
     protected static String tagnames;
