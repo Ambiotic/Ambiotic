@@ -150,10 +150,10 @@ public class BlockScanner extends Scanner {
 
         BiomeGenBase base = Minecraft.getMinecraft().theWorld.getBiomeGenForCoords(x,z);
 
-        float temp = sign*base.getFloatTemperature(x,y,z);
-        float humidity = sign*base.getFloatRainfall();
+        float temp = base.getFloatTemperature(x,y,z);
+        float humidity = base.getFloatRainfall();
         float salinity = 0.0f;
-        float maxsun = sign*Minecraft.getMinecraft().theWorld.getSavedLightValue(EnumSkyBlock.Sky, x, y, z);
+        float maxsun = Minecraft.getMinecraft().theWorld.getSavedLightValue(EnumSkyBlock.Sky, x, y, z);
 
         //Update Type counts
         for(BiomeDictionary.Type type : BiomeDictionary.getTypesForBiome(base)) {
