@@ -52,7 +52,8 @@ public class BlockScanner extends Scanner {
     public float averageSalinity() { return mBiomeSalinity / mVolume; }
     protected transient float mAverageSunLevel = 0;
     public float averageSunLevel() {return mAverageSunLevel / mVolume; }
-    protected transient Map<BiomeDictionary.Type,Integer> mBiomeTypeCounts;
+    protected transient Map<BiomeDictionary.Type,Integer> mBiomeTagCounts;
+    public int biomeTagCount(BiomeDictionary.Type type) {return mBiomeTagCounts.get(type); }
 
     public BlockScanner(String name, int blocksPerTick, int xsize, int ysize, int zsize) {
         mBlocksPerTick = blocksPerTick;
@@ -85,7 +86,8 @@ public class BlockScanner extends Scanner {
             mBlocksPerTick = (mXSize*mZSize*mYSize)/4;
         //Nonserialized stuff must be initialized
         mCounts = new HashMap<Integer, Integer>();
-        mBiomeTypeCounts = new HashMap<BiomeDictionary.Type, Integer>();
+        mBiomeTagCounts = new HashMap<BiomeDictionary.Type, Integer>();
+        resetBiomeTypeCounts();
         mScanFinished = false;
         mLastDimension = 0;
         mLastX = 0;
@@ -124,7 +126,7 @@ public class BlockScanner extends Scanner {
 
     protected void resetBiomeTypeCounts() {
         for(BiomeDictionary.Type type : BiomeDictionary.Type.values()) {
-            mBiomeTypeCounts.put(type, 0);
+            mBiomeTagCounts.put(type, 0);
         }
     }
 
@@ -157,7 +159,7 @@ public class BlockScanner extends Scanner {
 
         //Update Type counts
         for(BiomeDictionary.Type type : BiomeDictionary.getTypesForBiome(base)) {
-            addToBiomeTypeCount(type, sign * 1);
+            addToBiomeTagCount(type, sign * 1);
             if(type == BiomeDictionary.Type.BEACH || type == BiomeDictionary.Type.OCEAN)
                 salinity += 1;
         }
@@ -251,19 +253,23 @@ public class BlockScanner extends Scanner {
         mBiomeSalinity = 0;
     }
 
-    protected void addToBiomeTypeCount(BiomeDictionary.Type type, Integer count) {
-        int c = mBiomeTypeCounts.get(type);
+    protected void addToBiomeTagCount(BiomeDictionary.Type type, Integer count) {
+        int c = mBiomeTagCounts.get(type);
         c += count;
-        if(c < 0) mBiomeTypeCounts.put(type,0);
-        else mBiomeTypeCounts.put(type, c);
+        //Correct "drift"
+        if(c < 0) c = 0;
+        else if(c > mVolume) c = mVolume;
+        mBiomeTagCounts.put(type, c);
     }
 
     protected void addToCount(Integer  blockId, Integer count) {
         if(mCounts.containsKey(blockId)) {
             int c = mCounts.get(blockId);
             c += count;
-            if(c < 0) mCounts.put(blockId,0);
-            else mCounts.put(blockId,c);
+            //Correct "drift"
+            if(c < 0) c = 0;
+            else if(c > mVolume) c = mVolume;
+            mCounts.put(blockId,c);
         }
     }
 
