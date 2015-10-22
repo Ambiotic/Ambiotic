@@ -16,7 +16,7 @@
         "Type" : "Looping",
         "Sound" : "ambiotic:bkgs.day_bugs_loop",
         "Conditions" : "LS.Temperature >= 0.5 && LS.Temperature < 1.80 && #IsDay# && #BugPlants#",
-        "Restrict" : "#UnderGround# || Player.Submerged ||  LS.Salinity >= 0.1",
+        "Restrict" : "#UnderGround# || Player.Submerged ||  LS.Salinity >= 0.1 || #IsJungle#",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.1*#Muffle#"
@@ -28,7 +28,7 @@
         "Type" : "Looping",
         "Sound" : "ambiotic:bkgs.night_bugs_loop",
         "Conditions" : "LS.Temperature >= 0.5 && LS.Temperature < 1.80 && #BugPlants#",
-        "Restrict" : "#UnderGround# || Player.Submerged || #IsDay#  ||  LS.Salinity >= 0.1",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsDay#  ||  LS.Salinity >= 0.1 || #IsJungle#",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.1*#Muffle#"

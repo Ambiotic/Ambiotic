@@ -135,6 +135,15 @@
             }
         ]
     }, 
+    "bkgs.day_jungle_loop": {
+        "category": "ambient", 
+        "sounds": [
+            {
+                "name": "bkgs/day_jungle_loop", 
+                "stream": true
+            }
+        ]
+    }, 
     "bkgs.inst_rain_loop": {
         "category": "ambient", 
         "sounds": [
@@ -167,6 +176,15 @@
         "sounds": [
             {
                 "name": "bkgs/night_bugs_loop", 
+                "stream": true
+            }
+        ]
+    }, 
+    "bkgs.night_jungle_loop": {
+        "category": "ambient", 
+        "sounds": [
+            {
+                "name": "bkgs/night_jungle_loop", 
                 "stream": true
             }
         ]

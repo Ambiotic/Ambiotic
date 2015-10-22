@@ -3,8 +3,20 @@
         "Name" : "JungleDay",
         "Type" : "Looping",
         "Sound" : "ambiotic:bkgs.day_jungle_loop",
-        "Conditions" : "LS.Temperature >= 0.77 && LS.Temperature < 0.83 && LS.Humidity >= 0.83 && LS.Humidity < 0.89 && #IsDay#",
+        "Conditions" : "#IsJungle# && #IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "0.05*#Muffle#"
+        }
+    },
+
+    {
+        "Name" : "JungleNight",
+        "Type" : "Looping",
+        "Sound" : "ambiotic:bkgs.night_jungle_loop",
+        "Conditions" : "#IsJungle#",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsDay#",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.05*#Muffle#"

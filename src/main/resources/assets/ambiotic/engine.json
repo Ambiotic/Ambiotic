@@ -11,7 +11,8 @@
         "ambiotic:emitters/water.json",
         "ambiotic:emitters/forest.json",
         "ambiotic:emitters/savanna.json",
-        "ambiotic:emitters/plains.json"
+        "ambiotic:emitters/plains.json",
+        "ambiotic:emitters/jungle.json"
     ],
 
     "Scanners" : [
@@ -30,38 +31,6 @@
             "YSize" : 100,
             "ZSize" : 3,
             "YStartsAtPlayer" : true
-        }
-    ],
-
-    "Macros" : [
-        {
-            "Name" : "IsDay",
-            "Type" : "Macro",
-            "Code" : "(World.Time >= 500 && World.Time <= 12500)"
-        },
-
-        {
-            "Name" : "BugPlants",
-            "Type" : "Macro",
-            "Code" : "((LS.Grass + LS.Foliage)/LS.Size >= 0.005)"
-        },
-
-        {
-            "Name" : "Muffle",
-            "Type" : "Macro",
-            "Code" : "(Player.IsExposed ? 1.0 : .05)"
-        },
-
-        {
-            "Name" : "ColdArea",
-            "Type" : "Macro",
-            "Code" : "LS.ColdBlocks >= 200"
-        },
-
-        {
-            "Name" : "UnderGround",
-            "Type" : "Macro",
-            "Code" : "LS.Air/LS.Size < 0.50 && Column.Air/Column.Size < 0.50 && LS.SunLevel < 4.0"
         }
     ],
 
@@ -142,6 +111,27 @@
                 "minecraft:daylight_detector_inverted"
             ],
             "TicksPerUpdate" : 5
+        },
+
+        {
+            "Name" : "JungleTags",
+            "Type" : "BiomeTagCounter",
+            "Scanner" : "LS",
+            "Tag" : "JUNGLE"
+        },
+
+        {
+            "Name" : "ConiferousTags",
+            "Type" : "BiomeTagCounter",
+            "Scanner" : "LS",
+            "Tag" : "CONIFEROUS"
+        },
+
+        {
+            "Name" : "SavannaTags",
+            "Type" : "BiomeTagCounter",
+            "Scanner" : "LS",
+            "Tag" : "SAVANNA"
         },
 
         {
@@ -232,6 +222,50 @@
             "Blocks" : [
                 "minecraft:air"
             ]
+        }
+    ],
+
+    "Macros" : [
+        {
+            "Name" : "IsDay",
+            "Type" : "Macro",
+            "Code" : "(World.Time >= 500 && World.Time <= 12500)"
+        },
+
+        {
+            "Name" : "BugPlants",
+            "Type" : "Macro",
+            "Code" : "((LS.Grass + LS.Foliage)/LS.Size >= 0.005)"
+        },
+
+        {
+            "Name" : "Muffle",
+            "Type" : "Macro",
+            "Code" : "(Player.IsExposed ? 1.0 : .05)"
+        },
+
+        {
+            "Name" : "UnderGround",
+            "Type" : "Macro",
+            "Code" : "LS.Air/LS.Size < 0.50 && Column.Air/Column.Size < 0.50 && LS.SunLevel < 4.0"
+        },
+
+        {
+            "Name" : "IsJungle",
+            "Type" : "Macro",
+            "Code" : "LS.JungleTags/LS.Size >= 0.70"
+        },
+
+        {
+            "Name" : "IsConiferous",
+            "Type" : "Macro",
+            "Code" : "LS.ConiferousTags/LS.Size >= 0.70"
+        },
+
+        {
+            "Name" : "IsSavanna",
+            "Type" : "Macro",
+            "Code" : "LS.SavannaTags/LS.Size >= 0.70"
         }
     ]
 }
