@@ -251,6 +251,7 @@ public class BlockScanner extends Scanner {
         mBiomeTemperatureSum = 0;
         mBiomeHumiditySum = 0;
         mBiomeSalinity = 0;
+        mAverageSunLevel = 0;
     }
 
     protected void addToBiomeTagCount(BiomeDictionary.Type type, Integer count) {
