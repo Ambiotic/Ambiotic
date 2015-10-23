@@ -22,15 +22,6 @@
             "XSize" : 32,
             "YSize" : 16,
             "ZSize" : 32
-        },
-
-        {
-            "Type" : "BlockScanner",
-            "Name" : "Column",
-            "XSize" : 3,
-            "YSize" : 100,
-            "ZSize" : 3,
-            "YStartsAtPlayer" : true
         }
     ],
 
@@ -220,15 +211,6 @@
             "Type" : "BiomeAverage",
             "Scanner" : "LS",
             "SubType" : "MAXSUN"
-        },
-
-        {
-            "Name" : "Air",
-            "Type" : "BlockCounter",
-            "Scanner" : "Column",
-            "Blocks" : [
-                "minecraft:air"
-            ]
         }
     ],
 
