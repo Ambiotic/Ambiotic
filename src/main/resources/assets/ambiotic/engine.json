@@ -12,7 +12,8 @@
         "ambiotic:emitters/forest.json",
         "ambiotic:emitters/savanna.json",
         "ambiotic:emitters/plains.json",
-        "ambiotic:emitters/jungle.json"
+        "ambiotic:emitters/jungle.json",
+        "ambiotic:emitters/coldforest.json"
     ],
 
     "Scanners" : [

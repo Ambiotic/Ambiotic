@@ -4,7 +4,7 @@
         "Type" : "Looping",
         "Sound" : "ambiotic:bkgs.bird_song_loop",
         "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature >= 0.50 && LS.Temperature <= 0.78 && #IsDay#",
-        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle#",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || #IsConiferous#",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.2*#Muffle#"
@@ -72,7 +72,7 @@
         "Type" : "Instant",
         "Sound" : "ambiotic:misc.wind_leaves",
         "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature <= 0.78",
-        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle#",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || #IsConiferous#",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.05*#Muffle#"
@@ -89,7 +89,7 @@
         "Type" : "Instant",
         "Sound" : "ambiotic:misc.wind_leaves",
         "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature <= 0.78",
-        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle#",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || #IsConiferous#",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.2*#Muffle#"

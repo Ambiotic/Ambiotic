@@ -1,0 +1,13 @@
+[
+    {
+        "Name" : "ConifersWind",
+        "Type" : "Looping",
+        "Sound" : "ambiotic:bkgs.conifer_wind_loop",
+        "Conditions" : "#IsConiferous#",
+        "Restrict" : "#UnderGround# || Player.Submerged",
+        "Volume" : {
+            "Type" : "Scripted",
+            "Code" : "0.35*#Muffle#"
+        }
+    }
+]
