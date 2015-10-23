@@ -3,7 +3,7 @@
         "Name" : "NightSwampAnimals",
         "Type" : "Instant",
         "Sound" : "ambiotic:animals.night_fade_frog",
-        "Conditions" : "LS.Temperature >= 0.75 && LS.Temperature < 0.81 && LS.Humidity >= 0.86 && LS.Humidity < 0.92",
+        "Conditions" : "LS.Temperature >= 0.75 && #IsSwamp#",
         "Restrict" : "#UnderGround# || Player.Submerged || #IsDay# || LS.Water < 100",
         "CoolDown" : {
             "Type" : "Random",
@@ -20,7 +20,7 @@
         "Name" : "DaySwampAnimals",
         "Type" : "Instant",
         "Sound" : "ambiotic:animals.day_fade_frog_bird_mix",
-        "Conditions" : "LS.Temperature >= 0.75 && LS.Temperature < 0.81 && LS.Humidity >= 0.86 && LS.Humidity < 0.92 && #IsDay#",
+        "Conditions" : "LS.Temperature >= 0.75 && #IsSwamp# && #IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged || LS.Water < 100",
         "CoolDown" : {
             "Type" : "Random",

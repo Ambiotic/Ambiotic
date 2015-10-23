@@ -3,7 +3,7 @@
         "Name" : "Cicadas1",
         "Type" : "Instant",
         "Sound" : "ambiotic:bugs.day_hot_biome_bug",
-        "Conditions" : "LS.Temperature >= 0.97 && #BugPlants# && #IsDay# && #Is",
+        "Conditions" : "LS.Temperature >= 0.97 && #BugPlants# && #IsDay# && #IsSavanna#",
         "Restrict" : "#UnderGround# || Player.Submerged || LS.Salinity >= 0.1",
         "Volume" : {
             "Type" : "Scripted",

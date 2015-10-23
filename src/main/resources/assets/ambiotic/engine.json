@@ -135,6 +135,13 @@
         },
 
         {
+            "Name" : "SwampTags",
+            "Type" : "BiomeTagCounter",
+            "Scanner" : "LS",
+            "Tag" : "SWAMP"
+        },
+
+        {
             "Name" : "Foliage",
             "Type" : "BlockCounter",
             "Scanner" : "LS",
@@ -247,25 +254,31 @@
         {
             "Name" : "UnderGround",
             "Type" : "Macro",
-            "Code" : "LS.Air/LS.Size < 0.50 && Column.Air/Column.Size < 0.50 && LS.SunLevel < 4.0"
+            "Code" : "Player.Y < 65 && LS.SunLevel < 4.0"
         },
 
         {
             "Name" : "IsJungle",
             "Type" : "Macro",
-            "Code" : "LS.JungleTags/LS.Size >= 0.70"
+            "Code" : "LS.JungleTags/LS.Size >= 0.60"
         },
 
         {
             "Name" : "IsConiferous",
             "Type" : "Macro",
-            "Code" : "LS.ConiferousTags/LS.Size >= 0.70"
+            "Code" : "LS.ConiferousTags/LS.Size >= 0.60"
         },
 
         {
             "Name" : "IsSavanna",
             "Type" : "Macro",
-            "Code" : "LS.SavannaTags/LS.Size >= 0.70"
+            "Code" : "LS.SavannaTags/LS.Size >= 0.60"
+        },
+
+        {
+            "Name" : "IsSwamp",
+            "Type" : "Macro",
+            "Code" : "LS.SwampTags/LS.Size >= 0.60"
         }
     ]
 }
