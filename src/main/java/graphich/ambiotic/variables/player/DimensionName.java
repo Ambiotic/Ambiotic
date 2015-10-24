@@ -9,6 +9,7 @@ public class DimensionName extends VariableString {
 
     public DimensionName(String name) {
         super(name);
+        initialize();
     }
 
     @Override //IStrictJson
