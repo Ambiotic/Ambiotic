@@ -6,6 +6,8 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import graphich.ambiotic.emitters.SoundEmitter;
 import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.scanners.Scanner;
@@ -15,12 +17,18 @@ import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.util.ShowOreDictCommand;
 import graphich.ambiotic.variables.Variable;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import org.apache.logging.log4j.Logger;
 import paulscode.sound.SoundSystemConfig;
 
@@ -69,6 +77,12 @@ public class Ambiotic implements IResourceManagerReloadListener {
         return null;
     }
 
+
+    //Message to notify player about resource pack needed
+    protected static String playernote =
+        "Ambiotic: no engine has been loaded\n" +
+        "You may need an ambiotic resource pack\n"+
+        "Or your ambiotic resource pack maybe corrupt (check logs)\n";
     //Engine configuration
     protected static JsonObject enginejson;
     public static JsonElement engineSection(String section)
@@ -114,6 +128,7 @@ public class Ambiotic implements IResourceManagerReloadListener {
         ClientCommandHandler.instance.registerCommand(new ShowOreDictCommand());
         DebugGui gui = new DebugGui();
         FMLCommonHandler.instance().bus().register(gui);
+        MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(gui);
         SoundSystemConfig.setNumberStreamingChannels(10);
         SoundSystemConfig.setNumberNormalChannels(22);
@@ -177,5 +192,19 @@ public class Ambiotic implements IResourceManagerReloadListener {
             return;
         }
         loadAll();
+    }
+
+    @SubscribeEvent
+    public void playerJoin(EntityJoinWorldEvent event) {
+        if(!(event.entity instanceof EntityClientPlayerMP))
+            return;
+        if(!playernote.equals("") && enginejson == null) {
+            EntityClientPlayerMP player = (EntityClientPlayerMP)event.entity;
+            for(String line : playernote.split("\n")) {
+                player.addChatMessage(new ChatComponentText(line));
+            }
+            playernote = "";
+            MinecraftForge.EVENT_BUS.unregister(this);
+        }
     }
 }
