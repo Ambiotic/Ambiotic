@@ -46,18 +46,12 @@ processResources {
     }
 }
 
-//Don't include the pack file for res pack
-jar {
-    exclude 'pack.mcmeta'
-}
-
 // Builds jar without resources for mod packs with custom
 // resource packs
 task skinnyjar(type: Jar, dependsOn: 'reobf') {
     appendix = "skinny"
     from (zipTree(jar.archivePath)) {
         exclude "assets/**"
-        exclude "pack.mcmeta"
     }
 }
 
