@@ -27,10 +27,7 @@ public abstract class Variable implements IVariable, IStrictJson {
 
     protected transient String mNameSpace;
 
-    public Variable(String name) {
-        mName = name;
-        initialize(); //Call initialize function
-    }
+    public Variable(String name) { mName = name; }
 
     @Override //IStrictJson
     public void validate() throws StrictJsonException {

@@ -14,8 +14,8 @@ public abstract class VariableScanning extends VariableNumber {
     public VariableScanning(String name, BlockScanner scanner) {
         super(name);
         linkToScanner(scanner);
-        initialize();
     }
+
     @Override //IStrictJson
     public void validate() throws StrictJsonException {
         super.validate();
