@@ -2,7 +2,9 @@ package graphich.ambiotic.variables;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.IScripted;
 import graphich.ambiotic.util.IStrictJson;
 import graphich.ambiotic.util.StrictJsonException;
@@ -78,4 +80,10 @@ public class Macro implements IScripted, IStrictJson {
 
     @Override
     public void initialize() {;}
+
+    @Override //Object
+    public String toString() {
+        Gson gson = Ambiotic.gson();
+        return gson.toJson(gson.toJsonTree(this));
+    }
 }
