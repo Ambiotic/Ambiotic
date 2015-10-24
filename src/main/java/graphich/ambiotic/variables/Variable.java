@@ -87,6 +87,7 @@ public abstract class Variable implements IVariable, IStrictJson {
         types.put("UnderWater", UnderWater.class);
         types.put("VerticalVelocity",VerticalVelocity.class);
         types.put("InBoat", InBoat.class);
+        types.put("DimName", DimensionName.class);
         //World var types
         types.put("GameTime", GameTime.class);
         types.put("IsRaining", IsRaining.class);
@@ -108,6 +109,9 @@ public abstract class Variable implements IVariable, IStrictJson {
         defs.add(new Coordinate("Y", Coordinate.Coordinates.Y));
         var = new VerticalVelocity("dY");
         var.mTicksPerUpdate = 5;
+        defs.add(var);
+        var = new DimensionName("DIMName");
+        var.mTicksPerUpdate = 50;
         defs.add(var);
         defs.add(new Coordinate("X", Coordinate.Coordinates.X));
         defs.add(new Coordinate("Z", Coordinate.Coordinates.Z));
