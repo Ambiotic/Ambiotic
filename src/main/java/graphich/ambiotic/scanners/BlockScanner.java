@@ -3,6 +3,7 @@ package graphich.ambiotic.scanners;
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.StrictJsonException;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -178,17 +179,21 @@ public class BlockScanner extends Scanner {
         World world =  Minecraft.getMinecraft().theWorld;
         // Subtract out of range blocks
         while (point != null) {
-            int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
-            addToCount(blockId, -1);
+            if(point.y > 0) {
+                int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
+                addToCount(blockId, -1);
+                updateBiomeAverages(point, true);
+            }
             point = newOutOfRange.next();
-            updateBiomeAverages(point, true);
         }
         point = newInRange.next();
         while (point != null) {
-            int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
-            addToCount(blockId,1);
+            if(point.y > 0) {
+                int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
+                addToCount(blockId, 1);
+                updateBiomeAverages(point, true);
+            }
             point = newInRange.next();
-            updateBiomeAverages(point, false);
         }
         mScanFinished = true;
     }
@@ -211,12 +216,12 @@ public class BlockScanner extends Scanner {
 
         while (point != null && checked < mBlocksPerTick) {
             checked++;
-            if(point.y <= 0)
-                continue;
-            int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
-            addToCount(blockId,1);
+            if(point.y > 0) {
+                int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
+                addToCount(blockId, 1);
+                updateBiomeAverages(point, false);
+            }
             point = mFullRange.next();
-            updateBiomeAverages(point, false);
         }
         if (point == null) {
             mScanFinished = true;
