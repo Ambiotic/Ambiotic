@@ -39,6 +39,13 @@ public class CuboidPointIterator extends Cuboid implements IPointIterator {
     }
 
     @Override
+    public Point peek() {
+        if(mCurrent.x >= mMax.x)
+            return null;
+        return new Point(mCurrent);
+    }
+
+    @Override
     public void reset() {
         mCurrent = new Point(mMin);
     }

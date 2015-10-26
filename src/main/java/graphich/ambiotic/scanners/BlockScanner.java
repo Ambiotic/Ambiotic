@@ -54,7 +54,7 @@ public class BlockScanner extends Scanner {
     protected transient float mAverageSunLevel = 0;
     public float averageSunLevel() {return mAverageSunLevel / mVolume; }
     protected transient Map<BiomeDictionary.Type,Integer> mBiomeTagCounts;
-    public int biomeTagCount(BiomeDictionary.Type type) {return mBiomeTagCounts.get(type); }
+    public int biomeTagCount(BiomeDictionary.Type type) { return mBiomeTagCounts.get(type); }
 
     public BlockScanner(String name, int blocksPerTick, int xsize, int ysize, int zsize) {
         mBlocksPerTick = blocksPerTick;
@@ -209,19 +209,25 @@ public class BlockScanner extends Scanner {
     }
 
     protected void continueFullScan() {
-        Point point = mFullRange.next();
+        Point point = mFullRange.peek();
         int checked = 0;
 
         World world = Minecraft.getMinecraft().theWorld;
 
         while (point != null && checked < mBlocksPerTick) {
-            checked++;
-            if(point.y > 0) {
+            // Chunk not loaded we need to skip this tick
+            if (!world.getChunkFromBlockCoords(point.x, point.z).isChunkLoaded) {
+                return;
+            }
+            if (point.y > 0) {
                 int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
                 addToCount(blockId, 1);
                 updateBiomeAverages(point, false);
             }
-            point = mFullRange.next();
+
+            checked++;
+            mFullRange.next();
+            point = mFullRange.peek();
         }
         if (point == null) {
             mScanFinished = true;

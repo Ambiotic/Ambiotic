@@ -80,6 +80,17 @@ public class ComplementsPointIterator implements IPointIterator {
     }
 
     @Override
+    public Point peek() {
+        for (CuboidPointIterator i : mSegments) {
+            Point rv = i.peek();
+            if(rv != null) {
+                return rv;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public Point next() {
         for (CuboidPointIterator i : mSegments) {
             Point rv = i.next();
