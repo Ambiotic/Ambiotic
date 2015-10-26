@@ -191,7 +191,7 @@ public class BlockScanner extends Scanner {
             if(point.y > 0) {
                 int blockId = Block.getIdFromBlock(world.getBlock(point.x, point.y, point.z));
                 addToCount(blockId, 1);
-                updateBiomeAverages(point, true);
+                updateBiomeAverages(point, false);
             }
             point = newInRange.next();
         }
