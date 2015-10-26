@@ -3,7 +3,7 @@
         "Name" : "DenseBirdSong",
         "Type" : "Looping",
         "Sound" : "ambiotic:bkgs.bird_song_loop",
-        "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature >= 0.50 && LS.Temperature <= 0.78 && #IsDay#",
+        "Conditions" : "#Trees# && LS.Temperature >= 0.28 && LS.Temperature <= 0.78 && #IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || #IsConiferous#",
         "Volume" : {
             "Type" : "Scripted",
@@ -15,7 +15,7 @@
         "Name" : "NightBirds",
         "Type" : "Instant",
         "Sound" : "ambiotic:animals.night_inst_bird_hoot",
-        "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature <= 0.78",
+        "Conditions" : "#Trees# && LS.Temperature <= 0.78",
         "Restrict" : "#UnderGround# || Player.Submerged || #IsDay# || #IsJungle#",
         "Volume" : {
             "Type" : "Scripted",
@@ -32,7 +32,7 @@
         "Name" : "DayBirds1",
         "Type" : "Instant",
         "Sound" : "ambiotic:animals.day_inst_bird_squeek",
-        "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature <= 0.78 && #IsDay#",
+        "Conditions" : "#Trees# && LS.Temperature <= 0.78 && #IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle#",
         "Volume" : {
             "Type" : "Scripted",
@@ -54,7 +54,7 @@
         "Name" : "DayBirds2",
         "Type" : "Instant",
         "Sound" : "ambiotic:animals.day_inst_bird_chatter",
-        "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature <= 0.78 && #IsDay#",
+        "Conditions" : "#Trees# && LS.Temperature <= 0.78 && #IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle#",
         "Volume" : {
             "Type" : "Scripted",
@@ -71,7 +71,7 @@
         "Name" : "LeaveWind1",
         "Type" : "Instant",
         "Sound" : "ambiotic:misc.wind_leaves",
-        "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature <= 0.78",
+        "Conditions" : "#Trees# && LS.Temperature <= 0.78",
         "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || #IsConiferous#",
         "Volume" : {
             "Type" : "Scripted",
@@ -88,7 +88,7 @@
         "Name" : "LeaveWind2",
         "Type" : "Instant",
         "Sound" : "ambiotic:misc.wind_leaves",
-        "Conditions" : "LS.Foliage / LS.Size >= 0.03 && LS.Temperature <= 0.78",
+        "Conditions" : "#Trees# && LS.Temperature <= 0.78",
         "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || #IsConiferous#",
         "Volume" : {
             "Type" : "Scripted",

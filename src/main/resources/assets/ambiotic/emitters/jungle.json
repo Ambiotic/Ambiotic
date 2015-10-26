@@ -3,7 +3,7 @@
         "Name" : "JungleDay",
         "Type" : "Looping",
         "Sound" : "ambiotic:bkgs.day_jungle_loop",
-        "Conditions" : "#IsJungle# && #IsDay#",
+        "Conditions" : "#Trees# && #IsJungle# && #IsDay#",
         "Restrict" : "#UnderGround# || Player.Submerged",
         "Volume" : {
             "Type" : "Scripted",
@@ -15,7 +15,7 @@
         "Name" : "JungleNight",
         "Type" : "Looping",
         "Sound" : "ambiotic:bkgs.night_jungle_loop",
-        "Conditions" : "#IsJungle#",
+        "Conditions" : "#Trees# && #IsJungle#",
         "Restrict" : "#UnderGround# || Player.Submerged || #IsDay#",
         "Volume" : {
             "Type" : "Scripted",

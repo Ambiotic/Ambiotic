@@ -241,6 +241,12 @@
         },
 
         {
+            "Name" : "Trees",
+            "Type" : "Macro",
+            "Code" : "LS.Foliage/LS.Size >= 0.03"
+        },
+
+        {
             "Name" : "IsJungle",
             "Type" : "Macro",
             "Code" : "LS.JungleTags/LS.Size >= 0.60"
