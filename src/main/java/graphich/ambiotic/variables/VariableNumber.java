@@ -1,7 +1,6 @@
 package graphich.ambiotic.variables;
 
 import com.google.gson.annotations.SerializedName;
-import graphich.ambiotic.main.Ambiotic;
 
 /**
  * A variable in our vernacular is an integer value associated with

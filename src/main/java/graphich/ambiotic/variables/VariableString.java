@@ -1,7 +1,6 @@
 package graphich.ambiotic.variables;
 
 import com.google.gson.annotations.SerializedName;
-import net.minecraft.client.Minecraft;
 
 public abstract class VariableString extends Variable {
 

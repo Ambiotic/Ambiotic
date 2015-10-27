@@ -3,7 +3,6 @@ package graphich.ambiotic.scanners;
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.util.StrictJsonException;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;

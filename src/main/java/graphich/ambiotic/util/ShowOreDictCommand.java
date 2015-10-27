@@ -9,9 +9,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 public class ShowOreDictCommand implements ICommand {
     @Override

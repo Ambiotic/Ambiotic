@@ -2,7 +2,6 @@ package graphich.ambiotic.variables.world;
 
 import com.google.gson.annotations.SerializedName;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import graphich.ambiotic.main.Ambiotic;
 import graphich.ambiotic.variables.Variable;
 import graphich.ambiotic.variables.VariableNumber;
 import net.minecraft.client.Minecraft;

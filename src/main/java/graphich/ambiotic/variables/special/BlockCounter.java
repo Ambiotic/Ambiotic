@@ -5,7 +5,6 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import graphich.ambiotic.scanners.BlockScanner;
 import graphich.ambiotic.util.Helpers;
 import graphich.ambiotic.util.StrictJsonException;
-import graphich.ambiotic.variables.VariableNumber;
 import graphich.ambiotic.variables.VariableScanning;
 
 import java.util.ArrayList;
