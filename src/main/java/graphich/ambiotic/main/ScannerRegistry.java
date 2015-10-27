@@ -46,8 +46,8 @@ public class ScannerRegistry {
         mScanners.clear();
     }
 
-    public void load() {
-        JsonArray scannerList = Ambiotic.engineSection("Scanners").getAsJsonArray();
+    public void load(Engine engine) {
+        JsonArray scannerList = engine.section("Scanners").getAsJsonArray();
         if(scannerList == null)
             return;
         Ambiotic.logger().info("Loading scanner definitions");

@@ -64,8 +64,8 @@ public class EmitterRegistry {
         return soundlist;
     }
 
-    public void load() {
-        JsonArray jsonArray = Ambiotic.engineSection("EmitterList").getAsJsonArray();
+    public void load(Engine engine) {
+        JsonArray jsonArray = engine.section("EmitterList").getAsJsonArray();
         if(jsonArray == null)
             return;
 

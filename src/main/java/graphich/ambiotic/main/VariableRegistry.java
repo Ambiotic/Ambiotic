@@ -91,15 +91,15 @@ public class VariableRegistry {
         mMacroLookup.put(macro.name(), macro);
     }
 
-    public void load() {
-        JsonArray section = Ambiotic.engineSection("Variables").getAsJsonArray();
+    public void load(Engine engine) {
+        JsonArray section = engine.section("Variables").getAsJsonArray();
         if(section != null)
             loadVariables(section);
 
-        if(Ambiotic.engineBoolean("DefaultVars", false))
+        if(engine.useDefaults())
             loadDefaultVariables();
 
-        section = Ambiotic.engineSection("Macros").getAsJsonArray();
+        section = engine.section("Macros").getAsJsonArray();
         if(section != null)
             loadMacros(section);
 
