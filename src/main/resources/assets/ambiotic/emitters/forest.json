@@ -4,7 +4,7 @@
         "Type" : "Looping",
         "Sound" : "ambiotic:bkgs.bird_song_loop",
         "Conditions" : "#Trees# && LS.Temperature >= 0.28 && LS.Temperature <= 0.78 && #IsDay#",
-        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || #IsConiferous#",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || #IsConiferous# || World.IsRaining",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.2*#Muffle#"
@@ -16,7 +16,7 @@
         "Type" : "Instant",
         "Sound" : "ambiotic:animals.night_inst_bird_hoot",
         "Conditions" : "#Trees# && LS.Temperature <= 0.78",
-        "Restrict" : "#UnderGround# || Player.Submerged || #IsDay# || #IsJungle#",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsDay# || #IsJungle# || World.IsRaining",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.2*#Muffle#"
@@ -33,7 +33,7 @@
         "Type" : "Instant",
         "Sound" : "ambiotic:animals.day_inst_bird_squeek",
         "Conditions" : "#Trees# && LS.Temperature <= 0.78 && #IsDay#",
-        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle#",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || World.IsRaining",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "1.0*#Muffle#"
@@ -55,7 +55,7 @@
         "Type" : "Instant",
         "Sound" : "ambiotic:animals.day_inst_bird_chatter",
         "Conditions" : "#Trees# && LS.Temperature <= 0.78 && #IsDay#",
-        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle#",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || World.IsRaining",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "1.0*#Muffle#"
@@ -72,7 +72,7 @@
         "Type" : "Instant",
         "Sound" : "ambiotic:misc.wind_leaves",
         "Conditions" : "#Trees# && LS.Temperature <= 0.78",
-        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || #IsConiferous#",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || #IsConiferous# || World.IsRaining",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.05*#Muffle#"
@@ -89,7 +89,7 @@
         "Type" : "Instant",
         "Sound" : "ambiotic:misc.wind_leaves",
         "Conditions" : "#Trees# && LS.Temperature <= 0.78",
-        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || #IsConiferous#",
+        "Restrict" : "#UnderGround# || Player.Submerged || #IsJungle# || #IsConiferous# || World.IsRaining",
         "Volume" : {
             "Type" : "Scripted",
             "Code" : "0.2*#Muffle#"
