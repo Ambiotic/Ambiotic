@@ -92,10 +92,7 @@ public class Ambiotic {
         engine = new Engine();
         ClientCommandHandler.instance.registerCommand(new EvalCommand());
         ClientCommandHandler.instance.registerCommand(new ShowOreDictCommand());
-        DebugGui gui = new DebugGui();
-        FMLCommonHandler.instance().bus().register(gui);
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(gui);
         SoundSystemConfig.setNumberStreamingChannels(10);
         SoundSystemConfig.setNumberNormalChannels(22);
         Ambiotic.logger().info("Setting normal channels to 22, streaming channels to 10");
