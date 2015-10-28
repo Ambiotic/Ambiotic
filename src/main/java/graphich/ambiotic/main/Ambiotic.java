@@ -106,8 +106,8 @@ public class Ambiotic {
             for(String line : RESPACK_NOTE.split("\n")) {
                 player.addChatMessage(new ChatComponentText(line));
             }
-            //Don't display this message again
-            MinecraftForge.EVENT_BUS.unregister(this);
         }
+        //Don't annoy the player, unregister us so the message never shows again
+        MinecraftForge.EVENT_BUS.unregister(this);
     }
 }
