@@ -11,7 +11,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import graphich.ambiotic.emitters.SoundEmitter;
 import graphich.ambiotic.emitters.effects.FloatProvider;
 import graphich.ambiotic.scanners.Scanner;
-import graphich.ambiotic.util.DebugGui;
 import graphich.ambiotic.util.EvalCommand;
 import graphich.ambiotic.util.ShowOreDictCommand;
 import graphich.ambiotic.variables.Variable;
