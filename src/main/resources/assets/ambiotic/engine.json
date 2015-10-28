@@ -237,7 +237,7 @@
         {
             "Name" : "UnderGround",
             "Type" : "Macro",
-            "Code" : "Player.Y < 65 && LS.SunLevel < 4.0"
+            "Code" : "Player.Y < 65 && LS.SunLevel <= 0.5"
         },
 
         {
