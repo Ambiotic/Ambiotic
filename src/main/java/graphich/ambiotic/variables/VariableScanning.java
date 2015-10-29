@@ -5,7 +5,6 @@ import graphich.ambiotic.scanners.BlockScanner;
 import graphich.ambiotic.util.StrictJsonException;
 
 public abstract class VariableScanning extends VariableNumber {
-
     @SerializedName("Scanner")
     protected String mScannerName = "";
 
@@ -19,7 +18,7 @@ public abstract class VariableScanning extends VariableNumber {
     @Override //IStrictJson
     public void validate() throws StrictJsonException {
         super.validate();
-        if(mScannerName == null || mScannerName.equals(""))
+        if (mScannerName == null || mScannerName.equals(""))
             throw new StrictJsonException("Scanner is required");
     }
 

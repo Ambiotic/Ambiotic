@@ -20,7 +20,6 @@ import java.util.Deque;
 import java.util.List;
 
 public class Exposed extends VariableBool {
-
     @SerializedName("AirPermeableBlocks")
     protected String[] mPermeableBlockSpecs;
     @SerializedName("SearchDepth")
@@ -38,7 +37,7 @@ public class Exposed extends VariableBool {
     @Override //IStrictJson
     public void validate() throws StrictJsonException {
         super.validate();
-        if(mPermeableBlockSpecs == null)
+        if (mPermeableBlockSpecs == null)
             throw new StrictJsonException("AirPermeableBlocks must be defined");
     }
 
@@ -47,13 +46,13 @@ public class Exposed extends VariableBool {
         super.initialize();
         mNameSpace = Variable.PLAYER_NAMESPACE;
         mPermeableBlockIds = new ArrayList<Integer>();
-        for(String spec : mPermeableBlockSpecs) {
+        for (String spec : mPermeableBlockSpecs) {
             ArrayList<Integer> ids = Helpers.buildBlockIdList(spec);
             mPermeableBlockIds.addAll(ids);
         }
         mClosed = new ArrayList<Pos>();
         mOpen = new ArrayDeque<Pos>();
-        if(mDepth == null)
+        if (mDepth == null)
             mDepth = 10;
     }
 
@@ -62,11 +61,11 @@ public class Exposed extends VariableBool {
     public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        if(world == null || player == null)
+        if (world == null || player == null)
             return false;
 
         boolean newValue = quickCheck();
-        if(newValue)
+        if (newValue)
             newValue = slowCheck();
 
         return setNewValue(newValue);
@@ -76,20 +75,20 @@ public class Exposed extends VariableBool {
         World world = Minecraft.getMinecraft().theWorld;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         //When in the nether, you're never "exposed"
-        if(player.dimension == -1)
+        if (player.dimension == -1)
             return false;
-        int mx,my,mz;
-        mx = (int)player.posX + 1;
-        my = (int)player.posY + 1;
-        mz = (int)player.posZ + 1;
+        int mx, my, mz;
+        mx = (int) player.posX + 1;
+        my = (int) player.posY + 1;
+        mz = (int) player.posZ + 1;
         //float aircount = 0;
         //float sltotal = 0;
-        for(int cx = mx-2; cx <= mx; cx++) {
-            for(int cy = my-2; cy <= my; cy++) {
-                for(int cz = mz-2; cz <= mz; cz++) {
-                    if(!world.isAirBlock(cx,cy,cz))
+        for (int cx = mx - 2; cx <= mx; cx++) {
+            for (int cy = my - 2; cy <= my; cy++) {
+                for (int cz = mz - 2; cz <= mz; cz++) {
+                    if (!world.isAirBlock(cx, cy, cz))
                         continue;
-                    if(world.getSavedLightValue(EnumSkyBlock.Sky, cx,cy,cz) > 0)
+                    if (world.getSavedLightValue(EnumSkyBlock.Sky, cx, cy, cz) > 0)
                         return true;
                 }
             }
@@ -104,10 +103,10 @@ public class Exposed extends VariableBool {
         boolean newValue = false;
         // Boundry problems because doubles to ints suck, always pick the "good position"
         Pos current = new Pos(Math.ceil(player.posX), Math.ceil(player.posY), Math.ceil(player.posZ));
-        if(!goodSuccessor(current, null))
+        if (!goodSuccessor(current, null))
             current = new Pos(Math.floor(player.posX), Math.floor(player.posY), Math.floor(player.posZ));
-        while(current != null && !newValue) {
-            if(current.isExposed()) {
+        while (current != null && !newValue) {
+            if (current.isExposed()) {
                 newValue = true;
                 break;
             }
@@ -120,45 +119,44 @@ public class Exposed extends VariableBool {
 
     public List<Pos> successors(Pos p) {
         ArrayList<Pos> rv = new ArrayList<Pos>();
-        Pos possible = new Pos(p.X+1,p.Y,p.Z);
-        if(goodSuccessor(possible, p))
+        Pos possible = new Pos(p.X + 1, p.Y, p.Z);
+        if (goodSuccessor(possible, p))
             rv.add(possible);
-        possible = new Pos(p.X-1,p.Y,p.Z);
-        if(goodSuccessor(possible, p))
+        possible = new Pos(p.X - 1, p.Y, p.Z);
+        if (goodSuccessor(possible, p))
             rv.add(possible);
-        possible = new Pos(p.X,p.Y+1,p.Z);
-        if(goodSuccessor(possible, p))
+        possible = new Pos(p.X, p.Y + 1, p.Z);
+        if (goodSuccessor(possible, p))
             rv.add(possible);
-        possible = new Pos(p.X,p.Y-1,p.Z);
-        if(goodSuccessor(possible, p))
+        possible = new Pos(p.X, p.Y - 1, p.Z);
+        if (goodSuccessor(possible, p))
             rv.add(possible);
-        possible = new Pos(p.X,p.Y,p.Z+1);
-        if(goodSuccessor(possible, p))
+        possible = new Pos(p.X, p.Y, p.Z + 1);
+        if (goodSuccessor(possible, p))
             rv.add(possible);
-        possible = new Pos(p.X,p.Y,p.Z-1);
-        if(goodSuccessor(possible, p))
+        possible = new Pos(p.X, p.Y, p.Z - 1);
+        if (goodSuccessor(possible, p))
             rv.add(possible);
         return rv;
     }
 
     protected boolean doorIsBlocking(Pos into, Pos from) {
         World world = Minecraft.getMinecraft().theWorld;
-        BlockDoor door = (BlockDoor)world.getBlock(into.X,into.Y,into.Z);
+        BlockDoor door = (BlockDoor) world.getBlock(into.X, into.Y, into.Z);
         int dir = -1;
         Vec3 fromVec, intoVec;
-        if(into.X != from.X) // Moving in X
+        if (into.X != from.X) // Moving in X
         {
-            if(from.X < into.X)
+            if (from.X < into.X)
                 dir = 1;
-            intoVec = Vec3.createVectorHelper((dir*1.75)+into.X,into.Y+.5,into.Z+.5);
-            fromVec = Vec3.createVectorHelper(from.X+(-dir*0.5),from.Y+.5,from.Z+.5);
-        }
-        else // Moving in Z
+            intoVec = Vec3.createVectorHelper((dir * 1.75) + into.X, into.Y + .5, into.Z + .5);
+            fromVec = Vec3.createVectorHelper(from.X + (-dir * 0.5), from.Y + .5, from.Z + .5);
+        } else // Moving in Z
         {
-            if(into.Z > from.Z)
+            if (into.Z > from.Z)
                 dir = 1;
-            intoVec = Vec3.createVectorHelper(into.X+.5,into.Y+.5,into.Z+(dir*1.75));
-            fromVec = Vec3.createVectorHelper(from.X+.5,from.Y+.5,from.Z+(-dir*0.5));
+            intoVec = Vec3.createVectorHelper(into.X + .5, into.Y + .5, into.Z + (dir * 1.75));
+            fromVec = Vec3.createVectorHelper(from.X + .5, from.Y + .5, from.Z + (-dir * 0.5));
         }
 
         return (door.collisionRayTrace(world, into.X, into.Y, into.Z, fromVec, intoVec) != null);
@@ -166,22 +164,22 @@ public class Exposed extends VariableBool {
 
     protected boolean goodSuccessor(Pos into, Pos from) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        Block block = Minecraft.getMinecraft().theWorld.getBlock(into.X,into.Y,into.Z);
+        Block block = Minecraft.getMinecraft().theWorld.getBlock(into.X, into.Y, into.Z);
         int id = Block.getIdFromBlock(block);
 
-        if(mOpen.contains(into))
+        if (mOpen.contains(into))
             return false;
-        if(mClosed.contains(into))
+        if (mClosed.contains(into))
             return false;
-        if(block instanceof BlockDoor && from != null && into.Y == from.Y)
+        if (block instanceof BlockDoor && from != null && into.Y == from.Y)
             return !doorIsBlocking(into, from);
-        if(!mPermeableBlockIds.contains(id))
+        if (!mPermeableBlockIds.contains(id))
             return false;
-        if(into.X > player.posX+mDepth || into.X < player.posX-mDepth)
+        if (into.X > player.posX + mDepth || into.X < player.posX - mDepth)
             return false;
-        if(into.Y > player.posY+mDepth || into.Y < player.posY-mDepth)
+        if (into.Y > player.posY + mDepth || into.Y < player.posY - mDepth)
             return false;
-        if(into.Z > player.posZ+mDepth || into.Z < player.posZ-mDepth)
+        if (into.Z > player.posZ + mDepth || into.Z < player.posZ - mDepth)
             return false;
 
         return true;
@@ -193,27 +191,27 @@ public class Exposed extends VariableBool {
         public int Z;
 
         public Pos(double x, double y, double z) {
-            X = (int)x;
-            Y = (int)y;
-            Z = (int)z;
+            X = (int) x;
+            Y = (int) y;
+            Z = (int) z;
         }
 
         public boolean isExposed() {
             World world = Minecraft.getMinecraft().theWorld;
-            return world.canBlockSeeTheSky(X,Y,Z);
+            return world.canBlockSeeTheSky(X, Y, Z);
         }
 
         @Override
         public boolean equals(Object o) {
-            if(!(o instanceof Pos))
+            if (!(o instanceof Pos))
                 return false;
-            Pos ot = (Pos)o;
+            Pos ot = (Pos) o;
             return X == ot.X && Y == ot.Y && Z == ot.Z;
         }
 
         @Override
         public String toString() {
-            return "X: "+X+", Y: "+Y+", Z: "+Z;
+            return "X: " + X + ", Y: " + Y + ", Z: " + Z;
         }
     }
 }

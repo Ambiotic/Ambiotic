@@ -8,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
 
 public class GameTime extends VariableNumber {
-
     @SerializedName("Modulus")
     private Integer mModulus = 1;
 
@@ -23,14 +22,14 @@ public class GameTime extends VariableNumber {
         super.initialize();
         mNameSpace = Variable.WORLD_NAMESPACE;
         // Default modulus
-        if(mModulus == null)
+        if (mModulus == null)
             mModulus = 1;
     }
 
     @Override //IVariable
     public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
-        if(world == null)
+        if (world == null)
             return false;
         float newValue = (world.getWorldInfo().getWorldTime() % mModulus);
         return setNewValue(newValue);

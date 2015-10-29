@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class UnderWater extends VariableBool {
-
     public UnderWater(String name) {
         super(name);
         initialize();
@@ -24,12 +23,12 @@ public class UnderWater extends VariableBool {
     @Override
     public boolean updateValue(TickEvent event) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        int x = (int)Math.floor(player.posX);
-        int y = (int)Math.floor(player.posY + player.getEyeHeight());
-        int z = (int)Math.floor(player.posZ);
-        Block block = Minecraft.getMinecraft().theWorld.getBlock(x,y,z);
+        int x = (int) Math.floor(player.posX);
+        int y = (int) Math.floor(player.posY + player.getEyeHeight());
+        int z = (int) Math.floor(player.posZ);
+        Block block = Minecraft.getMinecraft().theWorld.getBlock(x, y, z);
         boolean newValue = false;
-        if(block instanceof BlockLiquid)
+        if (block instanceof BlockLiquid)
             newValue = true;
         return setNewValue(newValue);
     }

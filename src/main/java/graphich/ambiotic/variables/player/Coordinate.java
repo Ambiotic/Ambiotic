@@ -12,7 +12,6 @@ import net.minecraft.entity.player.EntityPlayer;
  * Related to player's coordinates in space.
  */
 public class Coordinate extends VariableNumber {
-
     @SerializedName("SubType")
     protected Coordinates mCoordinate;
 
@@ -25,8 +24,8 @@ public class Coordinate extends VariableNumber {
     @Override //IStrictJson
     public void validate() throws StrictJsonException {
         super.validate();
-        if(mCoordinate == null)
-            throw new StrictJsonException("SubType is required and must be one of "+Coordinates.names);
+        if (mCoordinate == null)
+            throw new StrictJsonException("SubType is required and must be one of " + Coordinates.names);
     }
 
     @Override //IStrictJson
@@ -39,7 +38,7 @@ public class Coordinate extends VariableNumber {
     public boolean updateValue(TickEvent event) {
         double newValue = 0;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        if(player == null)
+        if (player == null)
             return false;
         switch (mCoordinate) {
             case X:
@@ -62,5 +61,4 @@ public class Coordinate extends VariableNumber {
         X, Y, Z, DIM;
         public static final String names = "X, Y, Z, DIM";
     }
-
 }

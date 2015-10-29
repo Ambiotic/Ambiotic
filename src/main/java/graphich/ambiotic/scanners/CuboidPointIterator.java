@@ -1,7 +1,6 @@
 package graphich.ambiotic.scanners;
 
 public class CuboidPointIterator extends Cuboid implements IPointIterator {
-
     protected Point mCurrent;
 
     public CuboidPointIterator(Cuboid other) {
@@ -40,7 +39,7 @@ public class CuboidPointIterator extends Cuboid implements IPointIterator {
 
     @Override
     public Point peek() {
-        if(mCurrent.x >= mMax.x)
+        if (mCurrent.x >= mMax.x)
             return null;
         return new Point(mCurrent);
     }
@@ -49,5 +48,4 @@ public class CuboidPointIterator extends Cuboid implements IPointIterator {
     public void reset() {
         mCurrent = new Point(mMin);
     }
-
 }

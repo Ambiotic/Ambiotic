@@ -9,7 +9,6 @@ import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class InBoat extends VariableBool {
-
     public InBoat(String name) {
         super(name);
         initialize();

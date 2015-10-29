@@ -16,18 +16,18 @@ public class Constant extends Variable {
 
     @Override //IStrictJson
     public void validate() throws StrictJsonException {
-        if(mValue == null)
+        if (mValue == null)
             throw new StrictJsonException("Value is required and must be a string");
     }
 
     @Override //IVariable
     public String initializeJS() {
-        return name()+" = "+mValue+";";
+        return name() + " = " + mValue + ";";
     }
 
     @Override //IVariable
     public String updateJS() {
-        return name()+" = "+mValue+";";
+        return name() + " = " + mValue + ";";
     }
 
     @Override //IVariable

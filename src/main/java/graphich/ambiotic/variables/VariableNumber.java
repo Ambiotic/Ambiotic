@@ -8,8 +8,8 @@ import com.google.gson.annotations.SerializedName;
  * that is exposed by the API and to the python engine.
  */
 public abstract class VariableNumber extends Variable {
-
     public final static float EQUALITY_LIMIT = 0.00001f;
+
     @SerializedName("InitialValue")
     protected Double mInitialValue;
 
@@ -22,7 +22,7 @@ public abstract class VariableNumber extends Variable {
     @Override //IStrictJson
     public void initialize() {
         super.initialize();
-        if(mInitialValue == null)
+        if (mInitialValue == null)
             mInitialValue = 0.0;
     }
 
@@ -33,16 +33,16 @@ public abstract class VariableNumber extends Variable {
 
     @Override //IVariable
     public String updateJS() {
-        return name()+" = "+mValue+";";
+        return name() + " = " + mValue + ";";
     }
 
     @Override //IVariable
     public String initializeJS() {
-        return name()+" = "+mInitialValue+";";
+        return name() + " = " + mInitialValue + ";";
     }
 
     protected boolean setNewValue(double newValue) {
-        boolean updated = (Math.abs(mValue-newValue) > EQUALITY_LIMIT);
+        boolean updated = (Math.abs(mValue - newValue) > EQUALITY_LIMIT);
         mValue = newValue;
         return updated;
     }

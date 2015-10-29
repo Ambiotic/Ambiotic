@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 public class EvalCommand implements ICommand {
-
     private List mAliases;
 
     public EvalCommand() {
@@ -39,48 +38,48 @@ public class EvalCommand implements ICommand {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
 
-        if(args.length == 0) {
+        if (args.length == 0) {
             sender.addChatMessage(new ChatComponentText("Invalid arguments"));
             return;
         }
         String js = "";
-        for(String arg : args)
-            js += " "+arg;
-        Map<String,Macro> macros = VariableRegistry.INSTANCE.macros();
-        for(Macro macro : macros.values())
+        for (String arg : args)
+            js += " " + arg;
+        Map<String, Macro> macros = VariableRegistry.INSTANCE.macros();
+        for (Macro macro : macros.values())
             js = macro.expand(js);
         Object res = Ambiotic.evalJS(js);
-        if(res != null)
-            sender.addChatMessage(new ChatComponentText("Result : "+res.toString()));
+        if (res != null)
+            sender.addChatMessage(new ChatComponentText("Result : " + res.toString()));
         else
             sender.addChatMessage(new ChatComponentText("Result was null"));
     }
 
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender sender) {
-        if(sender instanceof EntityPlayer)
+        if (sender instanceof EntityPlayer)
             return true;
         return false;
     }
 
     @Override
     public List addTabCompletionOptions(ICommandSender sender, String[] args) {
-        String last = args[args.length-1];
+        String last = args[args.length - 1];
         List<String> rv = new ArrayList<String>();
-        if(last.equals("&")) {
+        if (last.equals("&")) {
             rv.add("&&");
-        } else if(last.equals("|")) {
+        } else if (last.equals("|")) {
             rv.add("||");
-        } else if(last.startsWith("#")) {
+        } else if (last.startsWith("#")) {
             List<String> macros = VariableRegistry.INSTANCE.macroSymbols();
-            for(String symbol : macros) {
-                if(symbol.startsWith(last))
+            for (String symbol : macros) {
+                if (symbol.startsWith(last))
                     rv.add(symbol);
             }
         } else {
             List<String> names = VariableRegistry.INSTANCE.fullVariableNames();
-            for(String name : names) {
-                if(name.startsWith(last))
+            for (String name : names) {
+                if (name.startsWith(last))
                     rv.add(name);
             }
         }

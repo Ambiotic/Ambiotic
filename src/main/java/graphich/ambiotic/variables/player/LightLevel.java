@@ -14,7 +14,6 @@ import net.minecraft.world.World;
  * Light value at player coordinates in the world, 3 types
  */
 public class LightLevel extends VariableNumber {
-
     @SerializedName("SubType")
     LightTypes mType;
 
@@ -33,8 +32,8 @@ public class LightLevel extends VariableNumber {
     @Override //IStrictJson
     public void validate() throws StrictJsonException {
         super.validate();
-        if(mType == null)
-            throw new StrictJsonException("SubType is required and must be one of "+LightTypes.names);
+        if (mType == null)
+            throw new StrictJsonException("SubType is required and must be one of " + LightTypes.names);
     }
 
     @Override //IVariable
@@ -43,7 +42,7 @@ public class LightLevel extends VariableNumber {
         float newValue;
         World world = Minecraft.getMinecraft().theWorld;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        if(world == null || player == null)
+        if (world == null || player == null)
             return false;
         x = (int) player.posX;
         y = (int) player.posY;

@@ -25,15 +25,29 @@ import paulscode.sound.SoundSystemConfig;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-@Mod(modid = Ambiotic.MODID, version = Ambiotic.VERSION, name = Ambiotic.NAME, acceptableRemoteVersions="*")
+@Mod(modid = Ambiotic.MODID, version = Ambiotic.VERSION, name = Ambiotic.NAME, acceptableRemoteVersions = "*")
 public class Ambiotic {
-
     public static final String MODID = "ambiotic";
     public static final String NAME = "Ambiotic";
     public static final String VERSION = "@VERSION@";
 
     //GSON Builder Init
     protected static final GsonBuilder gsonbuilder;
+    //Message to notify player about resource pack needed
+    protected static final String RESPACK_NOTE =
+        "Ambiotic: no engine has been loaded\n" +
+        "You may need an ambiotic resource pack\n" +
+        "Or your ambiotic resource pack maybe corrupt (check logs)\n";
+    //Message for silly user who installed on server
+    protected static final String SERVER_NOTE =
+        "Aborting startup, this mod only runs on the client, installing on the server has no effect.";
+    //Mod Logger
+    protected static Logger logger;
+    //JS Engine
+    protected static ScriptEngine scripter;
+    //Engine configuration
+    protected static Engine engine;
+
     public static Gson gson() {
         return Ambiotic.gsonbuilder.create();
     }
@@ -46,35 +60,18 @@ public class Ambiotic {
         gsonbuilder.setPrettyPrinting();
     }
 
-    //Mod Logger
-    protected static Logger logger;
     public static Logger logger() {
         return Ambiotic.logger;
     }
 
-    //JS Engine
-    protected static ScriptEngine scripter;
-    public static Object evalJS(String js)
-    {
+    public static Object evalJS(String js) {
         try {
             return Ambiotic.scripter.eval(js);
-        } catch(ScriptException ex) {
-            Ambiotic.logger().error("Script failed\n"+js+"\n"+ex.getMessage());
+        } catch (ScriptException ex) {
+            Ambiotic.logger().error("Script failed\n" + js + "\n" + ex.getMessage());
         }
         return null;
     }
-
-    //Message to notify player about resource pack needed
-    protected static final String RESPACK_NOTE =
-        "Ambiotic: no engine has been loaded\n" +
-        "You may need an ambiotic resource pack\n"+
-        "Or your ambiotic resource pack maybe corrupt (check logs)\n";
-    //Message for silly user who installed on server
-    protected static final String SERVER_NOTE =
-        "Aborting startup, this mod only runs on the client, installing on the server has no effect.";
-
-    //Engine configuration
-    protected static Engine engine;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -83,7 +80,7 @@ public class Ambiotic {
 
     @EventHandler
     protected void postInit(FMLPostInitializationEvent event) {
-        if(!FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+        if (!FMLCommonHandler.instance().getEffectiveSide().isClient()) {
             Ambiotic.logger().error(Ambiotic.SERVER_NOTE);
             return;
         }
@@ -99,11 +96,11 @@ public class Ambiotic {
 
     @SubscribeEvent
     public void playerJoin(EntityJoinWorldEvent event) {
-        if(!(event.entity instanceof EntityClientPlayerMP) || event.isCanceled())
+        if (!(event.entity instanceof EntityClientPlayerMP) || event.isCanceled())
             return;
-        if(!engine.loaded()) {
-            EntityClientPlayerMP player = (EntityClientPlayerMP)event.entity;
-            for(String line : RESPACK_NOTE.split("\n")) {
+        if (!engine.loaded()) {
+            EntityClientPlayerMP player = (EntityClientPlayerMP) event.entity;
+            for (String line : RESPACK_NOTE.split("\n")) {
                 player.addChatMessage(new ChatComponentText(line));
             }
         }

@@ -6,7 +6,6 @@ import com.google.gson.*;
 import java.lang.reflect.Type;
 
 public class StrictJsonSerializer<T> implements JsonSerializer<T>, JsonDeserializer<T> {
-
     private BiMap<String, Type> mTypeMap;
     private Class<T> mRootType;
 
@@ -19,13 +18,13 @@ public class StrictJsonSerializer<T> implements JsonSerializer<T>, JsonDeseriali
     public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws StrictJsonException {
         JsonElement type = json.getAsJsonObject().get("Type");
         String rootName = mRootType.getSimpleName();
-        if(!type.isJsonPrimitive() || !type.getAsJsonPrimitive().isString())
+        if (!type.isJsonPrimitive() || !type.getAsJsonPrimitive().isString())
             throw new StrictJsonException(rootName + " Type must be string");
-        if(!mTypeMap.containsKey(type.getAsString()))
-            throw new StrictJsonException("No such " + rootName + " Type '"+type.getAsString()+"'");
+        if (!mTypeMap.containsKey(type.getAsString()))
+            throw new StrictJsonException("No such " + rootName + " Type '" + type.getAsString() + "'");
         Type varClass = mTypeMap.get(type.getAsString());
-        T result = context.deserialize(json,varClass);
-        if(result instanceof IStrictJson) {
+        T result = context.deserialize(json, varClass);
+        if (result instanceof IStrictJson) {
             ((IStrictJson) result).validate();
             ((IStrictJson) result).initialize();
         }
@@ -36,10 +35,10 @@ public class StrictJsonSerializer<T> implements JsonSerializer<T>, JsonDeseriali
     public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context) {
         //Default to the types simple name
         String strType = typeOfSrc.getClass().getSimpleName();
-        if(mTypeMap.containsValue(typeOfSrc))
+        if (mTypeMap.containsValue(typeOfSrc))
             strType = mTypeMap.inverse().get(typeOfSrc);
-        JsonElement outElm = context.serialize(src,typeOfSrc);
-        outElm.getAsJsonObject().add("Type",  context.serialize(strType));
+        JsonElement outElm = context.serialize(src, typeOfSrc);
+        outElm.getAsJsonObject().add("Type", context.serialize(strType));
         return outElm;
     }
 }

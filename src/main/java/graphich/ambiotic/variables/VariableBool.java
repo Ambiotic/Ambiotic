@@ -2,8 +2,7 @@ package graphich.ambiotic.variables;
 
 import com.google.gson.annotations.SerializedName;
 
-public  abstract class VariableBool extends Variable {
-
+public abstract class VariableBool extends Variable {
     @SerializedName("InitialValue")
     protected Boolean mInitialValue;
 
@@ -16,7 +15,7 @@ public  abstract class VariableBool extends Variable {
     @Override //IStrictJson
     public void initialize() {
         super.initialize();
-        if(mInitialValue == null)
+        if (mInitialValue == null)
             mInitialValue = false;
     }
 
@@ -27,16 +26,16 @@ public  abstract class VariableBool extends Variable {
 
     @Override //IVariable
     public String updateJS() {
-        if(mValue)
-            return name()+" = true;";
-        return name()+" = false;";
+        if (mValue)
+            return name() + " = true;";
+        return name() + " = false;";
     }
 
     @Override //IVariable
     public String initializeJS() {
-        if(mInitialValue)
-            return name()+" = true;";
-        return name()+" = false;";
+        if (mInitialValue)
+            return name() + " = true;";
+        return name() + " = false;";
     }
 
     protected boolean setNewValue(boolean newValue) {

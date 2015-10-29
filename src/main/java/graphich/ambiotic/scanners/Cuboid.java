@@ -12,8 +12,8 @@ public class Cuboid {
 
     public Cuboid(int centerX, int centerY, int centerZ, int width, int height, int length) {
         init(
-                new Point(centerX - width / 2, centerY - height / 2, centerZ - length / 2),
-                new Point(centerX + width / 2, centerY + height / 2, centerZ + length / 2)
+            new Point(centerX - width / 2, centerY - height / 2, centerZ - length / 2),
+            new Point(centerX + width / 2, centerY + height / 2, centerZ + length / 2)
         );
     }
 
@@ -22,7 +22,6 @@ public class Cuboid {
     }
 
     protected void init(Point vx1, Point vx2) {
-
         if (!vx1.canFormCuboid(vx2))
             throw new IllegalArgumentException("Cannot form cuboid from vx1 and vx2");
 
@@ -38,13 +37,18 @@ public class Cuboid {
         mMin = new Point(mVertices.get(0));
         mMax = new Point(mVertices.get(0));
         for (Point p : mVertices) {
-            if (mMin.y > p.y) mMin.y = p.y;
-            if (mMin.z > p.z) mMin.z = p.z;
-            if (mMin.x > p.x) mMin.x = p.x;
-            if (mMax.y < p.y) mMax.y = p.y;
-            if (mMax.z < p.z) mMax.z = p.z;
-            if (mMax.x < p.x) mMax.x = p.x;
-
+            if (mMin.y > p.y)
+                mMin.y = p.y;
+            if (mMin.z > p.z)
+                mMin.z = p.z;
+            if (mMin.x > p.x)
+                mMin.x = p.x;
+            if (mMax.y < p.y)
+                mMax.y = p.y;
+            if (mMax.z < p.z)
+                mMax.z = p.z;
+            if (mMax.x < p.x)
+                mMax.x = p.x;
         }
         mLength = mMax.x - mMin.x;
         mHeight = mMax.y - mMin.y;
@@ -53,22 +57,21 @@ public class Cuboid {
 
     public boolean contains(Point p) {
         return (
-                mMin.z <= p.z && p.z <= mMax.z &&
-                        mMin.y <= p.y && p.y <= mMax.y &&
-                        mMin.x <= p.x && p.x <= mMax.x
+            mMin.z <= p.z && p.z <= mMax.z &&
+            mMin.y <= p.y && p.y <= mMax.y &&
+            mMin.x <= p.x && p.x <= mMax.x
         );
     }
 
     public void translate(int dx, int dy, int dz) {
-        for (Point p : mVertices) {
+        for (Point p : mVertices)
             p.translate(dx, dy, dz);
-        }
     }
 
     public Cuboid translated(int dx, int dy, int dz) {
         return new Cuboid(
-                new Point(mMin.x + dx, mMin.y + dy, mMin.z + dz),
-                new Point(mMax.x + dx, mMax.y + dy, mMax.z + dz)
+            new Point(mMin.x + dx, mMin.y + dy, mMin.z + dz),
+            new Point(mMax.x + dx, mMax.y + dy, mMax.z + dz)
         );
     }
 
@@ -82,9 +85,8 @@ public class Cuboid {
 
     public String toString() {
         String me = "";
-        for (Point p : mVertices) {
+        for (Point p : mVertices)
             me += "{" + p.toString() + "}\n";
-        }
         me += "Min:" + mMin.toString() + "\n";
         me += "Max:" + mMax.toString() + "\n";
         return me;

@@ -12,7 +12,6 @@ import net.minecraft.world.World;
  * Fractional rain strength multiplied by scalar, values will be [0,scalar)
  */
 public class RainStrength extends VariableNumber {
-
     @SerializedName("Scalar")
     protected Integer mScalar;
 
@@ -27,15 +26,14 @@ public class RainStrength extends VariableNumber {
         super.initialize();
         mNameSpace = Variable.WORLD_NAMESPACE;
         //Default Scalar
-        if(mScalar == null)
+        if (mScalar == null)
             mScalar = 1;
     }
 
     @Override //IVariable
-    public boolean updateValue(TickEvent event)
-    {
+    public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
-        if(world == null)
+        if (world == null)
             return false;
         float newValue = world.getWeightedThunderStrength(0f) * mScalar;
         return setNewValue(newValue);

@@ -10,7 +10,6 @@ import net.minecraft.world.World;
  * Is it raining in the world
  */
 public class IsRaining extends VariableBool {
-
     public IsRaining(String name) {
         super(name);
         initialize();
@@ -25,7 +24,7 @@ public class IsRaining extends VariableBool {
     @Override //IVariable
     public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
-        if(world == null)
+        if (world == null)
             return false;
         boolean newValue = world.getWorldInfo().isRaining() ? true : false;
         return setNewValue(newValue);

@@ -38,7 +38,7 @@ public class ShowOreDictCommand implements ICommand {
             return;
         }
         String first = args[0];
-        if(args.length == 1) {
+        if (args.length == 1) {
             List<ItemStack> stacks = OreDictionary.getOres(args[0]);
             if (stacks.size() == 0)
                 sender.addChatMessage(new ChatComponentText("No ores registered to '" + args[0] + "'"));
@@ -48,8 +48,8 @@ public class ShowOreDictCommand implements ICommand {
             }
         } else if (args.length == 2 && first.equals("fndblk")) {
             String search = args[1];
-            for(Object name : GameData.getBlockRegistry().getKeys()) {
-                if(name.toString().contains(search))
+            for (Object name : GameData.getBlockRegistry().getKeys()) {
+                if (name.toString().contains(search))
                     sender.addChatMessage(new ChatComponentText(name.toString()));
             }
         } else {

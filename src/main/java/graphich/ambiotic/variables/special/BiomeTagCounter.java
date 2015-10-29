@@ -8,6 +8,16 @@ import graphich.ambiotic.variables.VariableScanning;
 import net.minecraftforge.common.BiomeDictionary;
 
 public class BiomeTagCounter extends VariableScanning {
+    protected static String tagnames;
+    static {
+        tagnames = null;
+        for (BiomeDictionary.Type type : BiomeDictionary.Type.values()) {
+            if (tagnames == null)
+                tagnames = type.name();
+            else
+                tagnames += ", " + type.name();
+        }
+    }
 
     @SerializedName("Tag")
     protected BiomeDictionary.Type mTag;
@@ -20,25 +30,13 @@ public class BiomeTagCounter extends VariableScanning {
     @Override
     public void validate() throws StrictJsonException {
         super.validate();
-        if(mTag == null)
-            throw new StrictJsonException("Tag is required and must be one of "+tagnames);
+        if (mTag == null)
+            throw new StrictJsonException("Tag is required and must be one of " + tagnames);
     }
 
     @Override
     public boolean updateValue(TickEvent event) {
         float newValue = mScanner.biomeTagCount(mTag);
         return setNewValue(newValue);
-    }
-
-    protected static String tagnames;
-    static
-    {
-        tagnames = null;
-        for(BiomeDictionary.Type type : BiomeDictionary.Type.values()) {
-            if(tagnames == null)
-                tagnames = type.name();
-            else
-                tagnames += ", "+type.name();
-        }
     }
 }

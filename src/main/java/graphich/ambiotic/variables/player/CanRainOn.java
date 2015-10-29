@@ -11,7 +11,6 @@ import net.minecraft.world.World;
  * At the player's current coordinates in the world, can she be rained on?
  */
 public class CanRainOn extends VariableBool {
-
     public CanRainOn(String name) {
         super(name);
         initialize();
@@ -26,9 +25,9 @@ public class CanRainOn extends VariableBool {
     @Override //IVariable
     public boolean updateValue(TickEvent event) {
         int x, y, z;
-        EntityPlayer player =  Minecraft.getMinecraft().thePlayer;
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         World world = Minecraft.getMinecraft().theWorld;
-        if(player == null || world == null)
+        if (player == null || world == null)
             return false;
         x = (int) player.posX;
         y = (int) player.posY + 2;

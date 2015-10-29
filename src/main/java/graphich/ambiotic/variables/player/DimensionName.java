@@ -6,7 +6,6 @@ import graphich.ambiotic.variables.VariableString;
 import net.minecraft.client.Minecraft;
 
 public class DimensionName extends VariableString {
-
     public DimensionName(String name) {
         super(name);
         initialize();
@@ -20,6 +19,6 @@ public class DimensionName extends VariableString {
 
     @Override
     public boolean updateValue(TickEvent event) {
-       return setNewValue(Minecraft.getMinecraft().theWorld.provider.getDimensionName());
+        return setNewValue(Minecraft.getMinecraft().theWorld.provider.getDimensionName());
     }
 }

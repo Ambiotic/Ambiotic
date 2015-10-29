@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ScannerRegistry {
-
     public static final ScannerRegistry INSTANCE = new ScannerRegistry();
 
     protected HashMap<String, Scanner> mScanners;
@@ -28,17 +27,16 @@ public class ScannerRegistry {
 
     public void register(Scanner scanner) {
         String name = scanner.name();
-        if(mScanners.containsKey(name)) {
-            //Log? Exception?
+        if (mScanners.containsKey(name)) {
+            //TODO: Log? Exception?
             return;
         }
         mScanners.put(name, scanner);
     }
-    public void initializeConstantJSAll()
-    {
-        for(Scanner scanner : mScanners.values()) {
+
+    public void initializeConstantJSAll() {
+        for (Scanner scanner : mScanners.values())
             Ambiotic.evalJS(scanner.constantsJS());
-        }
     }
 
     public void reset() {
@@ -48,18 +46,18 @@ public class ScannerRegistry {
 
     public void load(Engine engine) {
         JsonArray scannerList = engine.section("Scanners").getAsJsonArray();
-        if(scannerList == null)
+        if (scannerList == null)
             return;
         Ambiotic.logger().info("Loading scanner definitions");
         Gson gson = Ambiotic.gson();
         int scannerPos = 0;
-        for(JsonElement scannerElm : scannerList) {
+        for (JsonElement scannerElm : scannerList) {
             Scanner scanner = null;
             try {
                 scanner = gson.fromJson(scannerElm, Scanner.class);
             } catch (StrictJsonException ex) {
                 String errPrefix = "Skipping variable # " + scannerPos + " because ";
-                Ambiotic.logger().error(errPrefix+" it is invalid : "+ex.getMessage());
+                Ambiotic.logger().error(errPrefix + " it is invalid : " + ex.getMessage());
                 continue;
             }
             register(scanner);
@@ -68,7 +66,7 @@ public class ScannerRegistry {
     }
 
     public void subscribeAll() {
-        for(Scanner scanner : mScanners.values()) {
+        for (Scanner scanner : mScanners.values()) {
             FMLCommonHandler.instance().bus().register(scanner);
             MinecraftForge.EVENT_BUS.register(scanner);
         }
@@ -81,12 +79,13 @@ public class ScannerRegistry {
         return names;
     }
 
-    public boolean isRegistered(String name) { return mScanners.containsKey(name); }
+    public boolean isRegistered(String name) {
+        return mScanners.containsKey(name);
+    }
 
     public Scanner scanner(String name) {
-        if (!mScanners.containsKey(name)) {
+        if (!mScanners.containsKey(name))
             return null;
-        }
         return mScanners.get(name);
     }
 }

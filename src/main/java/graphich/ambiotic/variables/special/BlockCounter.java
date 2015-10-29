@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockCounter extends VariableScanning {
-
     @SerializedName("Blocks")
     protected String[] mBlockSpecifiers = null;
 
@@ -26,7 +25,7 @@ public class BlockCounter extends VariableScanning {
     @Override //IStrictJson
     public void validate() throws StrictJsonException {
         super.validate();
-        if(mBlockSpecifiers == null || mBlockSpecifiers.length == 0)
+        if (mBlockSpecifiers == null || mBlockSpecifiers.length == 0)
             throw new StrictJsonException("Blocks list is required and must have at least one entry");
     }
 
@@ -57,9 +56,9 @@ public class BlockCounter extends VariableScanning {
         mBlockIds.clear();
         mBadBlockSpecs.clear();
 
-        for(String spec : mBlockSpecifiers) {
+        for (String spec : mBlockSpecifiers) {
             ArrayList<Integer> blockIds = Helpers.buildBlockIdList(spec);
-            if(blockIds.size() == 0) {
+            if (blockIds.size() == 0) {
                 mBadBlockSpecs.add(spec);
                 continue;
             }
@@ -73,10 +72,10 @@ public class BlockCounter extends VariableScanning {
     }
 
     public void addBlockIds(List<Integer> blockIds) {
-        if(mBlockIds == null)
+        if (mBlockIds == null)
             mBlockIds = new ArrayList<Integer>();
         for (Integer id : blockIds) {
-            if(!mBlockIds.contains(id))
+            if (!mBlockIds.contains(id))
                 mBlockIds.add(id);
         }
     }

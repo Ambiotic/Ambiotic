@@ -14,6 +14,14 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 public abstract class SoundEmitter implements IStrictJson, IConditional, IScripted {
+    public static final StrictJsonSerializer<SoundEmitter> STRICT_ADAPTER;
+    static {
+        BiMap<String, Type> types = HashBiMap.create();
+        types.put("Instant", InstantEmitter.class);
+        types.put("Looping", LoopingEmitter.class);
+        STRICT_ADAPTER = new StrictJsonSerializer<SoundEmitter>(types, SoundEmitter.class);
+    }
+
     @SerializedName("Name")
     protected String mName = "";
     @SerializedName("Sound")
@@ -31,7 +39,6 @@ public abstract class SoundEmitter implements IStrictJson, IConditional, IScript
     @SerializedName("FadeIn")
     protected Float mFadeIn;
 
-
     public SoundEmitter(String name, String sound) {
         mName = name;
         mSound = sound;
@@ -40,77 +47,70 @@ public abstract class SoundEmitter implements IStrictJson, IConditional, IScript
 
     public abstract ISound emit();
 
-    public String sound()
-    {
+    public String sound() {
         return mSound;
     }
 
     @Override //IScripted
     public void expandMacros(Map<String, Macro> macros) {
-        for(Macro macro : macros.values()) {
+        for (Macro macro : macros.values()) {
             mConditionCode = macro.expand(mConditionCode);
-            if(!mRestrictCode.equals(""))
+            if (!mRestrictCode.equals(""))
                 mRestrictCode = macro.expand(mRestrictCode);
         }
-        if(mVolume instanceof IScripted)
-            ((IScripted)mVolume).expandMacros(macros);
-        if(mPitch instanceof IScripted)
-            ((IScripted)mPitch).expandMacros(macros);
+        if (mVolume instanceof IScripted)
+            ((IScripted) mVolume).expandMacros(macros);
+        if (mPitch instanceof IScripted)
+            ((IScripted) mPitch).expandMacros(macros);
     }
 
     @Override //IStrictJson
     public void validate() throws StrictJsonException {
-        if(mName == null || mName.equals(""))
+        if (mName == null || mName.equals(""))
             throw new StrictJsonException("Name is required");
-        if(mSound == null || mSound.equals(""))
+        if (mSound == null || mSound.equals(""))
             throw new StrictJsonException("Sound is required");
-        if(mConditionCode == null || mConditionCode.equals(""))
+        if (mConditionCode == null || mConditionCode.equals(""))
             throw new StrictJsonException("Conditions is required");
     }
 
     @Override //IStrictJson
     public void initialize() {
         // Default pitch / volume calculators
-        if(mVolume == null)
+        if (mVolume == null)
             mVolume = new FloatConstant(1.0f);
-        if(mPitch == null)
+        if (mPitch == null)
             mPitch = new FloatConstant(1.0f);
         // Restrictions are optional
-        if(mRestrictCode == null)
+        if (mRestrictCode == null)
             mRestrictCode = "";
         // Default fades
-        if(mFadeIn == null)
+        if (mFadeIn == null)
             mFadeIn = 0.01f;
-        if(mFadeOut == null)
+        if (mFadeOut == null)
             mFadeOut = 0.01f;
     }
 
-    public String name() { return mName; }
+    public String name() {
+        return mName;
+    }
 
     @Override //IConditional
     public boolean conditionsMet() {
         boolean rv = getResult(mConditionCode);
-        if(rv && !mRestrictCode.equals(""))
+        if (rv && !mRestrictCode.equals(""))
             rv = (rv && !getResult(mRestrictCode));
         return rv;
     }
 
     protected boolean getResult(String js) {
         Object rv = Ambiotic.evalJS(js);
-        if(rv == null)
+        if (rv == null)
             return false;
-        else if(rv instanceof Boolean)
-            return (Boolean)rv;
-        else if(rv instanceof Number)
-            return ((Number)rv).intValue() == 0;
+        else if (rv instanceof Boolean)
+            return (Boolean) rv;
+        else if (rv instanceof Number)
+            return ((Number) rv).intValue() == 0;
         return false;
-    }
-
-    public static final StrictJsonSerializer<SoundEmitter> STRICT_ADAPTER;
-    static {
-        BiMap<String, Type> types = HashBiMap.create();
-        types.put("Instant", InstantEmitter.class);
-        types.put("Looping", LoopingEmitter.class);
-        STRICT_ADAPTER = new StrictJsonSerializer<SoundEmitter>(types, SoundEmitter.class);
     }
 }

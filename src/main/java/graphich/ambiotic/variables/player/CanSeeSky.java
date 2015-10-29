@@ -11,7 +11,6 @@ import net.minecraft.world.World;
  * Block at player position can see the sky
  */
 public class CanSeeSky extends VariableBool {
-
     public CanSeeSky(String name) {
         super(name);
         initialize();
@@ -28,7 +27,7 @@ public class CanSeeSky extends VariableBool {
         int x, y, z;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         World world = Minecraft.getMinecraft().theWorld;
-        if(player == null || world == null)
+        if (player == null || world == null)
             return false;
         x = (int) player.posX;
         y = (int) player.posY + 2;

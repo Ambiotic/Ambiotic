@@ -11,7 +11,6 @@ import net.minecraft.world.World;
  * Fractional thunder strength multiplied by scalar (can be negative), values will be [0,scalar)
  */
 public class ThunderStrength extends VariableNumber {
-
     @SerializedName("Scalar")
     protected Integer mScalar;
 
@@ -26,15 +25,14 @@ public class ThunderStrength extends VariableNumber {
         super.initialize();
         //Default Scalar
         mNameSpace = Variable.WORLD_NAMESPACE;
-        if(mScalar == null)
+        if (mScalar == null)
             mScalar = 1;
     }
 
     @Override //IVariable
-    public boolean updateValue(TickEvent event)
-    {
+    public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
-        if(world == null)
+        if (world == null)
             return false;
         float newValue = world.getWeightedThunderStrength(0f) * mScalar;
         return setNewValue(newValue);

@@ -34,31 +34,31 @@ public class BackgroundSound extends MovingSound {
 
     @Override
     public void update() {
-
-        if(donePlaying)
+        if (donePlaying)
             return;
+
         EntityPlayer p = Minecraft.getMinecraft().thePlayer;
-        xPosF = (float)p.posX;
+        xPosF = (float) p.posX;
         //This forces the sound to be played in "mono"
-        yPosF = (float)p.posY+5000;
-        zPosF = (float)p.posZ;
+        yPosF = (float) p.posY + 5000;
+        zPosF = (float) p.posZ;
 
         field_147663_c = mPitchCalc.value();
         volume = mVolumeCalc.value();
 
         // Apply fade in / fade out
-        if(!mScripted.conditionsMet()) {
+        if (!mScripted.conditionsMet()) {
             mFadeFactor -= mFadeOut;
-            if(mFadeFactor <= 0.0f)
+            if (mFadeFactor <= 0.0f)
                 mFadeFactor = 0.0f;
         } else {
             mFadeFactor += mFadeIn;
-            if(mFadeFactor >= 1.0f)
+            if (mFadeFactor >= 1.0f)
                 mFadeFactor = 1.0f;
         }
         volume *= mFadeFactor;
 
-        if(volume <= 0.0f) {
+        if (volume <= 0.0f) {
             donePlaying = true;
             volume = 0.0f;
             return;

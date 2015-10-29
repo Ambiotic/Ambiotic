@@ -20,53 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Variable implements IVariable, IStrictJson {
-    @SerializedName("Name")
-    protected String mName;
-    @SerializedName("TicksPerUpdate")
-    protected Integer mTicksPerUpdate = 1;
-
-    protected transient String mNameSpace;
-
-    public Variable(String name) { mName = name; }
-
-    @Override //IStrictJson
-    public void validate() throws StrictJsonException {
-        if(mName == null || mName.equals(""))
-            throw new StrictJsonException("Name is required");
-    }
-
-    @Override //IStrictJson
-    public void initialize() {
-        mNameSpace = "";
-        //Default ticks per update
-        if(mTicksPerUpdate == null)
-            mTicksPerUpdate = 1;
-    }
-
-    @Override //IVariable
-    public String name() {
-        String fullName = mName;
-        if(!mNameSpace.isEmpty())
-            fullName = mNameSpace+"."+mName;
-        return fullName;
-    }
-
-    @Override //IVariable
-    public String namespace() {
-        return mNameSpace;
-    }
-
-    @Override //IVariable
-    public int ticksPerUpdate() {
-        return mTicksPerUpdate;
-    }
-
-    @Override //Object
-    public String toString() {
-        Gson gson = Ambiotic.gson();
-        return gson.toJson(gson.toJsonTree(this));
-    }
-
     public static final StrictJsonSerializer<Variable> STRICT_ADAPTER;
     static {
         BiMap<String, Type> types = HashBiMap.create();
@@ -82,7 +35,7 @@ public abstract class Variable implements IVariable, IStrictJson {
         types.put("Coordinate", Coordinate.class);
         types.put("Exposed", Exposed.class);
         types.put("UnderWater", UnderWater.class);
-        types.put("VerticalVelocity",VerticalVelocity.class);
+        types.put("VerticalVelocity", VerticalVelocity.class);
         types.put("InBoat", InBoat.class);
         types.put("DimName", DimensionName.class);
         //World var types
@@ -94,9 +47,19 @@ public abstract class Variable implements IVariable, IStrictJson {
         types.put("BiomeName", BiomeName.class);
         STRICT_ADAPTER = new StrictJsonSerializer<Variable>(types, Variable.class);
     }
-
     public static final String WORLD_NAMESPACE = "World";
     public static final String PLAYER_NAMESPACE = "Player";
+
+    @SerializedName("Name")
+    protected String mName;
+    @SerializedName("TicksPerUpdate")
+    protected Integer mTicksPerUpdate = 1;
+
+    protected transient String mNameSpace;
+
+    public Variable(String name) {
+        mName = name;
+    }
 
     public static List<Variable> defaults() {
         List<Variable> defs = new ArrayList<Variable>();
@@ -127,11 +90,49 @@ public abstract class Variable implements IVariable, IStrictJson {
         var.mTicksPerUpdate = 50;
         defs.add(var);
         defs.add(new IsRaining("IsRaining"));
-        defs.add(new ThunderStrength("ThunderStrength",1000));
-        defs.add(new RainStrength("RainStrength",1000));
+        defs.add(new ThunderStrength("ThunderStrength", 1000));
+        defs.add(new RainStrength("RainStrength", 1000));
         defs.add(new MoonPhase("MoonPhase"));
         defs.add(new BiomeName("Biome"));
 
         return defs;
+    }
+
+    @Override //IStrictJson
+    public void validate() throws StrictJsonException {
+        if (mName == null || mName.equals(""))
+            throw new StrictJsonException("Name is required");
+    }
+
+    @Override //IStrictJson
+    public void initialize() {
+        mNameSpace = "";
+        //Default ticks per update
+        if (mTicksPerUpdate == null)
+            mTicksPerUpdate = 1;
+    }
+
+    @Override //IVariable
+    public String name() {
+        String fullName = mName;
+        if (!mNameSpace.isEmpty())
+            fullName = mNameSpace + "." + mName;
+        return fullName;
+    }
+
+    @Override //IVariable
+    public String namespace() {
+        return mNameSpace;
+    }
+
+    @Override //IVariable
+    public int ticksPerUpdate() {
+        return mTicksPerUpdate;
+    }
+
+    @Override //Object
+    public String toString() {
+        Gson gson = Ambiotic.gson();
+        return gson.toJson(gson.toJsonTree(this));
     }
 }

@@ -10,7 +10,6 @@ import net.minecraft.world.World;
  * What is the current moon phase?
  */
 public class MoonPhase extends VariableNumber {
-
     public MoonPhase(String name) {
         super(name);
         initialize();
@@ -23,10 +22,9 @@ public class MoonPhase extends VariableNumber {
     }
 
     @Override //IVariable
-    public boolean updateValue(TickEvent event)
-    {
+    public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
-        if(world == null)
+        if (world == null)
             return false;
         float newValue = world.getMoonPhase();
         return setNewValue(newValue);

@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class VerticalVelocity extends VariableNumber {
-
     protected transient double mLastY;
     protected transient int mLastDim;
 
@@ -26,8 +25,8 @@ public class VerticalVelocity extends VariableNumber {
     public boolean updateValue(TickEvent event) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         float newValue = 0;
-        if(mLastDim == player.dimension) {
-            newValue = (float)Math.ceil(player.posY - mLastY);
+        if (mLastDim == player.dimension) {
+            newValue = (float) Math.ceil(player.posY - mLastY);
         }
         mLastY = player.posY;
         return setNewValue(newValue);

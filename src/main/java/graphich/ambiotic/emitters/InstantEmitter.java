@@ -12,7 +12,6 @@ import net.minecraft.client.audio.SoundHandler;
 import java.util.Map;
 
 public class InstantEmitter extends SoundEmitter {
-
     @SerializedName("CoolDown")
     protected FloatProvider mCoolDown;
 
@@ -26,16 +25,17 @@ public class InstantEmitter extends SoundEmitter {
     }
 
     @Override
-    public void expandMacros(Map<String,Macro> macros) {
+    public void expandMacros(Map<String, Macro> macros) {
         super.expandMacros(macros);
-        if(mCoolDown instanceof IScripted)
+        if (mCoolDown instanceof IScripted)
             ((IScripted) mCoolDown).expandMacros(macros);
     }
+
     @Override
     public void initialize() {
         super.initialize();
         //Default cooldown
-        if(mCoolDown == null)
+        if (mCoolDown == null)
             mCoolDown = new FloatConstant(10000.0f);
         mNextEmission = -1;
     }
@@ -44,24 +44,24 @@ public class InstantEmitter extends SoundEmitter {
         mSinceEmission += 1;
 
         SoundHandler handler = Minecraft.getMinecraft().getSoundHandler();
-        if(mLastEmitted != null && !handler.isSoundPlaying(mLastEmitted))
+        if (mLastEmitted != null && !handler.isSoundPlaying(mLastEmitted))
             mLastEmitted = null;
 
-        if(mNextEmission == -1)
+        if (mNextEmission == -1)
             mNextEmission = (int) mCoolDown.value();
 
-        if(mSinceEmission < mNextEmission)
+        if (mSinceEmission < mNextEmission)
             return null;
 
-        if(mSinceEmission >= mNextEmission) {
+        if (mSinceEmission >= mNextEmission) {
             mSinceEmission = 0;
             mNextEmission = (int) mCoolDown.value();
         }
 
-        if(conditionsMet() && mLastEmitted == null) {
+        if (conditionsMet() && mLastEmitted == null) {
             mSinceEmission = 0;
-            mNextEmission = (int)mCoolDown.value();
-            mLastEmitted = new BackgroundSound(mSound,mVolume,mPitch,this,mFadeOut,mFadeIn,false);
+            mNextEmission = (int) mCoolDown.value();
+            mLastEmitted = new BackgroundSound(mSound, mVolume, mPitch, this, mFadeOut, mFadeIn, false);
             return mLastEmitted;
         }
         return null;

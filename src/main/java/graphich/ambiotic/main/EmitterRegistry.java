@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-
 public class EmitterRegistry {
     public static EmitterRegistry INSTANCE = new EmitterRegistry();
 
@@ -38,17 +37,16 @@ public class EmitterRegistry {
     }
 
     public void register(SoundEmitter sound) {
-        if(mFrozen) {
+        if (mFrozen) {
             //TODO: Exception
             return;
         }
 
-        if(mRegistry.containsKey(sound.name())) {
-            //Log? Exception?
+        if (mRegistry.containsKey(sound.name())) {
+            //TODO: Log? Exception?
             return;
         }
-
-        mRegistry.put(sound.name(),sound);
+        mRegistry.put(sound.name(), sound);
     }
 
     public void reset() {
@@ -56,17 +54,16 @@ public class EmitterRegistry {
         mRegistry.clear();
     }
 
-    public ArrayList<String> sounds()
-    {
+    public ArrayList<String> sounds() {
         ArrayList<String> soundlist = new ArrayList<String>();
-        for(SoundEmitter emitter : mRegistry.values())
+        for (SoundEmitter emitter : mRegistry.values())
             soundlist.add(emitter.sound());
         return soundlist;
     }
 
     public void load(Engine engine) {
         JsonArray jsonArray = engine.section("EmitterList").getAsJsonArray();
-        if(jsonArray == null)
+        if (jsonArray == null)
             return;
 
         Ambiotic.logger().info("Loading emitter list");
@@ -74,10 +71,10 @@ public class EmitterRegistry {
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
-        includeList = gson.fromJson(jsonArray,String[].class);
+        includeList = gson.fromJson(jsonArray, String[].class);
 
         ResourceLocation rl;
-        for(String include : includeList) {
+        for (String include : includeList) {
             rl = new ResourceLocation(include);
             Ambiotic.logger().info("Loading emitter definition '" + rl + "'");
             load(rl);
@@ -85,12 +82,11 @@ public class EmitterRegistry {
 
         Ambiotic.logger().info("Expanding emitter macros");
         Map<String, Macro> macros = VariableRegistry.INSTANCE.macros();
-        for(SoundEmitter emitter : mRegistry.values()) {
+        for (SoundEmitter emitter : mRegistry.values())
             emitter.expandMacros(macros);
-        }
     }
 
-    protected void load(ResourceLocation rl)  {
+    protected void load(ResourceLocation rl) {
         JsonArray events = null;
         try {
             events = Helpers.getRootJsonArray(rl);
@@ -100,7 +96,7 @@ public class EmitterRegistry {
         }
         Gson gson = Ambiotic.gson();
         int eventNo = -1;
-        for(JsonElement eventElm : events) {
+        for (JsonElement eventElm : events) {
             try {
                 eventNo += 1;
                 SoundEmitter event = gson.fromJson(eventElm, SoundEmitter.class);
@@ -114,15 +110,15 @@ public class EmitterRegistry {
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        if(event.isCanceled() || Minecraft.getMinecraft().theWorld == null || player == null)
+        if (event.isCanceled() || Minecraft.getMinecraft().theWorld == null || player == null)
             return;
-        if(mGamePaused || player.posY <= 0)
+        if (mGamePaused || player.posY <= 0)
             return;
         SoundHandler handler = Minecraft.getMinecraft().getSoundHandler();
-        for(SoundEmitter emitter : mRegistry.values()) {
+        for (SoundEmitter emitter : mRegistry.values()) {
             ISound emitted = emitter.emit();
-            if(emitted != null && !handler.isSoundPlaying(emitted)) {
-                Ambiotic.logger().info("Playing "+emitter.name());
+            if (emitted != null && !handler.isSoundPlaying(emitted)) {
+                Ambiotic.logger().info("Playing " + emitter.name());
                 handler.playSound(emitted);
             }
         }
@@ -130,12 +126,10 @@ public class EmitterRegistry {
 
     @SubscribeEvent
     public void onGuiOpen(GuiOpenEvent event) {
-        // gui being null means the last gui opened was closed
-        if(event.gui == null) {
+        //Gui being null means the last gui opened was closed
+        if (event.gui == null)
             mGamePaused = false;
-            return;
-        }
-        if(event.gui.doesGuiPauseGame())
+        else if (event.gui.doesGuiPauseGame())
             mGamePaused = true;
     }
 
@@ -144,5 +138,4 @@ public class EmitterRegistry {
         FMLCommonHandler.instance().bus().register(this);
         MinecraftForge.EVENT_BUS.register(this);
     }
-
 }

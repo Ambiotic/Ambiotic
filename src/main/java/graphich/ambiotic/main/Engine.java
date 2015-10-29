@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Engine implements IResourceManagerReloadListener {
-
     //Hack to skip "first" reload, resources are always reloaded twice at startup
     protected boolean mPastFirstReload = false;
     protected JsonObject mEngineJson;
@@ -101,8 +100,8 @@ public class Engine implements IResourceManagerReloadListener {
 
     @Override
     public void onResourceManagerReload(IResourceManager resman) {
-        // Skip very first reload call, for some stupid reason reload is called twice during
-        // plugin / mc init
+        //Skip very first reload call, for some stupid reason reload is called twice during
+        //plugin / mc init
         if (!mPastFirstReload) {
             mPastFirstReload = true;
             return;

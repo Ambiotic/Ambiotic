@@ -12,7 +12,6 @@ import java.util.List;
  * can be iterated efficiently.
  */
 public class ComplementsPointIterator implements IPointIterator {
-
     protected List<CuboidPointIterator> mSegments;
 
     public ComplementsPointIterator(Cuboid volume, Cuboid intersect) {
@@ -83,9 +82,8 @@ public class ComplementsPointIterator implements IPointIterator {
     public Point peek() {
         for (CuboidPointIterator i : mSegments) {
             Point rv = i.peek();
-            if(rv != null) {
+            if (rv != null)
                 return rv;
-            }
         }
         return null;
     }
@@ -94,17 +92,15 @@ public class ComplementsPointIterator implements IPointIterator {
     public Point next() {
         for (CuboidPointIterator i : mSegments) {
             Point rv = i.next();
-            if (rv != null) {
+            if (rv != null)
                 return rv;
-            }
         }
         return null;
     }
 
     @Override
     public void reset() {
-        for (CuboidPointIterator i : mSegments) {
+        for (CuboidPointIterator i : mSegments)
             i.reset();
-        }
     }
 }

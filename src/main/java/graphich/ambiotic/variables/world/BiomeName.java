@@ -8,7 +8,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class BiomeName extends VariableString {
-
     public BiomeName(String name) {
         super(name);
         initialize();
@@ -24,11 +23,11 @@ public class BiomeName extends VariableString {
     public boolean updateValue(TickEvent event) {
         World world = Minecraft.getMinecraft().theWorld;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        if(world == null)
+        if (world == null)
             return false;
 
-        String newValue = world.getBiomeGenForCoords((int)player.posX, (int)player.posZ).biomeName;
-        world.getBiomeGenForCoords((int)player.posX, (int)player.posZ).getFloatRainfall();
+        String newValue = world.getBiomeGenForCoords((int) player.posX, (int) player.posZ).biomeName;
+        world.getBiomeGenForCoords((int) player.posX, (int) player.posZ).getFloatRainfall();
         return setNewValue(newValue);
     }
 }

@@ -3,7 +3,6 @@ package graphich.ambiotic.variables;
 import com.google.gson.annotations.SerializedName;
 
 public abstract class VariableString extends Variable {
-
     @SerializedName("InitialValue")
     protected String mInitialValue;
 
@@ -20,12 +19,12 @@ public abstract class VariableString extends Variable {
 
     @Override //IVariable
     public String updateJS() {
-        return name()+" = '"+mValue+"';";
+        return name() + " = '" + mValue + "';";
     }
 
     @Override //IVariable
     public String initializeJS() {
-        return name()+" = '"+mInitialValue+"';";
+        return name() + " = '" + mInitialValue + "';";
     }
 
     public boolean setNewValue(String newValue) {

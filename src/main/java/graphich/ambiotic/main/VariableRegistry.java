@@ -24,7 +24,6 @@ import java.util.*;
  * Holds and updates instances of variables
  */
 public class VariableRegistry {
-
     public static VariableRegistry INSTANCE = new VariableRegistry();
 
     protected HashMap<TickRate, List<IVariable>> mUpdates;
@@ -53,39 +52,38 @@ public class VariableRegistry {
 
     public List<String> macroSymbols() {
         List<String> macros = new ArrayList<String>();
-        for(Macro macro : mMacroLookup.values()) {
+        for (Macro macro : mMacroLookup.values())
             macros.add(macro.symbol());
-        }
         return macros;
     }
 
     public List<String> fullVariableNames() {
         List<String> names = new ArrayList<String>();
-        for(IVariable var : mVariableLookup.values())
+        for (IVariable var : mVariableLookup.values())
             names.add(var.name());
         return names;
     }
 
     public void expandMacroMacros() {
         List<String> broken = new ArrayList<String>();
-        for(Macro macro : mMacroLookup.values()) {
+        for (Macro macro : mMacroLookup.values()) {
             macro.expandMacros(mMacroLookup);
-            if(macro.code().contains("#")) {
-                Ambiotic.logger().warn("Macro '"+macro.name()+"' could not be expanded.");
+            if (macro.code().contains("#")) {
+                Ambiotic.logger().warn("Macro '" + macro.name() + "' could not be expanded.");
                 broken.add(macro.name());
             }
         }
-        for(String bad : broken)
+        for (String bad : broken)
             mMacroLookup.remove(bad);
     }
 
     public void registerMacro(Macro macro) {
         if (mFrozen) {
-            //TODO: throw exception
+            //TODO: throw exception?
             return;
         }
-        if(mMacroLookup.containsKey(macro.name())) {
-            //TODO: throw exception
+        if (mMacroLookup.containsKey(macro.name())) {
+            //TODO: throw exception?
             return;
         }
         mMacroLookup.put(macro.name(), macro);
@@ -93,14 +91,14 @@ public class VariableRegistry {
 
     public void load(Engine engine) {
         JsonArray section = engine.section("Variables").getAsJsonArray();
-        if(section != null)
+        if (section != null)
             loadVariables(section);
 
-        if(engine.useDefaults())
+        if (engine.useDefaults())
             loadDefaultVariables();
 
         section = engine.section("Macros").getAsJsonArray();
-        if(section != null)
+        if (section != null)
             loadMacros(section);
 
         expandMacroMacros();
@@ -111,7 +109,7 @@ public class VariableRegistry {
         //Deserialize and registerVariable each variable
         Gson gson = Ambiotic.gson();
         int variablePos = 0;
-        for(JsonElement element : variableList) {
+        for (JsonElement element : variableList) {
             Variable variable = null;
             String errPrefix = "Skipping variable # " + variablePos + " because ";
 
@@ -124,20 +122,20 @@ public class VariableRegistry {
             }
 
             //Variable name is taken
-            if(mVariableLookup.containsKey(variable.name())) {
-                Ambiotic.logger().error(errPrefix + " another is already registered with name '"+variable.name()+"'");
+            if (mVariableLookup.containsKey(variable.name())) {
+                Ambiotic.logger().error(errPrefix + " another is already registered with name '" + variable.name() + "'");
                 continue;
             }
 
             // Need to link block counter to block scanner
-            if(variable instanceof VariableScanning) {
+            if (variable instanceof VariableScanning) {
                 VariableScanning scanning = (VariableScanning) variable;
                 Scanner scanner = ScannerRegistry.INSTANCE.scanner(scanning.getScannerName());
-                if(scanner == null || !(scanner instanceof BlockScanner)) {
-                    Ambiotic.logger().error(errPrefix + " no block scanner named '"+scanning.getScannerName()+"' is registered");
+                if (scanner == null || !(scanner instanceof BlockScanner)) {
+                    Ambiotic.logger().error(errPrefix + " no block scanner named '" + scanning.getScannerName() + "' is registered");
                     continue;
                 }
-                scanning.linkToScanner((BlockScanner)scanner);
+                scanning.linkToScanner((BlockScanner) scanner);
             }
             //Finally registerVariable variable
             registerVariable(variable);
@@ -148,7 +146,7 @@ public class VariableRegistry {
 
     protected void loadDefaultVariables() {
         Ambiotic.logger().info("Loading default variable definitions");
-        for(Variable var : Variable.defaults())
+        for (Variable var : Variable.defaults())
             registerVariable(var);
     }
 
@@ -157,18 +155,18 @@ public class VariableRegistry {
 
         Gson gson = Ambiotic.gson();
         int macroPos = 0;
-        for(JsonElement element : macroList) {
+        for (JsonElement element : macroList) {
             Macro macro = null;
             String errPrefix = "Skipping macro # " + macroPos + " because ";
             //Fails strict json
             try {
                 macro = gson.fromJson(element, Macro.class);
             } catch (StrictJsonException ex) {
-                Ambiotic.logger().error(errPrefix + " it's invalid : "+ex.getMessage());
+                Ambiotic.logger().error(errPrefix + " it's invalid : " + ex.getMessage());
                 continue;
             }
-            if(mMacroLookup.containsKey(macro.name())) {
-                Ambiotic.logger().error(errPrefix + " another is already registered with name '"+macro.name()+"'");
+            if (mMacroLookup.containsKey(macro.name())) {
+                Ambiotic.logger().error(errPrefix + " another is already registered with name '" + macro.name() + "'");
                 continue;
             }
             registerMacro(macro);
@@ -193,18 +191,18 @@ public class VariableRegistry {
         if (var != null) {
             return var.value();
         } else {
-            //Log? Exception?
+            //TODO: Log? Exception?
             return null;
         }
     }
 
     public void registerVariable(IVariable variable) {
         if (mFrozen) {
-            //Log? Exception?
+            //TODO: Log? Exception?
             return;
         }
         if (mVariableLookup.containsKey(variable.name())) {
-            //Log? Exception?
+            //TODO: Log? Exception?
             return;
         }
         int ticksPerUpdate = variable.ticksPerUpdate();
@@ -233,9 +231,9 @@ public class VariableRegistry {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if (mUpdates == null || !mFrozen || player == null)
             return;
-        if(Minecraft.getMinecraft().theWorld == null)
+        if (Minecraft.getMinecraft().theWorld == null)
             return;
-        if(player.posY <= 0)
+        if (player.posY <= 0)
             return;
         StringBuilder code = new StringBuilder();
         boolean updated = false;
@@ -243,15 +241,14 @@ public class VariableRegistry {
             rate.tick();
             if (rate.trigger()) {
                 for (IVariable var : mUpdates.get(rate)) {
-                    if(var.updateValue(event))
-                    {
+                    if (var.updateValue(event)) {
                         updated = true;
                         code.append(var.updateJS());
                     }
                 }
             }
         }
-        if(!updated)
+        if (!updated)
             return;
 
         Ambiotic.evalJS(code.toString());
@@ -264,8 +261,7 @@ public class VariableRegistry {
 
     public void updateJSAll() {
         StringBuilder code = new StringBuilder();
-        for (IVariable v : mVariableLookup.values())
-        {
+        for (IVariable v : mVariableLookup.values()) {
             code.append(v.updateJS());
         }
         Ambiotic.evalJS(code.toString());
@@ -274,12 +270,11 @@ public class VariableRegistry {
     public void initializeJSAll() {
         String nmsjs = "";
         String varjs = "";
-        for (IVariable v : mVariableLookup.values())
-        {
-            String nmsinit = v.namespace()+" = {};\n";
-            if(nmsjs.indexOf(nmsinit) == -1)
+        for (IVariable v : mVariableLookup.values()) {
+            String nmsinit = v.namespace() + " = {};\n";
+            if (nmsjs.indexOf(nmsinit) == -1)
                 nmsjs += nmsinit;
-            varjs += v.initializeJS()+"\n";
+            varjs += v.initializeJS() + "\n";
         }
         //Setup namespaces
         Ambiotic.evalJS(nmsjs);
@@ -324,10 +319,8 @@ public class VariableRegistry {
 
         @Override
         public boolean equals(Object o) {
-
-            if (!(o instanceof TickRate)) {
+            if (!(o instanceof TickRate))
                 return false;
-            }
             return mTicksPerTrigger == ((TickRate) o).mTicksPerTrigger;
         }
     }
